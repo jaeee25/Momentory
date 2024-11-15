@@ -6,7 +6,7 @@ plugins {
 android {
     namespace = "com.example.momentory"
     compileSdk = 34
-
+    viewBinding.isEnabled = true
     defaultConfig {
         applicationId = "com.example.momentory"
         minSdk = 24
