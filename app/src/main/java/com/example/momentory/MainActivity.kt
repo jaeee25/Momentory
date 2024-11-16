@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.momentory.databinding.ActivityMainBinding
-import com.example.momentory.databinding.FriendsRequestListBinding
+import com.example.momentory.databinding.ActivityRequestedFriendsBinding
 
 class MainActivity : AppCompatActivity() {
     val binding: ActivityMainBinding by lazy {
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.requestedFriendsBtn.setOnClickListener(){
-            val intent = Intent(this, FriendRequiredActivity::class.java)
+            val intent = Intent(this, RequestedFriendsActivity::class.java)
             startActivity(intent)
         }
     }

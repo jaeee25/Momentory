@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@drawable/rounded_background"
+        android:background="@drawable/rounded_up_background"
         android:gravity="center">
 
         <LinearLayout
@@ -82,7 +82,7 @@
                 android:textSize="20dp" />
 
             <Button
-                android:id="@+id/friends_add_button"
+                android:id="@+id/friendsAddBtn"
                 android:layout_width="207dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/dark_pink"

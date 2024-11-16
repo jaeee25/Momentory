@@ -26,7 +26,9 @@ class FriendAddActivity : AppCompatActivity() {
         // TODO: phone number format
         binding.friendsAddPhone.addTextChangedListener(PhoneNumberFormattingTextWatcher())
 
-        // TODO: 요청하기 버튼 클릭 -> 친구의 전화번호 계정으로 메시지 보내기
+        binding.friendsAddBtn.setOnClickListener(){
+
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

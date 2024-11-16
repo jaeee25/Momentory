@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@drawable/rounded_background"
+        android:background="@drawable/rounded_up_background"
         android:gravity="center">
 
         <LinearLayout
@@ -47,12 +47,22 @@
             <FrameLayout
                 android:layout_width="210dp"
                 android:layout_height="210dp">
+
                 <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/friend_profile_image"
+                    android:id="@+id/profileImage"
                     android:layout_width="210dp"
                     android:layout_height="210dp"
                     app:shapeAppearanceOverlay="@style/roundedImageView"
+                    android:src="@drawable/character"
                     android:background="@color/dark_pink"
+                    android:layout_marginBottom="30dp"/>
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:alpha="0.15"
+                    android:layout_width="210dp"
+                    android:layout_height="210dp"
+                    app:shapeAppearanceOverlay="@style/roundedImageView"
+                    android:background="@color/black"
                     android:layout_marginBottom="30dp"/>
 
                 <ImageView
@@ -125,11 +135,11 @@
             </FrameLayout>
 
             <Button
-                android:id="@+id/friends_add_button"
+                android:id="@+id/profileEditBtn"
                 android:layout_width="207dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/dark_pink"
-                android:text="요청하기"
+                android:text="완료하기"
                 android:textSize="23dp"
                 android:textStyle="bold" />
         </LinearLayout>
