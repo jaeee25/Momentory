@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@drawable/rounded_background"
+        android:background="@drawable/rounded_up_background"
         android:padding="25dp">
 
         <LinearLayout
@@ -87,7 +87,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:background="@drawable/rounded_input"
-                        android:hidden="true"
                         android:inputType="textPassword"
                         android:textAppearance="@style/inputText"
                         app:layout_constraintEnd_toEndOf="parent"

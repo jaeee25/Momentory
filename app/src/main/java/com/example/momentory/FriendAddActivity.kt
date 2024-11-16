@@ -26,8 +26,9 @@ class FriendAddActivity : AppCompatActivity() {
         // TODO: phone number format
         binding.friendsAddPhone.addTextChangedListener(PhoneNumberFormattingTextWatcher())
 
-        binding.friendsAddBtn.setOnClickListener(){
+        binding.friendsAddBtn.setOnClickListener() {
 
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
