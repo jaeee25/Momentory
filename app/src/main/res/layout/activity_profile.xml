@@ -83,7 +83,7 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginBottom="15dp">
                 <EditText
                     android:id="@+id/profile_name"
                     android:layout_width="match_parent"

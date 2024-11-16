@@ -56,7 +56,7 @@
                 android:id="@+id/friends_add_phone"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:layout_marginBottom="50dp"
+                android:layout_marginBottom="45dp"
                 android:background="@drawable/rounded_edittext"
                 android:inputType="phone"
                 android:paddingLeft="15dp"
@@ -75,16 +75,17 @@
                 android:id="@+id/friends_message"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:layout_marginBottom="80dp"
+                android:layout_marginBottom="70dp"
                 android:background="@drawable/rounded_edittext"
                 android:inputType="text"
                 android:paddingLeft="15dp"
                 android:textSize="20dp" />
 
             <Button
+                android:fontFamily="@font/font_default"
                 android:id="@+id/friendsAddBtn"
                 android:layout_width="207dp"
-                android:layout_height="wrap_content"
+                android:layout_height="55dp"
                 android:backgroundTint="@color/dark_pink"
                 android:text="요청하기"
                 android:textSize="23dp"

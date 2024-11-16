@@ -1,7 +1,4 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-
-<!--    <solid android:color="@color/pink"/> &lt;!&ndash; 배경 색상 설정 &ndash;&gt;-->
-
     <corners android:radius="16dp"/> <!-- 모서리 반경 설정 -->
 </shape>
