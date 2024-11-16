@@ -13,6 +13,26 @@
         android:theme="@style/Theme.Momentory"
         tools:targetApi="31">
         <activity
+            android:name=".RequestedFriendsActivity"
+            android:exported="false"
+            android:parentActivityName=".ButtonActivity" />
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false"
+            android:parentActivityName=".ButtonActivity" />
+        <activity
+            android:name=".FriendAddActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ButtonActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".CheckpwActivity"
             android:exported="false" />
         <activity
@@ -30,12 +50,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".WriteDiaryActivity" />
-        <activity android:name=".CreateCapsuleActivity" />
-        <activity android:name=".FriendAddActivity" />
-        <activity android:name=".ProfileEditActivity" />
-
     </application>
 
 </manifest>

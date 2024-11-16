@@ -1,16 +1,40 @@
 package com.example.momentory
 
+import android.content.Intent
 import android.os.Bundle
+import android.telephony.PhoneNumberFormattingTextWatcher
+import android.view.MenuItem
+import android.widget.EditText
+import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import android.widget.TextView
+import com.example.momentory.databinding.ActivityFriendsAddBinding
+import com.example.momentory.databinding.ActivityButtonBinding
 
 class FriendAddActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        val binding: ActivityFriendsAddBinding by lazy {
+            ActivityFriendsAddBinding.inflate(layoutInflater)
+        }
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_friend_add)
+        enableEdgeToEdge()
+        setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        // 텍스트 뷰에 "친구추가페이지" 문구 표시
-        val textView = findViewById<TextView>(R.id.friend_add_text)
-        textView.text = "친구추가페이지"
+        // TODO: phone number format
+        binding.friendsAddPhone.addTextChangedListener(PhoneNumberFormattingTextWatcher())
+
+        binding.friendsAddBtn.setOnClickListener(){
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            finish()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
