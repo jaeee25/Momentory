@@ -19,7 +19,7 @@
         android:id="@+id/write_diary_button"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:src="@drawable/ic_pencil"
+        android:src="@drawable/baseline_edit_24"
         android:contentDescription="일기 작성 버튼"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"

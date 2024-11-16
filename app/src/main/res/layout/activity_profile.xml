@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_pink"
+    android:background="@color/deep_pink"
     android:orientation="vertical"
     tools:context=".ButtonActivity">
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="4"
-        android:backgroundTint="@color/dark_pink"
+        android:backgroundTint="@color/deep_pink"
         android:gravity="center">
 
         <androidx.appcompat.widget.Toolbar
@@ -54,7 +54,7 @@
                     android:layout_height="210dp"
                     app:shapeAppearanceOverlay="@style/roundedImageView"
                     android:src="@drawable/character"
-                    android:background="@color/dark_pink"
+                    android:background="@color/deep_pink"
                     android:layout_marginBottom="30dp"/>
 
                 <com.google.android.material.imageview.ShapeableImageView
@@ -84,6 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginBottom="15dp">
+
                 <EditText
                     android:id="@+id/profile_name"
                     android:layout_width="match_parent"
@@ -91,9 +92,9 @@
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/rounded_edittext"
                     android:inputType="text"
+                    android:maxLength="13"
                     android:paddingLeft="15dp"
-                    android:textSize="20dp"
-                    android:maxLength="13"/>
+                    android:textSize="20dp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -138,7 +139,7 @@
                 android:id="@+id/profileEditBtn"
                 android:layout_width="207dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/dark_pink"
+                android:backgroundTint="@color/deep_pink"
                 android:text="완료하기"
                 android:textSize="23dp"
                 android:textStyle="bold" />

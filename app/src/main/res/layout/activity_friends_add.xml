@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_pink"
+    android:background="@color/deep_pink"
     android:orientation="vertical"
     tools:context=".ButtonActivity">
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="4"
-        android:backgroundTint="@color/dark_pink"
+        android:backgroundTint="@color/deep_pink"
         android:gravity="center">
 
         <androidx.appcompat.widget.Toolbar
@@ -86,7 +86,7 @@
                 android:id="@+id/friendsAddBtn"
                 android:layout_width="207dp"
                 android:layout_height="55dp"
-                android:backgroundTint="@color/dark_pink"
+                android:backgroundTint="@color/deep_pink"
                 android:text="요청하기"
                 android:textSize="23dp"
                 android:textStyle="bold" />

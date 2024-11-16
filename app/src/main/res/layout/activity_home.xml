@@ -9,13 +9,13 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFA3A3"
+        android:background="@color/deep_pink"
         android:paddingTop="16dp">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:background="@color/background_color"
+            android:background="@color/deep_pink"
             android:layout_height="150dp"
             android:title="  눈송이의 일기장"
             android:titleTextColor="@android:color/white"

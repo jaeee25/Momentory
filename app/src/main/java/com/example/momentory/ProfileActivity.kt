@@ -32,13 +32,12 @@ class ProfileActivity : AppCompatActivity() {
             ActivityResultContracts.StartActivityForResult())
         {
             try {
-// inSampleSize 비율 계산, 지정
                 val calRatio = calculateInSampleSize(
                     it.data!!.data!!,210, 210
                 )
                 val option = BitmapFactory.Options()
                 option.inSampleSize = calRatio
-// 이미지 로딩
+
                 var inputStream = contentResolver.openInputStream(it.data!!.data!!)
                 val bitmap = BitmapFactory.decodeStream(inputStream, null, option)
                 inputStream!!.close()

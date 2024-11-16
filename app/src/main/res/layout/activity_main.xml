@@ -4,7 +4,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/start_bg"
+    android:background="@color/pink"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Moment"
-            android:textColor="@color/start_fn"
+            android:textColor="@color/red"
             android:textSize="50sp"
             android:textStyle="bold" />
 
