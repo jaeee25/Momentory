@@ -1,0 +1,23 @@
+package com.example.momentory
+
+import com.example.momentory.SharedDiaryFragment
+import com.example.momentory.SecretDiaryFragment
+import com.example.momentory.TimeCapsuleFragment
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
+
+class ViewPagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
+    override fun getItemCount(): Int {
+        return 3
+    }
+
+    override fun createFragment(position: Int): Fragment {
+        return when (position) {
+            0 -> SharedDiaryFragment()
+            1 -> SecretDiaryFragment()
+            2 -> TimeCapsuleFragment()
+            else -> throw IllegalStateException("Unexpected position $position")
+        }
+    }
+}

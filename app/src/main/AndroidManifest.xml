@@ -30,6 +30,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".WriteDiaryActivity" />
+        <activity android:name=".CreateCapsuleActivity" />
+        <activity android:name=".FriendAddActivity" />
+        <activity android:name=".ProfileEditActivity" />
+
     </application>
 
 </manifest>

@@ -6,4 +6,8 @@
     <color name="light_pink">#FFEEEE</color>
     <color name="start_bg">#FFD6D6</color>
     <color name="start_fn">#F05454</color>
+
+    <color name="background_color">#FFA3A3</color>
+    <color name="selected_tab_background">#FFFFFF</color>
+    <color name="unselected_tab_background">#FFCCCB</color>
 </resources>
