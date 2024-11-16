@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:background="@color/background_color"
             android:layout_height="150dp"
-            android:title="  눈송이의 일기장"
+            android:title="@string/app_title"
             android:titleTextColor="@android:color/white"
             app:titleTextAppearance="@style/Toolbar.TitleText">
 
@@ -27,7 +27,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:src="@drawable/ic_profile"
-                android:contentDescription="프로필 이미지"
+                android:contentDescription="@string/profile_image_description"
                 android:layout_gravity="end"
                 android:layout_marginEnd="16dp" />
         </androidx.appcompat.widget.Toolbar>
