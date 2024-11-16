@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".CheckpwActivity"
+        android:background="@color/deep_pink"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="vertical"
+            android:background="@color/deep_pink"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="비밀번호 찾기"
+                android:textAppearance="@style/mainTitle" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@drawable/rounded_background"
+            android:padding="25dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAppearance="@style/welcome" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="40dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginHorizontal="10dp">
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="핸드폰 전화번호 입력"
+                        android:textAppearance="@style/subTitle"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+
+                        android:layout_marginTop="10dp">
+
+                        <EditText
+                            android:id="@+id/phone_cert"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:inputType="phone"
+                            android:textAppearance="@style/inputText"
+                            android:background="@drawable/rounded_input"
+                            android:layout_marginRight="10dp"/>
+
+                        <Button
+                            android:id="@+id/send_msg"
+                            android:layout_width="105dp"
+                            android:layout_height="50dp"
+                            android:text="인증요청"
+                            android:textStyle="bold"
+                            android:backgroundTint="@color/deep_pink"/>
+
+                    </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="인증 번호 입력"
+                        android:layout_marginTop="20dp"
+                        android:textAppearance="@style/subTitle"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+
+                        android:layout_marginTop="10dp">
+
+                        <EditText
+                            android:id="@+id/cert_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:inputType="phone"
+                            android:textAppearance="@style/inputText"
+                            android:background="@drawable/rounded_input"
+                            android:layout_marginRight="10dp"/>
+
+                        <Button
+                            android:id="@+id/certification"
+                            android:layout_width="105dp"
+                            android:layout_height="50dp"
+                            android:text="인증"
+                            android:textStyle="bold"
+                            android:backgroundTint="@color/deep_pink"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginTop="70dp">
+
+                    <Button
+                        android:id="@+id/find_pw"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:text="비밀번호 찾기"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:backgroundTint="@color/deep_pink" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:text="가입 시 등록한 핸드폰 번호로 임시 비밀번호를 보내드립니다.\n안전을 위해 비밀번호를 변경해 주세요."
+                        android:textAlignment="center"
+                        android:textColor="#3E3E3E"/>
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
