@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import android.widget.TextView
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var tabLayout: TabLayout
@@ -32,13 +33,17 @@ class HomeActivity : AppCompatActivity() {
         viewPager.adapter = adapter
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = when (position) {
+            val customView = layoutInflater.inflate(R.layout.custom_tab, null)
+            val tabTextView = customView.findViewById<TextView>(R.id.tab_title)
+            tabTextView.text = when (position) {
                 0 -> "공유일기"
                 1 -> "비밀일기"
                 2 -> "타임캡슐"
                 else -> null
             }
+            tab.customView = customView
         }.attach()
+
 
 
 
