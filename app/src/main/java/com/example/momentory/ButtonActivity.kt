@@ -5,14 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.momentory.databinding.ActivityMainBinding
-import com.example.momentory.databinding.ActivityRequestedFriendsBinding
+import com.example.momentory.databinding.ActivityButtonBinding
 
-class MainActivity : AppCompatActivity() {
-    val binding: ActivityMainBinding by lazy {
-        ActivityMainBinding.inflate(layoutInflater)
+class ButtonActivity : AppCompatActivity() {
+    val binding: ActivityButtonBinding by lazy {
+        ActivityButtonBinding.inflate(layoutInflater)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

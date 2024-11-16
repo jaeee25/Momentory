@@ -15,16 +15,16 @@
         <activity
             android:name=".RequestedFriendsActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".ButtonActivity" />
         <activity
             android:name=".ProfileActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".ButtonActivity" />
         <activity
             android:name=".FriendAddActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ButtonActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

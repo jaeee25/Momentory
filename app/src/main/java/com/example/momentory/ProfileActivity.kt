@@ -12,7 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.momentory.databinding.ActivityMainBinding
+import com.example.momentory.databinding.ActivityButtonBinding
 import com.example.momentory.databinding.ActivityProfileBinding
 
 class ProfileActivity : AppCompatActivity() {

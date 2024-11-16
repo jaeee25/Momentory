@@ -10,7 +10,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.momentory.databinding.ActivityFriendsAddBinding
-import com.example.momentory.databinding.ActivityMainBinding
+import com.example.momentory.databinding.ActivityButtonBinding
 
 class FriendAddActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
