@@ -65,6 +65,7 @@
                     android:layout_height="wrap_content"
                     android:text="Mobile Number"
                     android:textAppearance="@style/subTitle"/>
+
                 <EditText
                     android:id="@+id/phone_li"
                     android:layout_width="match_parent"
@@ -72,7 +73,8 @@
                     android:inputType="phone"
                     android:layout_marginTop="10dp"
                     android:textAppearance="@style/inputText"
-                    android:background="@drawable/rounded_input" />
+                    android:background="@drawable/rounded_input"
+                    android:padding="5dp"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -90,22 +92,24 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:background="@drawable/rounded_input"
-                        android:inputType="textPassword"
+                        android:padding="5dp"
+                        android:paddingEnd="40dp"
                         android:textAppearance="@style/inputText"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageButton
-                        android:id="@+id/seepwd_li"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/seepw_li"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:layout_marginTop="15dp"
                         android:layout_marginEnd="15dp"
                         android:background="@null"
+                        android:scaleType="centerInside"
+                        android:adjustViewBounds="true"
                         app:layout_constraintEnd_toEndOf="@+id/pw_li"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@android:drawable/ic_secure"
-                        app:tint="@color/deep_pink" />
+                        android:src="@drawable/baseline_lock_outline_24" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -135,9 +139,9 @@
                     android:id="@+id/login"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/deep_pink"
                     android:text="Log in"
-                    android:textSize="20sp"
-                    android:backgroundTint="@color/deep_pink" />
+                    android:textSize="20sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

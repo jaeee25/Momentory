@@ -1,25 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".CheckpwActivity"
-        android:background="@color/deep_pink"
-        android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CheckpwActivity"
+    android:background="@color/deep_pink"
+    android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="4"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:background="@color/deep_pink"
             android:gravity="center">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:layout_weight="1"
+                android:src="@drawable/baseline_arrow_back_ios_24"
+                android:id="@+id/to_login" />
 
             <TextView
                 style="@style/customToolbarTitleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="비밀번호 찾기"
                 android:textAppearance="@style/mainTitle" />
 
@@ -50,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_marginTop="40dp">
+                android:layout_marginTop="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -77,6 +87,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="50dp"
                             android:layout_weight="1"
+                            android:padding="5dp"
                             android:inputType="phone"
                             android:textAppearance="@style/inputText"
                             android:background="@drawable/rounded_input"
@@ -109,7 +120,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="50dp"
                             android:layout_weight="1"
-                            android:inputType="phone"
+                            android:padding="5dp"
+                            android:inputType="number"
                             android:textAppearance="@style/inputText"
                             android:background="@drawable/rounded_input"
                             android:layout_marginRight="10dp"/>
@@ -124,32 +136,76 @@
 
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:layout_marginTop="30dp"
+                        >
+
+                        <TextView
+                            android:id="@+id/cert_complete"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="인증이 완료되었습니다.\n비밀번호를 변경해 주세요."
+                            android:textAlignment="center"
+                            android:textColor="#3E3E3E"/>
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
-                <LinearLayout
+                <View
+                    android:id="@+id/divider"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="5dp"
+                    android:background="?android:attr/listDivider"
+                    android:layout_marginTop="20dp"/>
+
+                <LinearLayout
+                    android:id="@+id/pw_change_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_gravity="center"
+                    android:layout_marginTop="40dp"
                     android:gravity="center"
-                    android:layout_marginTop="70dp">
+                    >
 
-                    <Button
-                        android:id="@+id/find_pw"
-                        android:layout_width="200dp"
-                        android:layout_height="wrap_content"
-                        android:text="비밀번호 찾기"
-                        android:textStyle="bold"
-                        android:textSize="20sp"
-                        android:backgroundTint="@color/deep_pink" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:text="가입 시 등록한 핸드폰 번호로 임시 비밀번호를 보내드립니다.\n안전을 위해 비밀번호를 변경해 주세요."
-                        android:textAlignment="center"
-                        android:textColor="#3E3E3E"/>
+                        android:text="새로운 비밀번호 입력"
+                        android:layout_marginTop="20dp"
+                        android:textAppearance="@style/subTitle"/>
+
+                    <EditText
+                        android:id="@+id/pw_new"
+                        android:layout_width="300dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:padding="5dp"
+                        android:inputType="textPassword"
+                        android:textAppearance="@style/inputText"
+                        android:background="@drawable/rounded_input"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"/>
+
+
+
+                    <Button
+                        android:id="@+id/change_pw"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:text="비밀번호 변경"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:backgroundTint="@color/deep_pink"
+                        android:layout_marginTop="10dp"/>
+
+
 
 
 
