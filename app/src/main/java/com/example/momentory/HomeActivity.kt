@@ -45,8 +45,6 @@ class HomeActivity : AppCompatActivity() {
         }.attach()
 
 
-
-
         val profileImageView = findViewById<ImageView>(R.id.profile_image)
         profileImageView.setOnClickListener {
             val intent = Intent(this, ProfileEditActivity::class.java)

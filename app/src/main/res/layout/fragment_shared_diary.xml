@@ -2,24 +2,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- 친구 추가 버튼  -->
-    <ImageView
+    <!-- 친구 추가 버튼 -->
+    <ImageButton
         android:id="@+id/add_friend_button"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/ic_add"
+        android:src="@drawable/ic_addbutton"
         android:contentDescription="친구 추가 버튼"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_margin="16dp"
-        android:visibility="visible" />
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        android:clickable="true"
+        android:focusable="true" />
 
     <!-- 일기 작성 버튼 -->
-    <ImageView
+    <ImageButton
         android:id="@+id/write_diary_button"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:src="@drawable/ic_pencil"
+        android:scaleType="fitCenter"
         android:contentDescription="일기 작성 버튼"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"

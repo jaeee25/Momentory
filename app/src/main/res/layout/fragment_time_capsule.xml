@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <ImageView
+    <!-- 캡슐 생성 버튼 -->
+    <ImageButton
         android:id="@+id/create_capsule_button"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:src="@drawable/ic_pencil"
+        android:scaleType="fitCenter"
         android:contentDescription="캡슐 생성 버튼"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
@@ -16,5 +16,4 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
         android:focusable="true" />
-
 </RelativeLayout>

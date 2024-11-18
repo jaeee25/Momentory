@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">35sp</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-</resources>
+    <resources>
+        <style name="customToolbarTitleText">
+            <item name="android:textSize">30sp</item>
+            <item name="android:textColor">@android:color/white</item>
+            <item name="android:fontFamily">@font/font_default</item> <!-- font_default.xml에서 폰트 사용 -->
+            <item name="android:fontWeight">700</item> <!-- Bold weight -->
+        </style>
+    </resources>

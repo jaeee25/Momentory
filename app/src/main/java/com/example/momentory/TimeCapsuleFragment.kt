@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import android.content.Intent
-import android.widget.ImageView
+import android.widget.ImageButton
 
 
 class TimeCapsuleFragment : Fragment() {
@@ -17,7 +17,7 @@ class TimeCapsuleFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_time_capsule, container, false)
 
         // 캡슐 생성
-        val createCapsuleButton: ImageView = view.findViewById(R.id.create_capsule_button)
+        val createCapsuleButton: ImageButton  = view.findViewById(R.id.create_capsule_button)
         createCapsuleButton.setOnClickListener {
             val intent = Intent(activity, CreateCapsuleActivity::class.java)
             startActivity(intent)

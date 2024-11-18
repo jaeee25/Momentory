@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import android.widget.ImageView
-import android.content.Intent
 
+import android.content.Intent
+import android.widget.ImageButton
 
 
 class SecretDiaryFragment : Fragment() {
@@ -18,7 +18,7 @@ class SecretDiaryFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_secret_diary, container, false)
 
         // 일기 작성
-        val writeDiaryButton: ImageView = view.findViewById(R.id.write_secret_button)
+        val writeDiaryButton: ImageButton  = view.findViewById(R.id.write_secret_button)
         writeDiaryButton.setOnClickListener {
             val intent = Intent(activity, WriteDiaryActivity::class.java)
             startActivity(intent)

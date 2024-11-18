@@ -1,11 +1,8 @@
 <resources>
     <string name="app_name">Momentory</string>
-<<<<<<< HEAD
+
     <string name="app_title">눈송이의 일기장</string>
     <string name="profile_image_description">프로필 이미지</string>
+    <string name="capsule_create_button">캡슐 생성 버튼</string>
 
-=======
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
->>>>>>> master
 </resources>

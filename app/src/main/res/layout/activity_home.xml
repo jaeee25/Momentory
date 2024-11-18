@@ -5,23 +5,23 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!-- 툴바 -->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFA3A3"
         android:paddingTop="16dp">
 
+        <!-- Toolbar 시작 -->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:background="@color/dark_pink"
             android:layout_height="150dp"
+            android:background="@color/dark_pink"
             android:title="@string/app_title"
             android:titleTextColor="@android:color/white"
-            app:titleTextAppearance="@style/Toolbar.TitleText">
+            app:titleTextAppearance="@style/customToolbarTitleText">
 
-
+            <!-- Toolbar 내 ImageView 설정 -->
             <ImageView
                 android:id="@+id/profile_image"
                 android:layout_width="40dp"
@@ -30,10 +30,12 @@
                 android:contentDescription="@string/profile_image_description"
                 android:layout_gravity="end"
                 android:layout_marginEnd="16dp" />
+
         </androidx.appcompat.widget.Toolbar>
+        <!-- Toolbar 끝 -->
+
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- 탭-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -46,17 +48,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabIndicatorColor="@android:color/transparent"
+            app:tabIndicatorHeight="0dp"
             app:tabRippleColor="@android:color/transparent"
             app:tabTextColor="#000000"
             app:tabSelectedTextColor="#000000"
-            app:tabBackground="@drawable/tab_background"
-            app:tabMode="fixed"/>
+            app:tabMode="fixed"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"/>
 
-    <!-- ViewPager2  -->
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
     </LinearLayout>
+
 </LinearLayout>
