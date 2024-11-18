@@ -21,14 +21,15 @@ class HomeActivity : AppCompatActivity() {
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false) // 기본 제목 숨기기
 
+        // 커스텀 TextView로 제목 설정
+        val toolbarTitle = findViewById<TextView>(R.id.toolbar_title)
+        toolbarTitle.text = getString(R.string.app_title) // "눈송이의 일기장"을 직접 설정
 
-        supportActionBar?.title = "눈송이의 일기장" // 또는 null로 유지하고 XML 설정을 사용해도 됩니다.
-
+        // TabLayout 및 ViewPager 설정
         tabLayout = findViewById(R.id.tab_layout)
         viewPager = findViewById(R.id.view_pager)
-
-
         val adapter = ViewPagerAdapter(this)
         viewPager.adapter = adapter
 

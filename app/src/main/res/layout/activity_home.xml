@@ -16,10 +16,18 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:background="@color/dark_pink"
-            android:title="@string/app_title"
-            android:titleTextColor="@android:color/white"
-            app:titleTextAppearance="@style/customToolbarTitleText">
+            android:background="@color/dark_pink">
+
+            <!-- 커스텀 TextView를 직접 추가 -->
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/leaguespartan_bold"
+                android:text="@string/app_title"
+                android:textColor="@android:color/white"
+                android:textSize="30sp" /> <!-- 여기에 커스텀 폰트를 지정 -->
 
             <!-- Toolbar 내 ImageView 설정 -->
             <ImageView
