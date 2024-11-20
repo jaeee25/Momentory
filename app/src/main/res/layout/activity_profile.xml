@@ -142,6 +142,7 @@
                 android:backgroundTint="@color/deep_pink"
                 android:text="완료하기"
                 android:textSize="23dp"
+                android:fontFamily="@font/font_default"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
