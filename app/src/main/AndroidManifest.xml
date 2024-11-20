@@ -18,7 +18,7 @@
             android:parentActivityName=".CreateCapsuleActivity"/>
         <activity
             android:name=".HomeActivity"
-            android:exported="true" />
+            android:exported="true"/>
         <activity
             android:name=".RequestedFriendsActivity"
             android:exported="false"
@@ -33,10 +33,10 @@
         <activity
             android:name=".CreateCapsuleActivity"
             android:exported="false"
-            android:parentActivityName=".HomeActivity" />
+            android:parentActivityName=".HomeActivity"/>
         <activity
             android:name=".ButtonActivity"
-            android:exported="true" />
+            android:exported="true"/>
         <activity
             android:name=".CheckpwActivity"
             android:exported="true" />
