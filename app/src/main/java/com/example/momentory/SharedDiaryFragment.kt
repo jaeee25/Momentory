@@ -18,7 +18,7 @@ class SharedDiaryFragment : Fragment() {
         // 친구 추가 버튼
         val addFriendButton: ImageView = view.findViewById(R.id.add_friend_button)
         addFriendButton.setOnClickListener {
-            val intent = Intent(activity, FriendAddActivity::class.java)
+            val intent = Intent(activity, FriendsAddActivity::class.java)
             startActivity(intent)
         }
 

@@ -1,18 +1,13 @@
 package com.example.momentory
 
-import android.content.Intent
 import android.os.Bundle
 import android.telephony.PhoneNumberFormattingTextWatcher
 import android.view.MenuItem
-import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.momentory.databinding.ActivityFriendsAddBinding
-import com.example.momentory.databinding.ActivityButtonBinding
 
-class FriendAddActivity : AppCompatActivity() {
+class FriendsAddActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val binding: ActivityFriendsAddBinding by lazy {
             ActivityFriendsAddBinding.inflate(layoutInflater)

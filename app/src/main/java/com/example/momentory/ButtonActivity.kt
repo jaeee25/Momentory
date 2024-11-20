@@ -17,7 +17,7 @@ class ButtonActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.friendBtn.setOnClickListener(){
-            val intent = Intent(this, FriendAddActivity::class.java)
+            val intent = Intent(this, FriendsAddActivity::class.java)
             startActivity(intent)
         }
 
