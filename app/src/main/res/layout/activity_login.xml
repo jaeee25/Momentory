@@ -139,8 +139,9 @@
                     android:id="@+id/login"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/deep_pink"
                     android:text="Log in"
+                    android:textColor="@color/white"
+                    android:background="@drawable/rounded_btn_deep"
                     android:textSize="20sp" />
 
                 <LinearLayout

@@ -30,6 +30,12 @@ class SecretDiaryFragment : Fragment() {
         binding.recyclerView.adapter = PostAdapter(postList, PostAdapter.VIEW_TYPE_SECRET)
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
+        // 연필 모양 버튼 클릭하면 WriteDiaryActivity로 이동
+        binding.writeSecretButton.setOnClickListener {
+            val intent = Intent(activity, WriteDiaryActivity::class.java)
+            startActivity(intent)
+        }
+        
         return binding.root
     }
 

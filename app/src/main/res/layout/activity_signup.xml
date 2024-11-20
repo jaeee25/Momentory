@@ -137,7 +137,8 @@
                     android:layout_height="wrap_content"
                     android:text="Sign Up"
                     android:textSize="20sp"
-                    android:backgroundTint="@color/deep_pink" />
+                    android:textColor="@color/white"
+                    android:background="@drawable/rounded_btn_deep" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

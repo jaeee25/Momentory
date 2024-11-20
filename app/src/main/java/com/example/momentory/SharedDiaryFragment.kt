@@ -33,7 +33,7 @@ class SharedDiaryFragment : Fragment() {
             startActivity(intent)
         }
 
-        // 일기 작성 버튼 클릭 이벤트
+        // 연필 모양 버튼 클릭하면 WriteDiaryActivity로 이동
         binding.writeDiaryButton.setOnClickListener {
             val intent = Intent(activity, WriteDiaryActivity::class.java)
             startActivity(intent)
