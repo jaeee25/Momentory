@@ -5,70 +5,62 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <!-- AppBarLayout (툴바 포함) -->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFA3A3"
         android:paddingTop="16dp">
 
-        <!-- Toolbar 시작 -->
+        <!-- Toolbar -->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:background="@color/dark_pink">
 
-            <!-- 커스텀 TextView를 직접 추가 -->
             <TextView
                 android:id="@+id/toolbar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/leaguespartan_bold"
-                android:text="@string/app_title"
+                style="@style/customToolbarTitleText"
+                android:text="눈송이의 일기장"
                 android:textColor="@android:color/white"
-                android:textSize="30sp" /> <!-- 여기에 커스텀 폰트를 지정 -->
+                android:textSize="30sp" />
 
-            <!-- Toolbar 내 ImageView 설정 -->
             <ImageView
                 android:id="@+id/profile_image"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:src="@drawable/ic_profile"
-                android:contentDescription="@string/profile_image_description"
+                android:contentDescription="프로필 이미지"
                 android:layout_gravity="end"
                 android:layout_marginEnd="16dp" />
-
         </androidx.appcompat.widget.Toolbar>
-        <!-- Toolbar 끝 -->
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <LinearLayout
+    <!-- TabLayout과 ViewPager2 -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/dark_pink"
+        app:tabIndicatorColor="@android:color/transparent"
+        app:tabIndicatorHeight="0dp"
+        app:tabMode="fixed"
+        app:tabTextColor="@color/black"
+        app:tabSelectedTextColor="@color/black"
+        app:tabBackground="@drawable/tab_background"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        style="@style/TabMarginStyle"/>
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/rounded_up_background"
-        android:orientation="vertical">
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabIndicatorColor="@android:color/transparent"
-            app:tabIndicatorHeight="0dp"
-            app:tabRippleColor="@android:color/transparent"
-            app:tabTextColor="#000000"
-            app:tabSelectedTextColor="#000000"
-            app:tabMode="fixed"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"/>
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </LinearLayout>
+        android:layout_weight="1" />
 
 </LinearLayout>

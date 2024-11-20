@@ -1,16 +1,17 @@
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_marginHorizontal="8dp"> <!-- 간격 설정 -->
+
+    <TextView
+        android:id="@+id/tab_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:background="@drawable/tab_background"> <!-- 둥근 배경 설정 -->
-
-        <TextView
-            android:id="@+id/tab_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:textSize="16sp"/>
-    </LinearLayout>
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:fontFamily="@font/font_default"
+        android:textStyle="bold"
+        android:gravity="center" />
+</LinearLayout>

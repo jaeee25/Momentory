@@ -13,7 +13,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_margin="16dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
+        android:background="@drawable/rounded_background"
+        android:clipToOutline="true"
         android:clickable="true"
         android:focusable="true" />
 </RelativeLayout>

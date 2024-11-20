@@ -1,4 +1,14 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/selected_tab_background" android:state_selected="true"/>
-    <item android:drawable="@drawable/unselected_tab_background"/>
+    <item android:state_selected="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white" />
+            <corners android:topLeftRadius="16dp" android:topRightRadius="16dp" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/unselected_tab_background" />
+            <corners android:topLeftRadius="16dp" android:topRightRadius="16dp" />
+        </shape>
+    </item>
 </selector>

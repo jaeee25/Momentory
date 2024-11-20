@@ -2,57 +2,47 @@ package com.example.momentory
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.tabs.TabLayout
+import com.example.momentory.databinding.ActivityHomeBinding
 import com.google.android.material.tabs.TabLayoutMediator
-import android.widget.TextView
-
+import com.example.momentory.databinding.CustomTabBinding
 class HomeActivity : AppCompatActivity() {
-    private lateinit var tabLayout: TabLayout
-    private lateinit var viewPager: ViewPager2
+    private lateinit var binding: ActivityHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
 
+        binding = ActivityHomeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false) // 기본 제목 숨기기
+        // 툴바 설정 (기본 타이틀 비활성화)
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false) // 기본 타이틀 비활성화
 
-        // 커스텀 TextView로 제목 설정
-        val toolbarTitle = findViewById<TextView>(R.id.toolbar_title)
-        toolbarTitle.text = getString(R.string.app_title) // "눈송이의 일기장"을 직접 설정
-
-        // TabLayout 및 ViewPager 설정
-        tabLayout = findViewById(R.id.tab_layout)
-        viewPager = findViewById(R.id.view_pager)
+        // ViewPager 설정
         val adapter = ViewPagerAdapter(this)
-        viewPager.adapter = adapter
+        binding.viewPager.adapter = adapter
 
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            val customView = layoutInflater.inflate(R.layout.custom_tab, null)
-            val tabTextView = customView.findViewById<TextView>(R.id.tab_title)
-            tabTextView.text = when (position) {
+        // TabLayout 연결
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            // View Binding을 사용해 커스텀 탭 레이아웃 초기화
+            val tabBinding = CustomTabBinding.inflate(layoutInflater)
+
+            // 탭 텍스트 설정
+            tabBinding.tabText.text = when (position) {
                 0 -> "공유일기"
                 1 -> "비밀일기"
                 2 -> "타임캡슐"
-                else -> null
+                else -> ""
             }
-            tab.customView = customView
+
+            // 탭의 커스텀 뷰로 설정
+            tab.customView = tabBinding.root
         }.attach()
-
-
-        val profileImageView = findViewById<ImageView>(R.id.profile_image)
-        profileImageView.setOnClickListener {
+        // 프로필 이미지 클릭 이벤트
+        binding.profileImage.setOnClickListener {
             val intent = Intent(this, ProfileEditActivity::class.java)
             startActivity(intent)
         }
-
-
     }
-
 }
