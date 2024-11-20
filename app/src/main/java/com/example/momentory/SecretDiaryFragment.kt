@@ -16,8 +16,8 @@ class SecretDiaryFragment : Fragment() {
 
     private val postList = listOf(
         // 비밀 일기의 샘플 데이터
-        Post("비밀 일기 1", "06월 20일", "김철수", "오늘은 비밀스러운 하루였어...", "image_url", 5, 3),
-        Post("비밀 일기 2", "08월 18일", "박영희", "내 마음속의 이야기를 적어본다...", "image_url", 2, 1)
+        Post("비밀 일기 1", "11월 20일", "", "시험이 안끝난다", "image_url", 0, 0),
+        Post("비밀 일기 2", "11월 18일", "", "과제가 안끝난다", "image_url", 0, 0)
     )
 
     override fun onCreateView(
@@ -30,7 +30,6 @@ class SecretDiaryFragment : Fragment() {
         binding.recyclerView.adapter = PostAdapter(postList, PostAdapter.VIEW_TYPE_SECRET)
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-
         return binding.root
     }
 
@@ -39,4 +38,5 @@ class SecretDiaryFragment : Fragment() {
         _binding = null
     }
 }
+
 
