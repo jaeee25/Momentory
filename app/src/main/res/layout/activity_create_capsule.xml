@@ -1,14 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/deep_pink"
+    android:id="@+id/main"
     android:orientation="vertical"
-    android:gravity="center">
+    tools:context=".CreateCapsuleActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="타임캡슐 생성 페이지"
-        android:textSize="24sp"
-        android:textColor="@android:color/black"/>
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:backgroundTint="@color/deep_pink"
+        android:gravity="center">
+
+        <androidx.appcompat.widget.Toolbar
+            android:layout_marginTop="15dp"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:navigationIcon="@drawable/baseline_arrow_back_ios_24" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/createCapsule"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="리스트에 포함된 사람만 \n이 타임캡슐을 볼 수 있습니다." />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:background="@drawable/rounded_background"
+                    android:orientation="vertical"
+                    android:paddingLeft="30dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="30dp"
+                    android:paddingBottom="20dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <EditText
+                            android:id="@+id/capsuleFriendName"
+                            android:layout_width="0dp"
+                            android:layout_height="45dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/font_default"
+                            android:hint="이름을 입력해주세요" />
+                        <ImageView
+                            android:id="@+id/searchFriend"
+                            android:layout_width="30dp"
+                            android:layout_height="45dp"
+                            android:src="@drawable/baseline_search_24" />
+                    </LinearLayout>
+
+                    <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:fillViewport="true"
+                        android:scrollbars="none">
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/timeCapsuleRecyclerView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </ScrollView>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/createCapsule"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="타임캡슐에 보관하고 싶은 \n메시지를 적어주세요." />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:background="@drawable/rounded_background"
+                    android:fontFamily="@font/font_default"
+                    android:gravity="top"
+                    android:hint="내용을 입력해주세요."
+                    android:padding="20dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/createCapsule"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="적은 메시지와 \n함께 보관할 사진을 추가해 주세요." />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp">
+                 <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/capsuleImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="230dp"
+                        app:shapeAppearanceOverlay="@style/roundSquareImageView"
+                        android:background="@color/white"
+                        android:layout_marginBottom="30dp"/>
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="230dp"
+                        android:layout_marginBottom="30dp"
+                        android:alpha="0.15"
+                        android:background="@color/white"
+                        app:shapeAppearanceOverlay="@style/roundSquareImageView" />
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/baseline_photo_24" />
+                </FrameLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/createCapsuleNextBtn"
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:backgroundTint="@color/light_pink"
+                android:fontFamily="@font/font_default"
+                android:text="다음"
+                android:textColor="@color/deep_pink"
+                android:textSize="23dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

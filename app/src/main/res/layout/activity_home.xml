@@ -5,22 +5,28 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!-- 툴바 -->
+
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/deep_pink"
+        android:background="#FFA3A3"
         android:paddingTop="16dp">
+
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:background="@color/deep_pink"
             android:layout_height="150dp"
-            android:title="  눈송이의 일기장"
-            android:titleTextColor="@android:color/white"
-            app:titleTextAppearance="@style/Toolbar.TitleText">
+            android:background="@color/dark_pink">
 
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/customToolbarTitleText"
+                android:text="눈송이의 일기장"
+                android:textColor="@android:color/white"
+                android:textSize="30sp" />
 
             <ImageView
                 android:id="@+id/profile_image"
@@ -31,22 +37,30 @@
                 android:layout_gravity="end"
                 android:layout_marginEnd="16dp" />
         </androidx.appcompat.widget.Toolbar>
+
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- 탭-->
+    <!-- TabLayout과 ViewPager2 -->
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/dark_pink"
         app:tabIndicatorColor="@android:color/transparent"
-        app:tabTextColor="#000000"
-        app:tabSelectedTextColor="#000000"
-        app:tabBackground="@drawable/tab_background" />
+        app:tabIndicatorHeight="0dp"
+        app:tabMode="fixed"
+        app:tabTextColor="@color/black"
+        app:tabSelectedTextColor="@color/black"
+        app:tabBackground="@drawable/tab_background"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        style="@style/TabMarginStyle"/>
 
-    <!-- ViewPager2  -->
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
 </LinearLayout>

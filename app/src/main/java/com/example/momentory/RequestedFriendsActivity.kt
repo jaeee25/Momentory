@@ -4,6 +4,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import android.telephony.PhoneNumberFormattingTextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.activity.enableEdgeToEdge
@@ -37,6 +38,7 @@ class MyAdapter(
             removeItem(position)
         }
         holder.binding.friendRejectBtn.setOnClickListener {
+            rejectFriend(position)
             removeItem(position)
         }
     }
@@ -51,6 +53,9 @@ class MyAdapter(
     private fun acceptFriend(position: Int) {
         // TODO: 친구 요청 수락 시 친구 목록에 추가
     }
+    private fun rejectFriend(position: Int) {
+        // TODO: 친구 요청 거절 시 친구 목록에 추가
+    }
 }
 
 class RequestedFriendsActivity : AppCompatActivity() {
@@ -59,7 +64,6 @@ class RequestedFriendsActivity : AppCompatActivity() {
             ActivityRequestedFriendsBinding.inflate(layoutInflater)
         }
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -74,7 +78,9 @@ class RequestedFriendsActivity : AppCompatActivity() {
             message.add("친구${i}님의 요청 메시지")
         }
 
-        binding.requestedFriendsRecyclerView.layoutManager = LinearLayoutManager(this)
-        binding.requestedFriendsRecyclerView.adapter = MyAdapter(name, message)
+        binding.requestedFriendsRecyclerView.apply {
+            layoutManager = LinearLayoutManager(this@RequestedFriendsActivity)
+            adapter = MyAdapter(name, message)
+        }
     }
 }

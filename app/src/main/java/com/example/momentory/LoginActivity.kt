@@ -70,7 +70,5 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this, SignupActivity::class.java)
             startActivity(intent)
         }
-
-        // sign up with kakao Talk -- 구현해야함
     }
 }
