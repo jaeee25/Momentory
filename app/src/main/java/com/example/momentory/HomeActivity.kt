@@ -40,7 +40,7 @@ class HomeActivity : AppCompatActivity() {
         }.attach()
 
         binding.profileImage.setOnClickListener {
-            val intent = Intent(this, ProfileEditActivity::class.java)
+            val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
         }
     }

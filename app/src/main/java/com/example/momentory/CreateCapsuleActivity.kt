@@ -67,6 +67,7 @@ class CreateCapsuleActivity : AppCompatActivity() {
         }
         enableEdgeToEdge()
         setContentView(binding.root)
+        setSupportActionBar(binding.capsuleToolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val friends = MutableList(20) { i -> "친구 ${i + 1}" }
@@ -135,6 +136,7 @@ class CreateCapsuleActivity : AppCompatActivity() {
         }
 
         binding.createCapsuleNextBtn.setOnClickListener(){
+            Log.d("kkang", "selectedFriends: $selectedFriends")
             val intent = Intent(this, CreateCapsuleWhenActivity::class.java)
             startActivity(intent)
         }
