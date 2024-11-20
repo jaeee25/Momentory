@@ -16,19 +16,19 @@
         android:gravity="center">
 
         <androidx.appcompat.widget.Toolbar
-            android:layout_marginTop="10dp"
-            android:id="@+id/toolbar"
+            android:id="@+id/capsuleWhenToolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:layout_marginTop="10dp"
             app:navigationIcon="@drawable/baseline_arrow_back_ios_24">
 
             <TextView
+                style="@style/customToolbarTitleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="언제 타임캡슐을\n열어볼까요?"
-                style="@style/customToolbarTitleText"/>
+                android:text="언제 타임캡슐을\n열어볼까요?" />
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -40,39 +40,39 @@
         android:gravity="center"
         android:orientation="vertical">
 
-<!--        <com.prolificinteractive.materialcalendarview.MaterialCalendarView-->
-<!--            android:id="@+id/calendar_view"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:padding="12dp"-->
-<!--            android:theme="@style/CalenderViewCustom"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:mcv_dateTextAppearance="@style/CalenderViewDateCustomText"-->
-<!--            app:mcv_firstDayOfWeek="sunday"-->
-<!--            app:mcv_leftArrow="@drawable/ic_arrow_back"-->
-<!--            app:mcv_rightArrow="@drawable/ic_arrow_forward"-->
-<!--            app:mcv_selectionMode="single"-->
-<!--            app:mcv_showOtherDates="all"-->
-<!--            app:mcv_weekDayTextAppearance="@style/CalenderViewWeekCustomText" />-->
+        <!--        <com.prolificinteractive.materialcalendarview.MaterialCalendarView-->
+        <!--            android:id="@+id/calendar_view"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:padding="12dp"-->
+        <!--            android:theme="@style/CalenderViewCustom"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent"-->
+        <!--            app:mcv_dateTextAppearance="@style/CalenderViewDateCustomText"-->
+        <!--            app:mcv_firstDayOfWeek="sunday"-->
+        <!--            app:mcv_leftArrow="@drawable/ic_arrow_back"-->
+        <!--            app:mcv_rightArrow="@drawable/ic_arrow_forward"-->
+        <!--            app:mcv_selectionMode="single"-->
+        <!--            app:mcv_showOtherDates="all"-->
+        <!--            app:mcv_weekDayTextAppearance="@style/CalenderViewWeekCustomText" />-->
 
         <DatePicker
-            style="@style/datePickerStyle"
             android:id="@+id/datePicker"
+            style="@style/datePickerStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:datePickerMode="calendar"
-            android:theme="@style/datePickerStyle"/>
+            android:theme="@style/datePickerStyle" />
 
         <Button
             android:id="@+id/completeCapsuleButton"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/moneygraphy_rounded"
             android:text="완료"
-            android:textStyle="bold"
             android:textSize="20dp"
-            android:fontFamily="@font/moneygraphy_rounded"/>
+            android:textStyle="bold" />
     </LinearLayout>
 </LinearLayout>

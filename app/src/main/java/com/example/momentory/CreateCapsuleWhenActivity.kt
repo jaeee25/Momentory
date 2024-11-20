@@ -20,6 +20,8 @@ class CreateCapsuleWhenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
+        setSupportActionBar(binding.capsuleWhenToolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val locale = Locale("ko", "KR")
         Locale.setDefault(locale)
