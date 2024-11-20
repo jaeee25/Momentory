@@ -133,6 +133,11 @@ class CreateCapsuleActivity : AppCompatActivity() {
             intent.type = "image/*"
             requestGalleryLauncher.launch(intent)
         }
+
+        binding.createCapsuleNextBtn.setOnClickListener(){
+            val intent = Intent(this, CreateCapsuleWhenActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun calculateInSampleSize(fileUri: Uri, reqWidth: Int, reqHeight: Int): Int {

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/deep_pink"
+    android:id="@+id/main"
     android:orientation="vertical"
     tools:context=".CreateCapsuleActivity">
 
@@ -142,7 +143,7 @@
                         android:layout_height="230dp"
                         android:layout_marginBottom="30dp"
                         android:alpha="0.15"
-                        android:background="@color/black"
+                        android:background="@color/white"
                         app:shapeAppearanceOverlay="@style/roundSquareImageView" />
 
                     <ImageView
@@ -154,6 +155,7 @@
             </LinearLayout>
 
             <Button
+                android:id="@+id/createCapsuleNextBtn"
                 android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
