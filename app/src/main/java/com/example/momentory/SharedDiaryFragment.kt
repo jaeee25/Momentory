@@ -29,7 +29,7 @@ class SharedDiaryFragment : Fragment() {
 
         // 친구 추가 버튼 클릭 이벤트
         binding.addFriendButton.setOnClickListener {
-            val intent = Intent(activity, FriendAddActivity::class.java)
+            val intent = Intent(activity, FriendsAddActivity::class.java)
             startActivity(intent)
         }
 
