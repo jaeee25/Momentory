@@ -17,7 +17,7 @@ class SharedDiaryFragment : Fragment() {
     private val postList = listOf(
         Post("라멘 맛있다", "11월 12일", "김재희", "일본에서 먹는 라멘 정말 맛있다~", "image_url", 1, 2),
         Post("10월 일상", "10월 18일", "임재서", "중간고사를 준비하다가 정신없이 10월이 흘러갔다...이거어디까지늘어날지궁금하다어디까지눌어날지궁금하다궁금하다궁금하다궁금하다", "image_url", 2, 3),
-        Post("방어 먹음", "9월 27일", "최현영", "기름기가 적을까봐 걱정했는데 윤기 가득한 방어!", "image_url", 3, 1)
+        Post("방어 먹음", "9월 27일", "최원영", "기름기가 적을까봐 걱정했는데 윤기 가득한 방어!", "image_url", 3, 1)
     )
 
     override fun onCreateView(
