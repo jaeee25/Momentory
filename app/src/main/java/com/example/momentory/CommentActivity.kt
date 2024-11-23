@@ -30,18 +30,17 @@ class CommentActivity : AppCompatActivity() {
         val postDate = intent.getStringExtra("postDate") ?: "날짜 없음"
         val postImage = intent.getStringExtra("postImageUrl")
 
-        // 데이터 설정
+
         binding.postTitle.text = postTitle
-        binding.postContent.setText(postContent) // 오류 수정
+        binding.postContent.setText(postContent)
         binding.postDate.text = postDate
         binding.postAuthor.text = postAuthor
 
-        // 뒤로가기 버튼
         binding.toHome.setOnClickListener {
             finish()
         }
 
-        // 댓글 RecyclerView 설정
+
         commentAdapter = CommentAdapter(comments)
         binding.commentRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.commentRecyclerView.adapter = commentAdapter
@@ -63,25 +62,25 @@ class CommentActivity : AppCompatActivity() {
     }
 
     private fun setupReactionButtons() {
-        // Smile Reaction
+
         binding.reactionSmile.setOnClickListener {
             smileCount++
             updateReactions()
         }
 
-        // Heart Reaction
+
         binding.reactionHeart.setOnClickListener {
             heartCount++
             updateReactions()
         }
 
-        // Thumbs Up Reaction
+
         binding.reactionThumbsUp.setOnClickListener {
             thumbsUpCount++
             updateReactions()
         }
 
-        // Fire Reaction
+
         binding.reactionFire.setOnClickListener {
             fireCount++
             updateReactions()
@@ -94,5 +93,5 @@ class CommentActivity : AppCompatActivity() {
     }
 }
 
-// 댓글 데이터 클래스
+
 data class Comment(val author: String, val content: String)
