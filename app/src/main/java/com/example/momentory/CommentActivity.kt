@@ -12,6 +12,12 @@ class CommentActivity : AppCompatActivity() {
     private val comments = mutableListOf<Comment>() // 댓글 리스트
     private lateinit var commentAdapter: CommentAdapter // 댓글 어댑터
 
+    // 반응 카운트 변수
+    private var smileCount = 0
+    private var heartCount = 0
+    private var thumbsUpCount = 0
+    private var fireCount = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCommentBinding.inflate(layoutInflater)
@@ -51,7 +57,42 @@ class CommentActivity : AppCompatActivity() {
                 Toast.makeText(this, "댓글을 입력하세요", Toast.LENGTH_SHORT).show()
             }
         }
+
+        // 이모티콘 반응 처리
+        setupReactionButtons()
+    }
+
+    private fun setupReactionButtons() {
+        // Smile Reaction
+        binding.reactionSmile.setOnClickListener {
+            smileCount++
+            updateReactions()
+        }
+
+        // Heart Reaction
+        binding.reactionHeart.setOnClickListener {
+            heartCount++
+            updateReactions()
+        }
+
+        // Thumbs Up Reaction
+        binding.reactionThumbsUp.setOnClickListener {
+            thumbsUpCount++
+            updateReactions()
+        }
+
+        // Fire Reaction
+        binding.reactionFire.setOnClickListener {
+            fireCount++
+            updateReactions()
+        }
+    }
+
+    private fun updateReactions() {
+        val reactionsText = "😊 $smileCount 😍 $heartCount 👍 $thumbsUpCount 🔥 $fireCount"
+        binding.reactions.text = reactionsText
     }
 }
 
+// 댓글 데이터 클래스
 data class Comment(val author: String, val content: String)

@@ -115,19 +115,62 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="end"
+                android:gravity="right"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:layout_marginBottom="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="30dp">
+                android:layout_marginTop="16dp">
 
-                <TextView
-                    android:id="@+id/reactions"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="😊 😍 ❤️ 👍 🔥"
-                    android:textSize="18sp"
-                    android:gravity="end" />
+                <ImageButton
+                    android:id="@+id/reaction_smile"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@null"
+                    android:src="@drawable/smile_emoji"
+                    android:scaleType="fitCenter"
+                    android:contentDescription="Smile Reaction"
+                    android:layout_marginEnd="4dp" />
+
+                <ImageButton
+                    android:id="@+id/reaction_heart"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@null"
+                    android:src="@drawable/heartface_emoji"
+                    android:scaleType="fitCenter"
+                    android:contentDescription="Heart Reaction"
+                    android:layout_marginEnd="4dp" />
+
+                <ImageButton
+                    android:id="@+id/reaction_thumbs_up"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@null"
+                    android:src="@drawable/thumb_emoji"
+                    android:scaleType="fitCenter"
+                    android:contentDescription="Thumbs Up Reaction"
+                    android:layout_marginEnd="4dp" />
+
+                <ImageButton
+                    android:id="@+id/reaction_fire"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@null"
+                    android:src="@drawable/fire_emoji"
+                    android:scaleType="fitCenter"
+                    android:contentDescription="Fire Reaction" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/reactions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="10dp"
+                android:text="😊 0 😍 0 👍 0 🔥 0"
+                android:textSize="16sp"
+                android:textColor="@color/black" />
 
             <!-- 댓글 영역 -->
             <LinearLayout
