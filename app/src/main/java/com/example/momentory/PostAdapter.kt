@@ -4,42 +4,32 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.momentory.databinding.ItemSharedPostBinding
-import com.example.momentory.databinding.ItemSecretPostBinding
 
 class PostAdapter(
     private val postList: List<Post>,
-    private val viewType: Int
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private val viewType: Int,
+    private val onPostClick: (Post, Int) -> Unit
+) : RecyclerView.Adapter<PostAdapter.SharedPostViewHolder>() {
 
     companion object {
         const val VIEW_TYPE_SHARED = 1
         const val VIEW_TYPE_SECRET = 2
     }
 
-    override fun getItemViewType(position: Int): Int = viewType
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == VIEW_TYPE_SHARED) {
-            val binding = ItemSharedPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            SharedPostViewHolder(binding)
-        } else {
-            val binding = ItemSecretPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            SecretPostViewHolder(binding)
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SharedPostViewHolder {
+        val binding = ItemSharedPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return SharedPostViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val post = postList[position]
-        if (holder is SharedPostViewHolder) {
-            holder.bind(post)
-        } else if (holder is SecretPostViewHolder) {
-            holder.bind(post)
-        }
+    override fun onBindViewHolder(holder: SharedPostViewHolder, position: Int) {
+        holder.bind(postList[position])
+        holder.itemView.setOnClickListener { onPostClick(postList[position], position) }
     }
 
     override fun getItemCount(): Int = postList.size
 
-    inner class SharedPostViewHolder(private val binding: ItemSharedPostBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class SharedPostViewHolder(private val binding: ItemSharedPostBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(post: Post) {
             binding.postTitle.text = post.title
             binding.postDate.text = post.date
@@ -47,14 +37,6 @@ class PostAdapter(
             binding.postContent.text = post.content
             binding.likeCount.text = post.likeCount.toString()
             binding.commentCount.text = post.commentCount.toString()
-        }
-    }
-
-    inner class SecretPostViewHolder(private val binding: ItemSecretPostBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(post: Post) {
-            binding.postTitle.text = post.title
-            binding.postDate.text = post.date
-            binding.postContent.text = post.content
         }
     }
 }

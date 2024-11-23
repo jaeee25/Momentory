@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CommentActivity"
+    android:fillViewport="true"
+    android:background="@color/deep_pink"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="50dp">
+
+        <!-- 상단 날짜 및 뒤로가기 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:orientation="horizontal"
+            android:gravity="bottom">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:layout_weight="1"
+                android:src="@drawable/baseline_arrow_back_ios_24"
+                android:id="@+id/to_home" />
+
+            <TextView
+                android:id="@+id/postDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="날짜"
+                android:layout_weight="1"
+                android:textAppearance="@style/mainTitle" />
+
+        </LinearLayout>
+
+        <!-- 게시글 본문 -->
+
+        <TextView
+            android:id="@+id/postAuthor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="30dp"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="5dp"
+            android:layout_marginBottom="10dp"
+            android:text="작성자"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/rounded_up_background"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="0dp">
+
+
+
+            <!-- 제목 -->
+            <TextView
+                android:id="@+id/postTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="제목"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp" />
+            <!-- 이미지 -->
+            <ImageView
+                android:id="@+id/postImage"
+                android:layout_width="260dp"
+                android:layout_height="160dp"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_sample_image"
+
+                android:layout_marginBottom="16dp"/>
+
+            <!-- 본문 내용 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp">
+
+                <TextView
+                    android:id="@+id/postContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_edittext"
+
+                    android:padding="10dp"
+                    android:text="본문 내용"
+                    android:textSize="16sp"
+                    android:lineSpacingExtra="4dp"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+            <!-- 이모티콘 반응 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="30dp">
+
+                <TextView
+                    android:id="@+id/reactions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="😊 😍 ❤️ 👍 🔥"
+                    android:textSize="18sp"
+                    android:gravity="end" />
+            </LinearLayout>
+
+            <!-- 댓글 영역 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- 댓글 RecyclerView -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/commentRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- 댓글 입력 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+
+                    >
+
+                    <EditText
+                        android:id="@+id/commentEditText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="댓글을 입력하세요"
+                        android:background="@drawable/rounded_input_border"
+                        android:fontFamily="@font/font_default"
+                        android:padding="10dp"
+                        android:inputType="text"
+                        android:imeOptions="actionDone"
+
+                        android:layout_marginEnd="10dp"/>
+
+                    <ImageButton
+                        android:id="@+id/sendCommentButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round_button_background"
+                        android:src="@drawable/round_send_24"
+                        android:padding="10dp"
+                        app:tint="@color/white"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="20dp"/>
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

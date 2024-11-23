@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/deep_pink" /> <!-- 배경색 설정 -->
+    <corners android:radius="50dp" /> <!-- 반지름 값으로 둥글게 -->
+    <size
+        android:width="50dp"
+        android:height="50dp" /> <!-- 크기 설정 -->
+</shape>
