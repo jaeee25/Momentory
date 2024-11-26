@@ -12,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.bumptech.glide.Glide
 import com.example.momentory.databinding.ActivityButtonBinding
 import com.example.momentory.databinding.ActivityProfileBinding
 
@@ -27,32 +28,26 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-
         val requestGalleryLauncher = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult())
-        {
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
             try {
-                val calRatio = calculateInSampleSize(
-                    it.data!!.data!!,210, 210
-                )
-                val option = BitmapFactory.Options()
-                option.inSampleSize = calRatio
-
-                var inputStream = contentResolver.openInputStream(it.data!!.data!!)
-                val bitmap = BitmapFactory.decodeStream(inputStream, null, option)
-                inputStream!!.close()
-                inputStream = null
-                bitmap?.let {
-                    binding.profileImage.setImageBitmap(bitmap)
-                } ?: let {
-                    Log.d("kkang", "bitmap null")
+                val uri = result.data?.data
+                uri?.let {
+                    Glide.with(this)
+                        .load(it)
+                        .override(210, 210)
+                        .centerCrop()
+                        .into(binding.profileImage)
+                } ?: run {
+                    Log.d("kkang", "Image URI is null")
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
 
-        binding.profileImage.setOnClickListener() {
+        binding.profileImage.setOnClickListener {
             val intent = Intent(
                 Intent.ACTION_PICK,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI

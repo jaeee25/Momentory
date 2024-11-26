@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1041891354222",
+    "project_id": "momentory-39591",
+    "storage_bucket": "momentory-39591.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1041891354222:android:6f79cb0970312fa6b7e87f",
+        "android_client_info": {
+          "package_name": "com.example.momentory"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPRQLfHS0EMg4TYsGmvEUndrVLuVHsR1Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
