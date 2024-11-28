@@ -40,7 +40,7 @@ class ProfileActivity : AppCompatActivity() {
                         .centerCrop()
                         .into(binding.profileImage)
                 } ?: run {
-                    Log.d("kkang", "Image URI is null")
+                    Log.d("profile", "Image URI is null")
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

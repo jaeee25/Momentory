@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.momentory.databinding.ActivityFriendsAddBinding
 import com.example.momentory.databinding.ActivityRequestedFriendsBinding
 import com.example.momentory.databinding.FriendsRequestListBinding
+import com.google.firebase.firestore.FirebaseFirestore
 
 class MyViewHolder(val binding: FriendsRequestListBinding) :
     RecyclerView.ViewHolder(binding.root)
@@ -22,7 +23,7 @@ class MyAdapter(
     private val names: MutableList<String>,
     private val messages: MutableList<String>
 ) : RecyclerView.Adapter<MyViewHolder>() {
-
+    var db: FirebaseFirestore = FirebaseFirestore.getInstance()
     override fun getItemCount(): Int = names.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder =
@@ -51,7 +52,6 @@ class MyAdapter(
     }
 
     private fun acceptFriend(position: Int) {
-        // TODO: 친구 요청 수락 시 친구 목록에 추가
     }
     private fun rejectFriend(position: Int) {
         // TODO: 친구 요청 거절 시 친구 목록에 추가
@@ -59,6 +59,8 @@ class MyAdapter(
 }
 
 class RequestedFriendsActivity : AppCompatActivity() {
+    var db: FirebaseFirestore = FirebaseFirestore.getInstance()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val binding: ActivityRequestedFriendsBinding by lazy {
             ActivityRequestedFriendsBinding.inflate(layoutInflater)
@@ -67,6 +69,19 @@ class RequestedFriendsActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
+//
+//        db.collection("users").document("vb6wQZCFD1No8EYwjmQ4")
+//            .get()
+//            .addOnSuccessListener { document ->
+//                if (document != null) {
+//                    Log.d("requestedFriends","DocumentSnapshot data: ${document.data}")
+//                }   else{
+//                    Log.d("requestedFriends", "No such document")
+//                }
+//            }
+//            .addOnFailureListener{  exception ->
+//                Log.d("requestedFriendsDocument", "get failed with", exception)
+//            }
 
         val name = mutableListOf<String>()
         for (i in 1..10) {
