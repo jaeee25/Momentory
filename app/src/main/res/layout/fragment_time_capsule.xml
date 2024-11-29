@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/white" >
 
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/time_capsule_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp"
+        android:scrollbars="vertical" />
 
     <ImageView
         android:id="@+id/create_capsule_button"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:src="@drawable/ic_pencil"
-        android:contentDescription="캡슐 생성 버튼"
+        android:scaleType="fitCenter"
+        android:contentDescription="일기 작성 버튼"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_margin="16dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
+        android:layout_margin="8dp"
+        android:background="@drawable/new_rounded_background"
+        android:clipToOutline="true"
         android:clickable="true"
         android:focusable="true" />
 
