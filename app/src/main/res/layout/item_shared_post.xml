@@ -72,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="Post content preview..."
+                android:text="내용"
                 android:textSize="14sp" />
         </LinearLayout>
 

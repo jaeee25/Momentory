@@ -27,8 +27,18 @@ class SecretDiaryFragment : Fragment() {
         _binding = FragmentSecretDiaryBinding.inflate(inflater, container, false)
 
         // RecyclerView 설정
-        binding.recyclerView.adapter = PostAdapter(postList, PostAdapter.VIEW_TYPE_SECRET)
+        binding.recyclerView.adapter = PostAdapter(postList, PostAdapter.VIEW_TYPE_SECRET) { post, position ->
+            val intent = Intent(activity, CommentActivity::class.java).apply {
+                putExtra("postTitle", post.title)
+                putExtra("postContent", post.content)
+                putExtra("postAuthor", post.author)
+                putExtra("postDate", post.date)
+                putExtra("postImageUrl", post.imageUrl)
+            }
+            startActivity(intent)
+        }
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
 
         // 연필 모양 버튼 클릭하면 WriteDiaryActivity로 이동
         binding.writeSecretButton.setOnClickListener {
