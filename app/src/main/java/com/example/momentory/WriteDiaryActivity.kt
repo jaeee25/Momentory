@@ -1,5 +1,6 @@
 package com.example.momentory
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -13,9 +14,11 @@ import com.example.momentory.databinding.ActivityWriteDiaryBinding
 import java.util.Calendar
 
 class WriteDiaryActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityWriteDiaryBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         val binding = ActivityWriteDiaryBinding.inflate(layoutInflater)
+        super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
         // < 버튼 누르면 뒤로가기 (Home Activity로 이동)
@@ -37,7 +40,7 @@ class WriteDiaryActivity : AppCompatActivity() {
                 this, // context
                 { _, selectedYear, selectedMonth, selectedDay ->
                     // 사용자가 날짜를 선택했을 때 실행되는 코드
-                    val formattedDate = "$selectedYear-${selectedMonth + 1}-$selectedDay"
+                    val formattedDate = "${selectedYear}년 ${selectedMonth + 1}월 ${selectedDay}일"
                     binding.date.text = formattedDate // 선택된 날짜를 텍스트 뷰에 표시
                 },
                 year, month, day // 초기 날짜 설정
@@ -114,10 +117,33 @@ class WriteDiaryActivity : AppCompatActivity() {
         }
 
         //
-        // 위치
+        // 위치 선택 기능
+        val selectLocationLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val selectedAddress = result.data?.getStringExtra("location")
+                binding.location.text = selectedAddress ?: "위치를 확인할 수 없습니다."
+            } else {
+                binding.location.text = "위치 선택 취소됨"
+            }
+        }
+
+        // 위치 선택 버튼 클릭 시 SelectLocationActivity 실행
+        binding.selectLoc.setOnClickListener {
+            val intent = Intent(this, SelectLocationActivity::class.java)
+            selectLocationLauncher.launch(intent)
+        }
+
+        // 기존의 '위치' 텍스트 설정
+        val location = intent.getStringExtra("location")
+        binding.location.text = location ?: "(2) 위치 선택"
+
+
+
 
         //
-        // 날씨
+        // 날씨 (사용자가 설정한 날짜의 날씨 불러오기)
     }
 
     // 이미지 크기를 줄이기 위한 비율 계산 함수
@@ -125,7 +151,6 @@ class WriteDiaryActivity : AppCompatActivity() {
         val options = BitmapFactory.Options()
         options.inJustDecodeBounds = true
 
-        // 원본 이미지 크기 확인
         contentResolver.openInputStream(uri)?.use { inputStream ->
             BitmapFactory.decodeStream(inputStream, null, options)
         }
@@ -144,4 +169,6 @@ class WriteDiaryActivity : AppCompatActivity() {
 
         return inSampleSize
     }
+
+
 }
