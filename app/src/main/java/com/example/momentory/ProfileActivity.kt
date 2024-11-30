@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -15,9 +16,10 @@ import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.example.momentory.databinding.ActivityButtonBinding
 import com.example.momentory.databinding.ActivityProfileBinding
+import com.google.firebase.firestore.FirebaseFirestore
 
 class ProfileActivity : AppCompatActivity() {
-
+    private val db = FirebaseFirestore.getInstance()
     lateinit var binding: ActivityProfileBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +30,7 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
+
         val requestGalleryLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
@@ -56,55 +59,56 @@ class ProfileActivity : AppCompatActivity() {
             requestGalleryLauncher.launch(intent)
         }
 
-        val sharedPref = getSharedPreferences("ProfileData", Context.MODE_PRIVATE)
-        val savedName = sharedPref.getString("profileName", "")
-        val savedPassword = sharedPref.getString("profilePassword", "")
-
-        binding.profileName.setText(savedName)
-        binding.profilePassword.setText(savedPassword)
+        val currentUserId = "vb6wQZCFD1No8EYwjmQ4"
+        loadUserProfile(currentUserId)
+        val beforeName = binding.profileName.text.toString()
+        val beforePassword = binding.profilePassword.text.toString()
 
         binding.profileEditBtn.setOnClickListener {
-            val editName = binding.profileName.text.toString()
-            val editPassword = binding.profilePassword.text.toString()
+            val newName = binding.profileName.text.toString().trim()
+            val newPassword = binding.profilePassword.text.toString()
+            updateUserProfile(currentUserId, newName)
 
-            // Save data to SharedPreferences
-            with(sharedPref.edit()) {
-                putString("profileName", editName)
-                putString("profilePassword", editPassword)
-                apply()
-            }
+//            if ((newName!=beforeName) or (newPassword!=beforePassword)){
+//                updateUserProfile(currentUserId, newName)
+//            } else {
+//                Toast.makeText(this, "이름을 입력해주세요.", Toast.LENGTH_SHORT).show()
+//            }
             finish()
         }
     }
 
-    private fun calculateInSampleSize(fileUri: Uri, reqWidth: Int, reqHeight: Int): Int {
-        val options = BitmapFactory.Options()
-        options.inJustDecodeBounds = true
-        try {
-            var inputStream = contentResolver.openInputStream(fileUri)
 
-            //inJustDecodeBounds 값을 true 로 설정한 상태에서 decodeXXX() 를 호출.
-            //로딩 하고자 하는 이미지의 각종 정보가 options 에 설정 된다.
-            BitmapFactory.decodeStream(inputStream, null, options)
-            inputStream!!.close()
-            inputStream = null
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        //비율 계산........................
-        val (height: Int, width: Int) = options.run { outHeight to outWidth }
-        var inSampleSize = 1
-        //inSampleSize 비율 계산
-        if (height > reqHeight || width > reqWidth) {
-
-            val halfHeight: Int = height / 2
-            val halfWidth: Int = width / 2
-
-            while (halfHeight / inSampleSize >= reqHeight && halfWidth / inSampleSize >= reqWidth) {
-                inSampleSize *= 2
+    private fun loadUserProfile(userId: String) {
+        db.collection("users").document(userId)
+            .get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val name = document.getString("name") ?: "이름 없음"
+                    binding.profileName.setText(name)  // EditText에 이름 설정
+                } else {
+                    Toast.makeText(this, "사용자 정보를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
+                }
             }
-        }
-        return inSampleSize
+            .addOnFailureListener { exception ->
+                Toast.makeText(this, "정보 로딩에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                Log.e("ProfileActivity", "Error getting user profile", exception)
+            }
     }
 
+    private fun updateUserProfile(userId: String, newName: String) {
+        val updates = mapOf("name" to newName)
+
+        // Firestore에서 사용자 이름을 업데이트
+        db.collection("users").document(userId)
+            .update(updates)
+            .addOnSuccessListener {
+                binding.profileName.setText(newName)
+                Toast.makeText(this, "프로필이 업데이트되었습니다.", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(this, "프로필 업데이트에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                Log.e("ProfileActivity", "Error updating user name", exception)
+            }
+    }
 }

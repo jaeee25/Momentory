@@ -53,8 +53,7 @@
                     android:layout_width="210dp"
                     android:layout_height="210dp"
                     app:shapeAppearanceOverlay="@style/roundedImageView"
-                    android:src="@drawable/character"
-                    android:background="@color/deep_pink"
+                    android:src="@drawable/baseline_person_24"
                     android:layout_marginBottom="30dp"/>
 
                 <com.google.android.material.imageview.ShapeableImageView
@@ -86,6 +85,8 @@
                 android:layout_marginBottom="15dp">
 
                 <EditText
+                    android:fontFamily="@font/moneygraphy_rounded"
+                    android:text=""
                     android:id="@+id/profile_name"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
@@ -117,6 +118,8 @@
                 android:layout_height="45dp"
                 android:layout_marginBottom="15dp">
                 <EditText
+                    android:fontFamily="@font/moneygraphy_rounded"
+                    android:text=""
                     android:id="@+id/profile_password"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"

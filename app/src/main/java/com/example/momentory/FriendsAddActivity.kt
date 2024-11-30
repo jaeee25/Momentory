@@ -13,7 +13,8 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
 class FriendsAddActivity : AppCompatActivity() {
-    var db = FirebaseFirestore.getInstance()
+    private val db = FirebaseFirestore.getInstance()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val binding: ActivityFriendsAddBinding by lazy {
             ActivityFriendsAddBinding.inflate(layoutInflater)
@@ -27,20 +28,22 @@ class FriendsAddActivity : AppCompatActivity() {
         // TODO: phone number format
         binding.friendsAddPhone.addTextChangedListener(PhoneNumberFormattingTextWatcher())
 
-        binding.friendsAddBtn.setOnClickListener() {
+        binding.friendsAddBtn.setOnClickListener {
             val phoneNumber = binding.friendsAddPhone.text.toString().trim()
+            val message = binding.friendsMessage.text.toString().trim()
+
             db.collection("users")
                 .whereEqualTo("phone", phoneNumber)
                 .get()
                 .addOnSuccessListener { documents ->
                     if (!documents.isEmpty) {
                         for (document in documents) {
-                            val userId = document.id
-                            val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
-                            currentUserId?.let {
-                                sendFriendRequest(it, userId)
-                            }
+                            val receiverId = document.id
+                            // val senderId = FirebaseAuth.getInstance().currentUser?.uid
+                            val senderId = "vb6wQZCFD1No8EYwjmQ4" // 임시 UID
+                            sendFriendRequest(senderId, receiverId, message)
                         }
+                        finish()
                     } else {
                         Toast.makeText(this, "사용자를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
                     }
@@ -51,14 +54,18 @@ class FriendsAddActivity : AppCompatActivity() {
         }
     }
 
-    private fun sendFriendRequest(senderId: String, receiverId: String) {
-        val requestMap = mapOf(
-            "friendRequestsReceived" to FieldValue.arrayUnion(senderId)
+    private fun sendFriendRequest(senderId: String, receiverId: String, message: String) {
+        // 요청 정보 생성
+        val requestData = mapOf(
+            "fromUserId" to senderId,
+            "message" to message, // 필요시 사용자 입력값 사용
+            "status" to "pending"
         )
 
-        // 친구 요청을 받는 사용자의 friendRequestsReceived 필드에 추가
+        // 친구 요청 받는 쪽에 friendRequestsReceived에 추가
         db.collection("users").document(receiverId)
-            .update(requestMap)
+            .collection("friendRequestsReceived")
+            .add(requestData)
             .addOnSuccessListener {
                 Toast.makeText(this, "친구 요청을 보냈습니다.", Toast.LENGTH_SHORT).show()
             }
@@ -66,14 +73,19 @@ class FriendsAddActivity : AppCompatActivity() {
                 Toast.makeText(this, "친구 요청에 실패했습니다.", Toast.LENGTH_SHORT).show()
             }
 
-        // 보낸 사용자의 friendRequestsSent 필드에도 추가
+        // 친구 요청 보낸 쪽에 friendRequestsSent에 추가
+        val sentRequestData = requestData.toMutableMap().apply {
+            put("toUserId", receiverId)
+        }
+
         db.collection("users").document(senderId)
-            .update("friendRequestsSent", FieldValue.arrayUnion(receiverId))
+            .collection("friendRequestsSent")
+            .add(sentRequestData)
             .addOnSuccessListener {
-                Log.d("FriendsAddActivity", "요청을 보낸 목록에 추가 완료")
+                Log.d("FriendsAddActivity", "친구 요청 보낸 목록에 추가 완료")
             }
             .addOnFailureListener {
-                Log.e("FriendsAddActivity", "요청 보낸 목록 업데이트 실패", it)
+                Log.e("FriendsAddActivity", "친구 요청 보낸 목록 업데이트 실패", it)
             }
     }
 

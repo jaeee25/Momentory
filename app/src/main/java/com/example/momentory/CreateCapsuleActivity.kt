@@ -13,19 +13,21 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.momentory.databinding.ActivityCreateCapsuleBinding
 import com.example.momentory.databinding.ActivityProfileBinding
 import com.example.momentory.databinding.TimecapsuleFriendsBinding
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 class FriendViewHolder(val binding: TimecapsuleFriendsBinding) :
     RecyclerView.ViewHolder(binding.root)
-
 class FriendAdapter(
     private val names: MutableList<String>,
     private val isChecked: MutableList<Boolean>,
@@ -60,31 +62,62 @@ class FriendAdapter(
 }
 
 class CreateCapsuleActivity : AppCompatActivity() {
+    private val db = FirebaseFirestore.getInstance()
+    private lateinit var binding: ActivityCreateCapsuleBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding: ActivityCreateCapsuleBinding by lazy {
-            ActivityCreateCapsuleBinding.inflate(layoutInflater)
-        }
-        enableEdgeToEdge()
+        binding = ActivityCreateCapsuleBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.capsuleToolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        val friends = MutableList(20) { i -> "친구 ${i + 1}" }
-        val isChecked = MutableList(20) { false }
+        // 초기화
+        val currentUserId = "vb6wQZCFD1No8EYwjmQ4" // 임시 UID, 실제로는 로그인한 유저의 UID를 사용해야 함
+        val friends = mutableListOf<String>()
+        val isChecked = mutableListOf<Boolean>()
         val selectedFriends = mutableListOf<String>()
 
-        val adapter = FriendAdapter(friends, isChecked) { name, isCheckedNow ->
-            if (isCheckedNow) {
-                selectedFriends.add(name)
-            } else {
-                selectedFriends.remove(name)
-            }
-        }
+        // 친구 목록을 Firestore에서 불러오기
+        db.collection("users").document(currentUserId)
+            .get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val friendIds =
+                        document.get("friendRequestsReceived") as? List<String> ?: emptyList()
+                    friends.clear()
+                    isChecked.clear()
 
-        binding.timeCapsuleRecyclerView.layoutManager =
-            LinearLayoutManager(this@CreateCapsuleActivity)
-        binding.timeCapsuleRecyclerView.adapter = adapter
+                    // 각 친구들의 이름을 가져옴
+                    friendIds.forEach { friendId ->
+                        db.collection("users").document(friendId)
+                            .get()
+                            .addOnSuccessListener { friendDoc ->
+                                val friendName = friendDoc.getString("name") ?: "Unknown"
+                                friends.add(friendName)
+                                isChecked.add(false)  // 기본적으로 체크되지 않음
+
+                                // RecyclerView 업데이트
+                                val adapter =
+                                    FriendAdapter(friends, isChecked) { name, isCheckedNow ->
+                                        if (isCheckedNow) {
+                                            selectedFriends.add(name)
+                                        } else {
+                                            selectedFriends.remove(name)
+                                        }
+                                    }
+
+                                binding.timeCapsuleRecyclerView.layoutManager =
+                                    LinearLayoutManager(this@CreateCapsuleActivity)
+                                binding.timeCapsuleRecyclerView.adapter = adapter
+                                adapter.updateData(friends, isChecked)
+                            }
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(this, "친구 목록을 불러오는 데 실패했습니다.", Toast.LENGTH_SHORT).show()
+            }
 
         binding.searchFriend.setOnClickListener {
             val query = binding.capsuleFriendName.text.toString()
@@ -97,29 +130,25 @@ class CreateCapsuleActivity : AppCompatActivity() {
                 .map { isChecked[it] }
                 .toMutableList()
 
-            adapter.updateData(filteredFriends, filteredChecked)
+            (binding.timeCapsuleRecyclerView.adapter as FriendAdapter).updateData(
+                filteredFriends,
+                filteredChecked
+            )
         }
-
 
         val requestGalleryLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
-        )
-        {
+        ) { result ->
             try {
-                val calRatio = calculateInSampleSize(
-                    it.data!!.data!!, 230, 230
-                )
-                val option = BitmapFactory.Options()
-                option.inSampleSize = calRatio
-
-                var inputStream = contentResolver.openInputStream(it.data!!.data!!)
-                val bitmap = BitmapFactory.decodeStream(inputStream, null, option)
-                inputStream!!.close()
-                inputStream = null
-                bitmap?.let {
-                    binding.capsuleImage.setImageBitmap(bitmap)
-                } ?: let {
-                    Log.d("kkang", "bitmap null")
+                val uri = result.data?.data
+                uri?.let {
+                    Glide.with(this)
+                        .load(it)
+                        .override(210, 210)
+                        .centerCrop()
+                        .into(binding.capsuleImage)
+                } ?: run {
+                    Log.d("profile", "Image URI is null")
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -135,40 +164,10 @@ class CreateCapsuleActivity : AppCompatActivity() {
             requestGalleryLauncher.launch(intent)
         }
 
-        binding.createCapsuleNextBtn.setOnClickListener(){
+        binding.createCapsuleNextBtn.setOnClickListener() {
             Log.d("kkang", "selectedFriends: $selectedFriends")
             val intent = Intent(this, CreateCapsuleWhenActivity::class.java)
             startActivity(intent)
         }
-    }
-
-    private fun calculateInSampleSize(fileUri: Uri, reqWidth: Int, reqHeight: Int): Int {
-        val options = BitmapFactory.Options()
-        options.inJustDecodeBounds = true
-        try {
-            var inputStream = contentResolver.openInputStream(fileUri)
-
-            //inJustDecodeBounds 값을 true 로 설정한 상태에서 decodeXXX() 를 호출.
-            //로딩 하고자 하는 이미지의 각종 정보가 options 에 설정 된다.
-            BitmapFactory.decodeStream(inputStream, null, options)
-            inputStream!!.close()
-            inputStream = null
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        //비율 계산........................
-        val (height: Int, width: Int) = options.run { outHeight to outWidth }
-        var inSampleSize = 1
-        //inSampleSize 비율 계산
-        if (height > reqHeight || width > reqWidth) {
-
-            val halfHeight: Int = height / 2
-            val halfWidth: Int = width / 2
-
-            while (halfHeight / inSampleSize >= reqHeight && halfWidth / inSampleSize >= reqWidth) {
-                inSampleSize *= 2
-            }
-        }
-        return inSampleSize
     }
 }
