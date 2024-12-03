@@ -39,6 +39,11 @@ class HomeActivity : AppCompatActivity() {
             tab.customView = tabBinding.root
         }.attach()
 
+        binding.notification.setOnClickListener {
+            val intent = Intent(this, RequestedFriendsActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.profileImage.setOnClickListener {
             val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
