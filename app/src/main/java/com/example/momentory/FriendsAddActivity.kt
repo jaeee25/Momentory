@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.momentory.databinding.ActivityFriendsAddBinding
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -25,13 +24,20 @@ class FriendsAddActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        // TODO: phone number format
         binding.friendsAddPhone.addTextChangedListener(PhoneNumberFormattingTextWatcher())
-
         binding.friendsAddBtn.setOnClickListener {
             val rawPhoneNumber = binding.friendsAddPhone.text.toString().trim()
             val phoneNumber = rawPhoneNumber.replace(Regex("[^0-9]"), "")
             val message = binding.friendsMessage.text.toString().trim()
+
+            if (phoneNumber.isEmpty()) {
+                Toast.makeText(this, "전화번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (message.isEmpty()) {
+                Toast.makeText(this, "메시지를 입력해주세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
             db.collection("users")
                 .whereEqualTo("phone", phoneNumber)
@@ -59,7 +65,7 @@ class FriendsAddActivity : AppCompatActivity() {
         // 요청 정보 생성
         val requestData = mapOf(
             "fromUserId" to senderId,
-            "message" to message, // 필요시 사용자 입력값 사용
+            "message" to message,
             "status" to "pending"
         )
 
