@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/white" >
 
-    <ImageButton
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/time_capsule_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp"
+        android:scrollbars="vertical" />
+
+    <ImageView
         android:id="@+id/create_capsule_button"
         android:layout_width="56dp"
         android:layout_height="56dp"

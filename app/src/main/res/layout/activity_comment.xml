@@ -1,96 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CommentActivity"
-    android:fillViewport="true"
+    android:orientation="vertical"
     android:background="@color/deep_pink"
-    android:orientation="vertical">
+    tools:context=".CommentActivity">
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="50dp">
 
-        <!-- 상단 날짜 및 뒤로가기 -->
-        <com.google.android.material.appbar.AppBarLayout
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/deep_pink"
-            android:layout_marginTop="30dp"
-            android:gravity="center">
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:orientation="horizontal"
+            android:gravity="bottom">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toHome"
-                android:layout_width="match_parent"
+            <ImageButton
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:navigationIcon="@drawable/baseline_arrow_back_ios_24">
+                android:background="@null"
+                android:layout_weight="1"
+                android:src="@drawable/baseline_arrow_back_ios_24"
+                android:id="@+id/to_home" />
 
-                <TextView
-                    android:id="@+id/postDate"
-                    style="@style/customToolbarTitleText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="날짜" />
-            </androidx.appcompat.widget.Toolbar>
-        </com.google.android.material.appbar.AppBarLayout>
+            <TextView
+                android:id="@+id/postDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="날짜"
+                android:layout_weight="1"
+                android:textAppearance="@style/mainTitle" />
 
-        <!-- 게시글 본문 -->
+        </LinearLayout>
+
+
+
         <TextView
             android:id="@+id/postAuthor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginRight="30dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="16dp"
             android:paddingHorizontal="8dp"
             android:paddingVertical="5dp"
-            android:layout_marginBottom="10dp"
             android:text="작성자"
             android:textColor="@color/white"
             android:textSize="16sp" />
+    </LinearLayout>
+
+    <!-- 하단 스크롤 영역 -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/rounded_up_background"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/rounded_up_background"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="0dp">
+            android:orientation="vertical">
 
-            <!-- 제목 -->
-            <TextView
-                android:id="@+id/postTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="제목"
-                android:textSize="25sp"
-                android:textStyle="bold"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp" />
 
-            <!-- 이미지 -->
-            <ImageView
-                android:id="@+id/postImage"
-                android:layout_width="260dp"
-                android:layout_height="160dp"
-                android:layout_gravity="center"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_sample_image"
-                android:layout_marginBottom="16dp" />
-
-            <!-- 본문 내용 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:orientation="vertical"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp">
+                android:padding="16dp"
+                android:layout_margin="16dp">
+
+
+                <TextView
+                    android:id="@+id/postTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="제목"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="16dp" />
+
+
+                <ImageView
+                    android:id="@+id/postImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_sample_image"
+                    android:scaleType="centerCrop"
+                    android:layout_marginBottom="16dp" />
+
 
                 <TextView
                     android:id="@+id/postContent"
@@ -101,19 +111,18 @@
                     android:text="본문 내용"
                     android:textSize="16sp"
                     android:lineSpacingExtra="4dp"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:layout_marginBottom="16dp" />
             </LinearLayout>
 
-            <!-- 이모티콘 반응 -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="right"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="16dp">
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="16dp">
 
                 <ImageButton
                     android:id="@+id/reaction_smile"
@@ -123,7 +132,7 @@
                     android:src="@drawable/smile_emoji"
                     android:scaleType="fitCenter"
                     android:contentDescription="Smile Reaction"
-                    android:layout_marginEnd="4dp" />
+                    android:layout_marginEnd="8dp" />
 
                 <ImageButton
                     android:id="@+id/reaction_heart"
@@ -133,7 +142,7 @@
                     android:src="@drawable/heartface_emoji"
                     android:scaleType="fitCenter"
                     android:contentDescription="Heart Reaction"
-                    android:layout_marginEnd="4dp" />
+                    android:layout_marginEnd="8dp" />
 
                 <ImageButton
                     android:id="@+id/reaction_thumbs_up"
@@ -143,7 +152,7 @@
                     android:src="@drawable/thumb_emoji"
                     android:scaleType="fitCenter"
                     android:contentDescription="Thumbs Up Reaction"
-                    android:layout_marginEnd="4dp" />
+                    android:layout_marginEnd="8dp" />
 
                 <ImageButton
                     android:id="@+id/reaction_fire"
@@ -154,38 +163,35 @@
                     android:scaleType="fitCenter"
                     android:contentDescription="Fire Reaction" />
             </LinearLayout>
-
             <TextView
                 android:id="@+id/reactions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="right"
                 android:layout_marginTop="8dp"
-                android:layout_marginStart="10dp"
+                android:layout_gravity="left"
+                android:layout_marginLeft="10dp"
                 android:text="😊 0 😍 0 👍 0 🔥 0"
                 android:textSize="16sp"
                 android:textColor="@color/black" />
 
-            <!-- 댓글 영역 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <!-- 댓글 RecyclerView -->
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/commentRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_marginBottom="16dp" />
 
-                <!-- 댓글 입력 -->
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:orientation="horizontal">
 
                     <EditText
                         android:id="@+id/commentEditText"
@@ -194,11 +200,8 @@
                         android:layout_weight="1"
                         android:hint="댓글을 입력하세요"
                         android:background="@drawable/rounded_input_border"
-                        android:fontFamily="@font/font_default"
                         android:padding="10dp"
-                        android:inputType="text"
-                        android:imeOptions="actionDone"
-                        android:layout_marginEnd="10dp" />
+                        android:inputType="text" />
 
                     <ImageButton
                         android:id="@+id/sendCommentButton"
@@ -206,12 +209,11 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/round_button_background"
                         android:src="@drawable/round_send_24"
-                        android:padding="10dp"
                         app:tint="@color/white"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="20dp" />
+                        android:padding="10dp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+
+</LinearLayout>

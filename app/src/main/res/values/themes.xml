@@ -4,6 +4,8 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="colorPrimary">@color/deep_pink</item>
+        <item name="colorPrimaryVariant">@color/deep_pink</item>
+        <item name="colorAccent">@color/deep_pink</item>
         <item name="android:textViewStyle">@style/customTextViewFontStyle</item>
         <item name="android:editTextStyle">@style/customEditTextFontStyle</item>
         <item name="android:radioButtonStyle">@style/customRadioButtonFontStyle</item>

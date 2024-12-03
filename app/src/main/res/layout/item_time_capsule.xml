@@ -1,0 +1,70 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!-- 타임캡슐 항목 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <!-- 타임캡슐 이미지 -->
+        <FrameLayout
+            android:id="@+id/capsuleImageContainer"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/rounded_lock_background"
+            android:layout_marginEnd="12dp"
+            android:clipToOutline="true">
+
+            <!-- 이미지 -->
+            <ImageView
+                android:id="@+id/capsuleImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop" />
+        </FrameLayout>
+
+        <!-- 날짜 정보 영역 -->
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <!-- 개봉 날짜 -->
+            <TextView
+                android:id="@+id/capsuleReleaseDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="날짜"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="4dp"
+                android:layout_marginTop="4dp" />
+
+
+        </RelativeLayout>
+        <!-- 등록 날짜 -->
+        <TextView
+            android:id="@+id/capsuleDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:gravity="end"
+            android:text="10월 13일"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- 구분선 추가 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@color/light_pink"
+        android:layout_marginTop="12dp" />
+
+</LinearLayout>

@@ -41,8 +41,8 @@ class LoginActivity : AppCompatActivity() {
 
 
         // (전화번호 + 비밀번호가 맞는 경우 ) -- 구현해야함
-        // Log In 버튼 누르면 -> 메인 화면 MainActivity로 이동
 
+        // Log In 버튼 누르면 -> 메인 화면 MainActivity로 이동
         binding.login.setOnClickListener {
 
                 // 로그인 정보 (id, pw) 가져오기
