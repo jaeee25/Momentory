@@ -29,7 +29,8 @@ class FriendsAddActivity : AppCompatActivity() {
         binding.friendsAddPhone.addTextChangedListener(PhoneNumberFormattingTextWatcher())
 
         binding.friendsAddBtn.setOnClickListener {
-            val phoneNumber = binding.friendsAddPhone.text.toString().trim()
+            val rawPhoneNumber = binding.friendsAddPhone.text.toString().trim()
+            val phoneNumber = rawPhoneNumber.replace(Regex("[^0-9]"), "")
             val message = binding.friendsMessage.text.toString().trim()
 
             db.collection("users")
