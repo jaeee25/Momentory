@@ -16,6 +16,7 @@ materialCalendarview = "2.0.1"
 playServicesMaps = "19.0.0"
 playServicesLocation = "21.3.0"
 googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
+firebaseFirestoreKtx = "25.1.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -32,6 +33,7 @@ androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifec
 material-calendarview = { module = "com.github.prolificinteractive:material-calendarview", version.ref = "materialCalendarview" }
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
+firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
