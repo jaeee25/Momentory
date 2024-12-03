@@ -22,21 +22,21 @@ class SharedDiaryFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSharedDiaryBinding.inflate(inflater, container, false)
 
         // Firestore 초기화
         firestore = FirebaseFirestore.getInstance()
 
-
+        // RecyclerView 설정
         postAdapter = PostAdapter(postList, PostAdapter.VIEW_TYPE_SHARED) { post, position ->
             // 게시글 클릭 이벤트 (CommentActivity로 이동)
             val intent = Intent(activity, CommentActivity::class.java).apply {
                 putExtra("postTitle", post.title)
                 putExtra("postContent", post.content)
-                putExtra("postAuthor", post.author)
+                putExtra("postAuthor", post.user)
                 putExtra("postDate", post.date)
-                putExtra("postImageUrl", post.imageUrl)
+                putExtra("postImageUrl", post.photoUrl)
             }
             startActivity(intent)
         }
@@ -63,10 +63,9 @@ class SharedDiaryFragment : Fragment() {
     }
 
     private fun fetchPostsFromFirestore() {
-        // Firestore에서 데이터 가져오기
         firestore.collection("diary")
             .document("share")
-            .collection("entries") // 데이터 경로
+            .collection("entries")
             .get()
             .addOnSuccessListener { documents ->
                 postList.clear()

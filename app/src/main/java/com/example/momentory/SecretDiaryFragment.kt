@@ -33,9 +33,9 @@ class SecretDiaryFragment : Fragment() {
             val intent = Intent(activity, CommentActivity::class.java).apply {
                 putExtra("postTitle", post.title)
                 putExtra("postContent", post.content)
-                putExtra("postAuthor", post.author)
+                putExtra("postUser", post.user)
                 putExtra("postDate", post.date)
-                putExtra("postImageUrl", post.imageUrl)
+                putExtra("photoUrl", post.photoUrl)
             }
             startActivity(intent)
         }
