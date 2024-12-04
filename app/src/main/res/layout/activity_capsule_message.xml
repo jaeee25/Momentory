@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CapsuleMessageActivity"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="타임캡슐에 보관하고 싶은 \n메시지를 적어주세요."/>
+<!--            style="@style/createCapsule"-->
+
+        <EditText
+            android:id="@+id/capsuleMessageText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_background"
+            android:fontFamily="@font/font_default"
+            android:gravity="top"
+            android:hint="내용을 입력해주세요."
+            android:padding="20dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="적은 메시지와 \n함께 보관할 사진을 추가해 주세요."/>
+<!--            style="@style/createCapsule"-->
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="230dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/capsuleMessageImage"
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:layout_marginBottom="30dp"
+                android:background="@color/white"
+                app:shapeAppearanceOverlay="@style/roundSquareImageView" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:layout_marginBottom="30dp"
+                android:alpha="0.15"
+                android:background="@color/white"
+                app:shapeAppearanceOverlay="@style/roundSquareImageView" />
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:src="@drawable/baseline_photo_24" />
+        </FrameLayout>
+    </LinearLayout>
+
+</LinearLayout>

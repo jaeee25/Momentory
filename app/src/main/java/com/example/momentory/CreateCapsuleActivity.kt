@@ -1,5 +1,4 @@
 package com.example.momentory
-
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -17,6 +16,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -24,7 +24,6 @@ import com.example.momentory.databinding.ActivityCreateCapsuleBinding
 import com.example.momentory.databinding.ActivityProfileBinding
 import com.example.momentory.databinding.TimecapsuleFriendsBinding
 import com.google.firebase.firestore.FirebaseFirestore
-
 
 class FriendViewHolder(val binding: TimecapsuleFriendsBinding) :
     RecyclerView.ViewHolder(binding.root)
@@ -43,15 +42,30 @@ class FriendAdapter(
 
     override fun onBindViewHolder(holder: FriendViewHolder, position: Int) {
         val name = names[position]
-        holder.binding.friendName.text = name
-        holder.binding.friendCheckBox.isChecked = isChecked[position]
+        val checked = isChecked[position]
+        holder.binding.createCapsuleName.text = name
 
-        holder.binding.friendCheckBox.setOnCheckedChangeListener { _, isCheckedNow ->
-            isChecked[position] = isCheckedNow
-            onCheckedChange(name, isCheckedNow)
+        updateBackgroundColor(holder, checked)
+//        val context = holder.itemView.context
+
+        holder.binding.itemRoot.setOnClickListener {
+            isChecked[position] = !isChecked[position]
+            updateBackgroundColor(holder, isChecked[position])
+            onCheckedChange(name, isChecked[position])
         }
     }
 
+
+    private fun updateBackgroundColor(holder: FriendViewHolder, isChecked: Boolean) {
+        val context = holder.itemView.context
+        val color = if (isChecked) {
+            R.color.light_pink
+        } else {
+            R.color.white
+        }
+        holder.binding.itemRoot.backgroundTintList =
+            ContextCompat.getColorStateList(context, color)
+    }
     fun updateData(newNames: MutableList<String>, newChecked: MutableList<Boolean>) {
         names.clear()
         names.addAll(newNames)
@@ -60,7 +74,6 @@ class FriendAdapter(
         notifyDataSetChanged()
     }
 }
-
 class CreateCapsuleActivity : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private lateinit var binding: ActivityCreateCapsuleBinding
@@ -73,44 +86,54 @@ class CreateCapsuleActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         // 초기화
-        val currentUserId = "vb6wQZCFD1No8EYwjmQ4" // 임시 UID, 실제로는 로그인한 유저의 UID를 사용해야 함
-        val friends = mutableListOf<String>()
+        val currentUserId = "vb6wQZCFD1No8EYwjmQ4"
+        val friendNames = mutableListOf<String>()
+        val friendIDs = mutableListOf<String>()
         val isChecked = mutableListOf<Boolean>()
-        val selectedFriends = mutableListOf<String>()
+        val selectedFriends = mutableListOf<Pair<String, String>>()  // 친구 이름과 ID를 쌍으로 저장
 
         // 친구 목록을 Firestore에서 불러오기
         db.collection("users").document(currentUserId)
             .get()
             .addOnSuccessListener { document ->
                 if (document.exists()) {
-                    val friendIds =
-                        document.get("friendRequestsReceived") as? List<String> ?: emptyList()
-                    friends.clear()
+                    val friends =
+                        document.get("friends") as? List<String> ?: emptyList()
+                    Log.d("CreateCapsuleActivity", "friends: $friends")
+                    friendIDs.clear()
+                    friendNames.clear()
                     isChecked.clear()
 
                     // 각 친구들의 이름을 가져옴
-                    friendIds.forEach { friendId ->
+                    friends.forEach { friendId ->
                         db.collection("users").document(friendId)
                             .get()
                             .addOnSuccessListener { friendDoc ->
-                                val friendName = friendDoc.getString("name") ?: "Unknown"
-                                friends.add(friendName)
+                                val friendName = friendDoc.getString("name") ?: "이름 없음"
+                                val friendID = friendId
+
+                                friendNames.add(friendName)
+                                friendIDs.add(friendID)
                                 isChecked.add(false)  // 기본적으로 체크되지 않음
 
                                 // RecyclerView 업데이트
                                 val adapter =
-                                    FriendAdapter(friends, isChecked) { name, isCheckedNow ->
+                                    FriendAdapter(friendNames, isChecked) { name, isCheckedNow ->
                                         if (isCheckedNow) {
-                                            selectedFriends.add(name)
+                                            // ID와 함께 추가
+                                            val friendId = friendIDs[friendNames.indexOf(name)]
+                                            selectedFriends.add(Pair(name, friendId))
                                         } else {
-                                            selectedFriends.remove(name)
+                                            // ID와 함께 삭제
+                                            val friendId = friendIDs[friendNames.indexOf(name)]
+                                            selectedFriends.remove(Pair(name, friendId))
                                         }
                                     }
 
                                 binding.timeCapsuleRecyclerView.layoutManager =
                                     LinearLayoutManager(this@CreateCapsuleActivity)
                                 binding.timeCapsuleRecyclerView.adapter = adapter
-                                adapter.updateData(friends, isChecked)
+                                adapter.updateData(friendNames, isChecked)
                             }
                     }
                 }
@@ -122,11 +145,11 @@ class CreateCapsuleActivity : AppCompatActivity() {
         binding.searchFriend.setOnClickListener {
             val query = binding.capsuleFriendName.text.toString()
             val filteredFriends = if (query.isEmpty()) {
-                friends
+                friendNames
             } else {
-                friends.filter { it.contains(query) }.toMutableList()
+                friendNames.filter { it.contains(query) }.toMutableList()
             }
-            val filteredChecked = filteredFriends.map { friends.indexOf(it) }
+            val filteredChecked = filteredFriends.map { friendNames.indexOf(it) }
                 .map { isChecked[it] }
                 .toMutableList()
 
@@ -136,37 +159,12 @@ class CreateCapsuleActivity : AppCompatActivity() {
             )
         }
 
-        val requestGalleryLauncher = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result ->
-            try {
-                val uri = result.data?.data
-                uri?.let {
-                    Glide.with(this)
-                        .load(it)
-                        .override(210, 210)
-                        .centerCrop()
-                        .into(binding.capsuleImage)
-                } ?: run {
-                    Log.d("profile", "Image URI is null")
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
+        binding.createCapsuleNextBtn.setOnClickListener {
+            Log.d("CreateCapsuleActivity", "selectedFriends: $selectedFriends")
+            val selectedFriendsList = selectedFriends.map { it.second } // 친구 ID만 사용
 
-        binding.capsuleImage.setOnClickListener() {
-            val intent = Intent(
-                Intent.ACTION_PICK,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            )
-            intent.type = "image/*"
-            requestGalleryLauncher.launch(intent)
-        }
-
-        binding.createCapsuleNextBtn.setOnClickListener() {
-            Log.d("kkang", "selectedFriends: $selectedFriends")
             val intent = Intent(this, CreateCapsuleWhenActivity::class.java)
+            intent.putStringArrayListExtra("selectedFriends", ArrayList(selectedFriendsList))
             startActivity(intent)
         }
     }
