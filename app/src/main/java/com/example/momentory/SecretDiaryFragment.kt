@@ -73,6 +73,12 @@ class SecretDiaryFragment : Fragment() {
             }
     }
 
+    override fun onResume() {
+        super.onResume()
+        fetchPostsFromFirestore()
+    }
+
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

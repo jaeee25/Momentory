@@ -54,6 +54,7 @@ class PostAdapter(
             binding.postContent.text = post.content
             binding.likeCount.text = post.likeCount.toString()
             binding.commentCount.text = post.commentCount.toString()
+
         }
     }
 
