@@ -1,6 +1,7 @@
 package com.example.momentory
 
 data class Post(
+    val postId: String = "",
     val title: String = "",
     val date: String = "",
     val user: String = "",
