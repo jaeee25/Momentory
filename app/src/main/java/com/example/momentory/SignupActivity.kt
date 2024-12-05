@@ -3,16 +3,18 @@ package com.example.momentory
 import android.os.Bundle
 import android.text.method.PasswordTransformationMethod
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.momentory.databinding.ActivitySignupBinding
+import com.google.firebase.firestore.FirebaseFirestore
 
 class SignupActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivitySignupBinding
+    val db = FirebaseFirestore.getInstance()
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        val binding = ActivitySignupBinding.inflate(layoutInflater)
+        binding = ActivitySignupBinding.inflate(layoutInflater)
 
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -48,6 +50,12 @@ class SignupActivity : AppCompatActivity() {
 
             // 회원가입 정보 (id, pw) 전달
             // 데이터베이스에 저장
+            val signUpData = mapOf(
+                "id" to id,
+                "pw" to pw
+            )
+
+            saveSignUp(id, pw, signUpData)
 
             Toast.makeText(this, "회원가입이 완료되었습니다.", Toast.LENGTH_SHORT).show()
         }
@@ -62,5 +70,21 @@ class SignupActivity : AppCompatActivity() {
             finish()
         }
 
+    }
+
+    // 파이어베이스에 회원가입 정보 저장하는 함수
+    private fun saveSignUp(id:String, pw:String, signUpData: Map<String, String>) {
+        db.collection("users")
+            .document("signUp") // "share" 하위에 저장
+            .collection("entries") // 모든 회원가입 정보를 관리하는 서브컬렉션
+            .document(id) // 아이디 기반으로 문서 생성
+            .set(signUpData) // 데이터를 Firestore에 저장
+            .addOnSuccessListener {
+                Toast.makeText(this, "회원가입 성공!", Toast.LENGTH_SHORT).show()
+                finish()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "회원가입 실패: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 }
