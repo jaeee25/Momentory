@@ -91,7 +91,6 @@ class WriteDiaryActivity : AppCompatActivity() {
                         binding.selectedImage.setImageBitmap(bitmap) // 선택된 이미지를 표시
                     }
 
-                    binding.selectImage.visibility = android.view.View.GONE
                 }
             } catch (e: Exception) {
                 Log.e("WriteDiary", "Error loading image", e)
