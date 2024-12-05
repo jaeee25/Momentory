@@ -82,7 +82,7 @@ class SharedDiaryFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        fetchPostsFromFirestore() // Firestore 데이터를 다시 불러옴
+        fetchPostsFromFirestore()
     }
 
 
