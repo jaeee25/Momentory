@@ -32,11 +32,11 @@ class SharedDiaryFragment : Fragment() {
         postAdapter = PostAdapter(postList, PostAdapter.VIEW_TYPE_SHARED) { post, position ->
             // 게시글 클릭 이벤트 (CommentActivity로 이동)
             val intent = Intent(activity, CommentActivity::class.java).apply {
+                putExtra("postId", post.date)  // postId 전달
                 putExtra("postTitle", post.title)
                 putExtra("postContent", post.content)
                 putExtra("postUser", post.user)
                 putExtra("postDate", post.date)
-                putExtra("postImageUrl", post.photoUrl)
             }
             startActivity(intent)
         }
