@@ -23,18 +23,20 @@ class CommentActivity : AppCompatActivity() {
         binding = ActivityCommentBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Intent로 전달받은 데이터 가져오기
+        // Intent로 전달받은 데이터
         val postTitle = intent.getStringExtra("postTitle") ?: "제목 없음"
         val postContent = intent.getStringExtra("postContent") ?: "내용 없음"
-        val postAuthor = intent.getStringExtra("postAuthor") ?: "작성자 없음"
         val postDate = intent.getStringExtra("postDate") ?: "날짜 없음"
+        val postUser = intent.getStringExtra("postUser") ?: "작성자 없음"
         val postImage = intent.getStringExtra("postImageUrl")
+
+
 
 
         binding.postTitle.text = postTitle
         binding.postContent.setText(postContent)
         binding.postDate.text = postDate
-        binding.postAuthor.text = postAuthor
+        binding.postUser.text = postUser
 
         binding.toHome.setOnClickListener {
             finish()

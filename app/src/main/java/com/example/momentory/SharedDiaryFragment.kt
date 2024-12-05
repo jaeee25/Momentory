@@ -34,7 +34,7 @@ class SharedDiaryFragment : Fragment() {
             val intent = Intent(activity, CommentActivity::class.java).apply {
                 putExtra("postTitle", post.title)
                 putExtra("postContent", post.content)
-                putExtra("postAuthor", post.user)
+                putExtra("postUser", post.user)
                 putExtra("postDate", post.date)
                 putExtra("postImageUrl", post.photoUrl)
             }
