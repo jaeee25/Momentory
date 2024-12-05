@@ -43,9 +43,8 @@
         </LinearLayout>
 
 
-
         <TextView
-            android:id="@+id/postAuthor"
+            android:id="@+id/postUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -93,7 +92,7 @@
 
 
                 <ImageView
-                    android:id="@+id/postImage"
+                    android:id="@+id/postPhoto"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_gravity="center"
@@ -187,7 +186,6 @@
                     android:layout_height="200dp"
                     android:layout_marginBottom="16dp" />
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -199,6 +197,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:hint="댓글을 입력하세요"
+                        android:layout_marginEnd="10dp"
                         android:background="@drawable/rounded_input_border"
                         android:padding="10dp"
                         android:inputType="text" />

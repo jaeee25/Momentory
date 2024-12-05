@@ -34,7 +34,7 @@ class SharedDiaryFragment : Fragment() {
             val intent = Intent(activity, CommentActivity::class.java).apply {
                 putExtra("postTitle", post.title)
                 putExtra("postContent", post.content)
-                putExtra("postAuthor", post.user)
+                putExtra("postUser", post.user)
                 putExtra("postDate", post.date)
                 putExtra("postImageUrl", post.photoUrl)
             }
@@ -79,6 +79,12 @@ class SharedDiaryFragment : Fragment() {
                 Log.e("Firestore", "Error fetching posts", e)
             }
     }
+
+    override fun onResume() {
+        super.onResume()
+        fetchPostsFromFirestore() // Firestore 데이터를 다시 불러옴
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
