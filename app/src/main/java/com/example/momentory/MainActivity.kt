@@ -7,7 +7,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.momentory.databinding.ActivityFriendAddBinding
 import com.example.momentory.databinding.ActivityFriendsAddBinding
 import com.example.momentory.databinding.ActivityMainBinding
 import kotlinx.coroutines.GlobalScope

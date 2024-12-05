@@ -9,31 +9,29 @@
     android:background="@color/deep_pink"
     android:orientation="vertical">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="4"
-        android:orientation="horizontal"
-        android:background="@color/deep_pink"
+        android:backgroundTint="@color/deep_pink"
         android:gravity="center">
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:layout_weight="1"
-            android:src="@drawable/baseline_arrow_back_ios_24"
-            android:id="@+id/to_login" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toLogin"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_marginTop="30dp"
+            app:navigationIcon="@drawable/baseline_arrow_back_ios_24">
 
-        <TextView
-            style="@style/customToolbarTitleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="회원가입"
-            android:layout_weight="1"
-            android:textAppearance="@style/mainTitle" />
+            <TextView
+                style="@style/customToolbarTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="회원가입" />
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
 
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -13,7 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Momentory"
         tools:targetApi="31">
-
+        <activity
+            android:name=".CapsuleMessageActivity"
+            android:exported="false" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -29,11 +31,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="YOUR_API_KEY" />
 
-
         <activity
             android:name=".SelectLocationActivity"
             android:exported="true" />
-
         <activity
             android:name=".WriteDiaryActivity"
             android:exported="true" />
@@ -41,6 +41,7 @@
             android:name=".CreateCapsuleWhenActivity"
             android:exported="false"
             android:parentActivityName=".CreateCapsuleActivity" />
+
         <activity
             android:name=".HomeActivity"
             android:exported="true" />
@@ -71,7 +72,6 @@
         <activity
             android:name=".LoginActivity"
             android:exported="true" />
-
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -80,7 +80,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".CommentActivity"

@@ -2,51 +2,75 @@ package com.example.momentory
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.momentory.databinding.FragmentSecretDiaryBinding
-import com.example.momentory.PostAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.momentory.databinding.FragmentSecretDiaryBinding
+import com.google.firebase.firestore.FirebaseFirestore
 
 class SecretDiaryFragment : Fragment() {
     private var _binding: FragmentSecretDiaryBinding? = null
     private val binding get() = _binding!!
 
-    private val postList = listOf(
-        // 비밀 일기의 샘플 데이터
-        Post("비밀 일기 1", "11월 20일", "", "시험이 안끝난다", "image_url", 0, 0),
-        Post("비밀 일기 2", "11월 18일", "", "과제가 안끝난다", "image_url", 0, 0)
-    )
+    private lateinit var firestore: FirebaseFirestore
+    private val postList = mutableListOf<Post>() // Firestore에서 가져올 데이터를 저장할 리스트
+    private lateinit var postAdapter: PostAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSecretDiaryBinding.inflate(inflater, container, false)
 
-        // RecyclerView 설정
-        binding.recyclerView.adapter = PostAdapter(postList, PostAdapter.VIEW_TYPE_SECRET) { post, position ->
+
+        firestore = FirebaseFirestore.getInstance()
+
+
+        postAdapter = PostAdapter(postList, PostAdapter.VIEW_TYPE_SECRET) { post, position ->
             val intent = Intent(activity, CommentActivity::class.java).apply {
                 putExtra("postTitle", post.title)
                 putExtra("postContent", post.content)
-                putExtra("postAuthor", post.author)
+                putExtra("postUser", post.user)
                 putExtra("postDate", post.date)
-                putExtra("postImageUrl", post.imageUrl)
+                putExtra("photoUrl", post.photoUrl)
             }
             startActivity(intent)
         }
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.adapter = postAdapter
 
+        // Firestore에서 데이터 가져오기
+        fetchPostsFromFirestore()
 
         // 연필 모양 버튼 클릭하면 WriteDiaryActivity로 이동
         binding.writeSecretButton.setOnClickListener {
             val intent = Intent(activity, WriteDiaryActivity::class.java)
             startActivity(intent)
         }
-        
+
         return binding.root
+    }
+
+    private fun fetchPostsFromFirestore() {
+        // Firestore 경로: diary/secret/entries
+        firestore.collection("diary")
+            .document("secret")
+            .collection("entries")
+            .get()
+            .addOnSuccessListener { documents ->
+                postList.clear()
+                for (document in documents) {
+                    val post = document.toObject(Post::class.java)
+                    postList.add(post)
+                }
+                postAdapter.notifyDataSetChanged()
+            }
+            .addOnFailureListener { e ->
+                Log.e("Firestore", "Error fetching posts", e)
+            }
     }
 
     override fun onDestroyView() {
@@ -54,5 +78,3 @@ class SecretDiaryFragment : Fragment() {
         _binding = null
     }
 }
-
-
