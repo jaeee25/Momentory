@@ -16,9 +16,10 @@ class CommentActivity : AppCompatActivity() {
     private lateinit var postId: String
     private val comments = mutableListOf<Comment>()
     private lateinit var commentAdapter: CommentAdapter
-    private var profileName: String = "사용자" // 기본값 설정
+    private var currentUserName: String = "사용자" // 기본값 설정
+    private val currentUserId = "vb6wQZCFD1No8EYwjmQ4" // Firestore에 저장된 사용자 ID
 
-    // 반응 카운트 변수
+    // 이모티콘 반응 변수
     private var smileCount = 0
     private var heartCount = 0
     private var thumbsUpCount = 0
@@ -29,35 +30,31 @@ class CommentActivity : AppCompatActivity() {
         binding = ActivityCommentBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // SharedPreferences에서 프로필 이름 불러오기
-        val sharedPref = getSharedPreferences("ProfileData", Context.MODE_PRIVATE)
-        profileName = sharedPref.getString("profileName", "사용자") ?: "사용자" // SharedPreferences에서 이름 가져오기
+        // Firestore에서 최신 사용자 이름 가져오기
+        loadCurrentUserName()
 
-        // Intent로 전달된 데이터 가져오기
+        // 게시글 정보 가져오기
         postId = intent.getStringExtra("postId") ?: "default_post_id"
         val postTitle = intent.getStringExtra("postTitle") ?: "제목 없음"
         val postContent = intent.getStringExtra("postContent") ?: "내용 없음"
         val postDate = intent.getStringExtra("postDate") ?: "날짜 없음"
         val postUser = intent.getStringExtra("postUser") ?: "작성자 없음"
 
-
+        // 게시글 정보를 UI에 바인딩
         binding.postTitle.text = postTitle
         binding.postContent.setText(postContent)
         binding.postDate.text = postDate
         binding.postUser.text = postUser
 
-
-        binding.toHome.setOnClickListener { finish() }
-
-
+        // 리사이클러뷰 설정
         commentAdapter = CommentAdapter(comments)
         binding.commentRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.commentRecyclerView.adapter = commentAdapter
 
-        // Firestore에서 댓글 불러오기
+        // 댓글 불러오기
         loadComments()
 
-        // 댓글 추가 버튼 클릭 시 동작
+        // 댓글 작성 버튼
         binding.sendCommentButton.setOnClickListener {
             val newComment = binding.commentEditText.text.toString()
             if (newComment.isNotEmpty()) {
@@ -67,8 +64,29 @@ class CommentActivity : AppCompatActivity() {
             }
         }
 
+        // 뒤로가기 버튼
+        binding.toHome.setOnClickListener {
+            finish()
+        }
 
+        // 이모티콘 반응 설정
         setupReactionButtons()
+    }
+
+    private fun loadCurrentUserName() {
+        firestore.collection("users")
+            .document(currentUserId) // Firestore에 저장된 사용자 ID로 사용자 정보 가져오기
+            .get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    currentUserName = document.getString("name") ?: "사용자"
+                } else {
+                    Toast.makeText(this, "사용자 정보를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "사용자 이름을 불러오지 못했습니다: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun loadComments() {
@@ -77,7 +95,7 @@ class CommentActivity : AppCompatActivity() {
             return
         }
 
-        // Firestore에서 댓글 가져오기
+        // 파이어스토어에서 댓글 데이터 불러오기
         firestore.collection("diary")
             .document("share")
             .collection("entries")
@@ -104,8 +122,8 @@ class CommentActivity : AppCompatActivity() {
             return
         }
 
-        // Firestore에 댓글 추가
-        val comment = Comment(author = profileName, content = content, timestamp = System.currentTimeMillis()) // 댓글 작성자를 SharedPreferences에서 가져온 이름으로 설정
+        // 새로운 댓글 추가
+        val comment = Comment(author = currentUserName, content = content, timestamp = System.currentTimeMillis())
         firestore.collection("diary")
             .document("share")
             .collection("entries")
