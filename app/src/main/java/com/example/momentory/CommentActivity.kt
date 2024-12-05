@@ -1,12 +1,14 @@
 package com.example.momentory
 
-import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.momentory.databinding.ActivityCommentBinding
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 
 class CommentActivity : AppCompatActivity() {
@@ -18,6 +20,7 @@ class CommentActivity : AppCompatActivity() {
     private lateinit var commentAdapter: CommentAdapter
     private var currentUserName: String = "사용자" // 기본값 설정
     private val currentUserId = "vb6wQZCFD1No8EYwjmQ4" // Firestore에 저장된 사용자 ID
+    private var postListener: ListenerRegistration? = null
 
     // 이모티콘 반응 변수
     private var smileCount = 0
@@ -71,6 +74,9 @@ class CommentActivity : AppCompatActivity() {
 
         // 이모티콘 반응 설정
         setupReactionButtons()
+
+        // Firestore에서 리액션 데이터 로드
+        loadReactions()
     }
 
     private fun loadCurrentUserName() {
@@ -124,16 +130,27 @@ class CommentActivity : AppCompatActivity() {
 
         // 새로운 댓글 추가
         val comment = Comment(author = currentUserName, content = content, timestamp = System.currentTimeMillis())
-        firestore.collection("diary")
+        val postRef = firestore.collection("diary")
             .document("share")
             .collection("entries")
             .document(postId)
-            .collection("comments")
+
+        postRef.collection("comments")
             .add(comment)
             .addOnSuccessListener {
                 comments.add(comment)
                 commentAdapter.notifyItemInserted(comments.size - 1)
                 binding.commentEditText.text.clear()
+
+                // 댓글 개수 업데이트
+                postRef.collection("comments").get()
+                    .addOnSuccessListener { commentSnapshot ->
+                        val commentCount = commentSnapshot.size()
+                        postRef.update("commentCount", commentCount)
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("Firestore", "댓글 개수 업데이트 실패: ${e.message}")
+                    }
             }
             .addOnFailureListener { e ->
                 Toast.makeText(this, "댓글 등록에 실패했습니다: ${e.message}", Toast.LENGTH_SHORT).show()
@@ -143,25 +160,85 @@ class CommentActivity : AppCompatActivity() {
     private fun setupReactionButtons() {
         binding.reactionSmile.setOnClickListener {
             smileCount++
-            updateReactions()
+            updateReactions("😊", smileCount)
         }
         binding.reactionHeart.setOnClickListener {
             heartCount++
-            updateReactions()
+            updateReactions("😍", heartCount)
         }
         binding.reactionThumbsUp.setOnClickListener {
             thumbsUpCount++
-            updateReactions()
+            updateReactions("👍", thumbsUpCount)
         }
         binding.reactionFire.setOnClickListener {
             fireCount++
-            updateReactions()
+            updateReactions("🔥", fireCount)
         }
     }
 
-    private fun updateReactions() {
+    private fun updateReactions(reactionType: String, newCount: Int) {
+        if (postId == "default_post_id") {
+            Toast.makeText(this, "잘못된 게시글 ID입니다.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Firestore에서 해당 리액션 필드를 업데이트
+        firestore.collection("diary")
+            .document("share")
+            .collection("entries")
+            .document(postId)
+            .update("reactions.$reactionType", newCount) // "reactions" 필드의 하위 필드 업데이트
+            .addOnSuccessListener {
+
+                updateTotalReactions()
+                updateReactionUI()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "리액션 업데이트 실패: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun updateTotalReactions() {
+        val totalReactions = smileCount + heartCount + thumbsUpCount + fireCount
+        firestore.collection("diary")
+            .document("share")
+            .collection("entries")
+            .document(postId)
+            .update("reactionTotal", totalReactions)
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "전체 리액션 업데이트 실패: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun updateReactionUI() {
         val reactionsText = "😊 $smileCount 😍 $heartCount 👍 $thumbsUpCount 🔥 $fireCount"
         binding.reactions.text = reactionsText
+    }
+
+    private fun loadReactions() {
+        if (postId == "default_post_id") {
+            Toast.makeText(this, "잘못된 게시글 ID입니다.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        firestore.collection("diary")
+            .document("share")
+            .collection("entries")
+            .document(postId)
+            .get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val reactions = document.get("reactions") as? Map<String, Long> ?: emptyMap()
+                    smileCount = reactions["😊"]?.toInt() ?: 0
+                    heartCount = reactions["😍"]?.toInt() ?: 0
+                    thumbsUpCount = reactions["👍"]?.toInt() ?: 0
+                    fireCount = reactions["🔥"]?.toInt() ?: 0
+                    updateReactionUI()
+                }
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "리액션 정보를 가져오지 못했습니다: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 }
 
