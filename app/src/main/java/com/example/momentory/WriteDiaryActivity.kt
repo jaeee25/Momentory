@@ -89,6 +89,9 @@ class WriteDiaryActivity : AppCompatActivity() {
                     contentResolver.openInputStream(uri)?.use { inputStream ->
                         val bitmap = BitmapFactory.decodeStream(inputStream, null, option)
                         binding.selectedImage.setImageBitmap(bitmap) // 선택된 이미지를 표시
+
+                        // 이미지가 선택되었으므로 VISIBLE로 전환
+                        binding.selectedImage.visibility = android.view.View.VISIBLE
                     }
 
                 }
@@ -103,6 +106,7 @@ class WriteDiaryActivity : AppCompatActivity() {
             intent.type = "image/*"
             requestGalleryLauncher.launch(intent)
         }
+
 
         // 취소 버튼 누르면 작성 중인 내용 초기화 & Home Activity로 이동
         binding.cancelbtn.setOnClickListener {
