@@ -2,6 +2,8 @@ package com.example.momentory
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.text.method.PasswordTransformationMethod
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +22,8 @@ class LoginActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        addPhoneNumberFormatter()
 
         // 비밀번호 입력 칸에 있는 자물쇠 아이콘 누르면 아이콘 변경 및 비밀번호 숨김 / 표시
         binding.seepwLi.setOnClickListener {
@@ -91,6 +95,26 @@ class LoginActivity : AppCompatActivity() {
             .addOnFailureListener { e ->
                 Toast.makeText(this, "로그인 실패: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    private fun addPhoneNumberFormatter() {
+        binding.phoneLi.addTextChangedListener(object : TextWatcher {
+            private var isEditing = false
+
+            override fun afterTextChanged(s: Editable?) {
+                if (isEditing) return
+                isEditing = true
+
+                val formatted = s.toString().replace("-", "")
+                    .replace(Regex("(\\d{3})(\\d{4})(\\d{4})"), "$1-$2-$3")
+                s?.replace(0, s.length, formatted)
+
+                isEditing = false
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
     }
 
 }

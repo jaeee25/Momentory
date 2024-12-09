@@ -75,7 +75,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="60dp"
                         android:orientation="horizontal"
                         android:layout_marginTop="10dp">
 
@@ -108,7 +108,7 @@
                         android:textAppearance="@style/subTitle"/>
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="60dp"
                         android:orientation="horizontal"
 
                         android:layout_marginTop="10dp">
@@ -136,20 +136,22 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/cert_complete"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:gravity="center"
+                        android:visibility="gone"
                         android:layout_marginTop="30dp"
                         >
 
                         <TextView
-                            android:id="@+id/cert_complete"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="인증이 완료되었습니다.\n비밀번호를 변경해 주세요."
                             android:textAlignment="center"
-                            android:textColor="#3E3E3E"/>
+                            android:textColor="#3E3E3E"
+                            android:textSize="18sp" />
 
                     </LinearLayout>
 
@@ -170,6 +172,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="20dp"
                     android:gravity="center"
+                    android:visibility="invisible"
                     >
 
 
@@ -186,7 +189,6 @@
                         android:layout_height="50dp"
                         android:layout_weight="1"
                         android:padding="5dp"
-                        android:inputType="textPassword"
                         android:textAppearance="@style/inputText"
                         android:background="@drawable/rounded_input"
                         android:layout_marginTop="10dp"
