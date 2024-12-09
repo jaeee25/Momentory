@@ -50,9 +50,11 @@ class PostAdapter(
             binding.postTitle.text = post.title
             binding.postDate.text = post.date
             binding.postUser.text = post.user
+
             binding.postContent.text = post.content
             binding.likeCount.text = post.likeCount.toString()
             binding.commentCount.text = post.commentCount.toString()
+
         }
     }
 
