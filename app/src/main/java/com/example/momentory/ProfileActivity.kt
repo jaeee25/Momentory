@@ -68,12 +68,6 @@ class ProfileActivity : AppCompatActivity() {
             val newName = binding.profileName.text.toString().trim()
             val newPassword = binding.profilePassword.text.toString()
             updateUserProfile(currentUserId, newName)
-
-//            if ((newName!=beforeName) or (newPassword!=beforePassword)){
-//                updateUserProfile(currentUserId, newName)
-//            } else {
-//                Toast.makeText(this, "이름을 입력해주세요.", Toast.LENGTH_SHORT).show()
-//            }
             finish()
         }
     }

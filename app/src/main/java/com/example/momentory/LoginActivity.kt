@@ -42,16 +42,20 @@ class LoginActivity : AppCompatActivity() {
 
         // Log In 버튼 클릭 이벤트
         binding.login.setOnClickListener {
-            val id = binding.phoneLi.text.toString()
-            val pw = binding.pwLi.text.toString()
-
-            if (id.isEmpty() || pw.isEmpty()) {
-                Toast.makeText(this, "아이디와 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
+//            val id = binding.phoneLi.text.toString()
+//            val pw = binding.pwLi.text.toString()
+//
+//            if (id.isEmpty() || pw.isEmpty()) {
+//                Toast.makeText(this, "아이디와 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
+//                return@setOnClickListener
+//            }
 
             // Firestore에서 데이터 확인
-            checkLogin(id, pw)
+//            checkLogin(id, pw)
+
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
         // Forget Password 클릭 이벤트
