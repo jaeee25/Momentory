@@ -2,16 +2,19 @@ package com.example.momentory
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.text.method.PasswordTransformationMethod
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.example.momentory.databinding.ActivityLoginBinding
 import com.google.firebase.firestore.FirebaseFirestore
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-    private val db = FirebaseFirestore.getInstance()
+    private val firebaseAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -20,14 +23,16 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        // 비밀번호 입력 칸에 있는 자물쇠 아이콘 누르면 아이콘이 변경 및 비밀번호 숨김 / 표시
+        addPhoneNumberFormatter()
+
+        // 비밀번호 입력 칸에 있는 자물쇠 아이콘 누르면 아이콘 변경 및 비밀번호 숨김 / 표시
         binding.seepwLi.setOnClickListener {
             if (binding.pwLi.transformationMethod is PasswordTransformationMethod) {
-                // 현재 숨김 상태 => 보이기 상태로 전환
+                // 현재 숨김 상태 -> 보이기 상태로 전환
                 binding.pwLi.transformationMethod = null
                 binding.seepwLi.setImageResource(R.drawable.baseline_lock_open_24) // 잠금이 풀린 아이콘
             } else {
-                // 현재 보이기 상태 => 숨김 상태로 전환
+                // 현재 보이기 상태 -> 숨김 상태로 전환
                 binding.pwLi.transformationMethod = PasswordTransformationMethod.getInstance()
                 binding.seepwLi.setImageResource(R.drawable.baseline_lock_outline_24) // 잠금 아이콘
             }
@@ -42,20 +47,14 @@ class LoginActivity : AppCompatActivity() {
 
         // Log In 버튼 클릭 이벤트
         binding.login.setOnClickListener {
-//            val id = binding.phoneLi.text.toString()
-//            val pw = binding.pwLi.text.toString()
-//
-//            if (id.isEmpty() || pw.isEmpty()) {
-//                Toast.makeText(this, "아이디와 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
-//                return@setOnClickListener
-//            }
+            val phoneNumber = binding.phoneLi.text.toString().trim()
+            val password = binding.pwLi.text.toString().trim()
 
-            // Firestore에서 데이터 확인
-//            checkLogin(id, pw)
-
-            val intent = Intent(this, HomeActivity::class.java)
-            startActivity(intent)
-            finish()
+            if (phoneNumber.isNotEmpty() && password.isNotEmpty()) {
+                loginUser(phoneNumber, password)
+            } else {
+                Toast.makeText(this, "전화번호와 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
+            }
         }
 
         // Forget Password 클릭 이벤트
@@ -69,34 +68,53 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this, SignupActivity::class.java)
             startActivity(intent)
         }
+
+        // "Google 로그인" 클릭 시 (미구현)
+        binding.googleLi.setOnClickListener {
+        }
     }
 
-    private fun checkLogin(id: String, pw: String) {
-        db.collection("users")
-            .document("signUp")
-            .collection("entries")
-            .document(id)
+    // 사용자 로그인 처리
+    private fun loginUser(phoneNumber: String, password: String) {
+        FirebaseFirestore.getInstance().collection("user").document(phoneNumber)
             .get()
             .addOnSuccessListener { document ->
                 if (document.exists()) {
-                    val savedPw = document.getString("pw")
-                    if (savedPw == pw) {
+                    val storedPassword = document.getString("password")
+                    if (storedPassword == password) {
                         Toast.makeText(this, "로그인 성공!", Toast.LENGTH_SHORT).show()
-
-                        // HomeActivity로 이동 및 사용자 정보 전달
-                        val intent = Intent(this, HomeActivity::class.java)
-                        intent.putExtra("phoneNumber", id)
-                        startActivity(intent)
+                        startActivity(Intent(this, HomeActivity::class.java))
                         finish()
                     } else {
-                        Toast.makeText(this, "비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "비밀번호가 올바르지 않습니다.", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    Toast.makeText(this, "존재하지 않는 사용자입니다.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "등록된 사용자가 없습니다.", Toast.LENGTH_SHORT).show()
                 }
             }
             .addOnFailureListener { e ->
-                Toast.makeText(this, "로그인 실패: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "로그인 실패: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
             }
     }
+
+    private fun addPhoneNumberFormatter() {
+        binding.phoneLi.addTextChangedListener(object : TextWatcher {
+            private var isEditing = false
+
+            override fun afterTextChanged(s: Editable?) {
+                if (isEditing) return
+                isEditing = true
+
+                val formatted = s.toString().replace("-", "")
+                    .replace(Regex("(\\d{3})(\\d{4})(\\d{4})"), "$1-$2-$3")
+                s?.replace(0, s.length, formatted)
+
+                isEditing = false
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+    }
+
 }

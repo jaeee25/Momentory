@@ -85,7 +85,8 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
 
                     <EditText
                         android:id="@+id/pw_li"
@@ -157,10 +158,10 @@
                         android:text="or sign up with"
                         android:layout_marginRight="10dp"/>
                     <TextView
-                        android:id="@+id/kakao_li"
+                        android:id="@+id/google_li"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Kakao Talk"
+                        android:text="Google"
                         android:textColor="@color/deep_pink"/>
 
                 </LinearLayout>

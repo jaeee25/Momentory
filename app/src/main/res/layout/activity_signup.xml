@@ -72,15 +72,64 @@
                     android:layout_height="wrap_content"
                     android:text="Mobile Number"
                     android:textAppearance="@style/subTitle"/>
-                <EditText
-                    android:id="@+id/phone_su"
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:inputType="phone"
-                    android:layout_marginTop="10dp"
-                    android:padding="5dp"
-                    android:textAppearance="@style/inputText"
-                    android:background="@drawable/rounded_input" />
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp">
+
+                    <EditText
+                        android:id="@+id/phone_su"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded_input"
+                        android:hint="전화번호 입력"
+                        android:inputType="phone"
+                        android:padding="5dp"
+                        android:textAppearance="@style/inputText" />
+
+                    <Button
+                        android:id="@+id/phone_cert"
+                        android:layout_width="105dp"
+                        android:layout_height="50dp"
+                        android:textColor="@color/white"
+                        android:background="@drawable/rounded_btn_deep"
+                        android:text="인증요청"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp">
+
+                    <EditText
+                        android:id="@+id/otp"
+                        android:layout_width="wrap_content"
+                        android:hint="OTP 입력"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:padding="5dp"
+                        android:inputType="phone"
+                        android:textAppearance="@style/inputText"
+                        android:background="@drawable/rounded_input"
+                        android:layout_marginRight="10dp"/>
+
+                    <Button
+                        android:id="@+id/otp_cert"
+                        android:layout_width="105dp"
+                        android:layout_height="50dp"
+                        android:textColor="@color/white"
+                        android:background="@drawable/rounded_btn_deep"
+                        android:text="인증"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -99,6 +148,7 @@
                         android:layout_height="50dp"
                         android:background="@drawable/rounded_input"
                         android:padding="5dp"
+
                         android:paddingEnd="40dp"
                         android:textAppearance="@style/inputText"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -151,10 +201,10 @@
                         android:text="or sign up with"
                         android:layout_marginRight="10dp"/>
                     <TextView
-                        android:id="@+id/kakao_su"
+                        android:id="@+id/google_su"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Kakao Talk"
+                        android:text="Google"
                         android:textColor="@color/deep_pink"/>
 
                 </LinearLayout>
