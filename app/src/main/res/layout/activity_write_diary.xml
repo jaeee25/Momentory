@@ -78,7 +78,7 @@
             android:id="@+id/selectedImage"
             android:layout_width="@dimen/imgWidth"
             android:layout_height="@dimen/imgHeight"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
             android:visibility="gone" /> <!-- 사용자가 선택한 이미지는 꽉 차게 but 선택 전에는 숨김 -->
 
         <ImageButton

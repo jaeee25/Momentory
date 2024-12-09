@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import java.sql.Date
+
 class MyViewHolder(val binding: FriendsRequestListBinding) :
     RecyclerView.ViewHolder(binding.root)
 
@@ -29,6 +30,7 @@ class MyAdapter(
     private val fromUserIds: MutableList<String>
 ) : RecyclerView.Adapter<MyViewHolder>() {
     var db: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private val currentUserId = "4U2aXV9OYK5NobTnUEIX"
     override fun getItemCount(): Int = names.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder =
@@ -55,36 +57,67 @@ class MyAdapter(
         }
     }
 
-    private val currentUserId = "4U2aXV9OYK5NobTnUEIX"
     private fun removeRequest(position: Int) {
-        val senderId = fromUserIds[position] // 실제로는 senderId를 사용해야 함
-        Log.d("RequestedFriendsActivity","sender ID : $senderId")
+        val senderId = fromUserIds[position] // senderId를 사용
+        Log.d("senderID", senderId)
+        Log.d("RequestedFriendsActivity", "sender ID : $senderId")
+
+        // 현재 사용자의 friendRequestsReceived에서 요청 삭제
         db.collection("users").document(currentUserId)
-            .update("friendRequestsReceived", FieldValue.arrayRemove(senderId))
+            .collection("friendRequestsReceived")
+            .document(fromUserIds[position])  // requestId를 사용해야 할 수 있음
+            .delete()
             .addOnSuccessListener {
-                Log.d("Firestore", "Request removed")
+                Log.d("Firestore", "Request removed from friendRequestsReceived")
+
+                // senderId의 friendRequestsSent에서 해당 요청 삭제
+                db.collection("users").document(senderId)
+                    .collection("friendRequestsSent")
+                    .document(fromUserIds[position])  // requestId를 사용해야 할 수 있음
+                    .delete()
+                    .addOnSuccessListener {
+                        Log.d("Firestore", "Request removed from friendRequestsSent")
+
+                        // 데이터에서 해당 요청 제거
+                        fromUserIds.removeAt(position)
+                        messages.removeAt(position)
+                        names.removeAt(position)
+
+                        // 어댑터에 데이터 변경을 알리고 리사이클러뷰 갱신
+                        notifyItemRemoved(position)
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("Firestore", "Error removing request from friendRequestsSent", e)
+                    }
             }
             .addOnFailureListener { e ->
-                Log.e("Firestore", "Error removing request", e)
+                Log.e("Firestore", "Error removing request from friendRequestsReceived", e)
             }
     }
 
+    // 친구 요청 수락 메서드
     private fun acceptFriend(position: Int) {
-        val senderId = fromUserIds[position] // 실제로는 senderId를 사용해야 함
+        val senderId = fromUserIds[position] // senderId를 사용
+        Log.d("senderID", senderId)
+
+        // 친구 리스트에 추가
         db.collection("users").document(currentUserId)
             .update("friends", FieldValue.arrayUnion(senderId))
             .addOnSuccessListener {
-                removeRequest(position) // 요청 삭제
+                Log.d("Firestore", "Friend added to friends list")
+                // 수락 후 친구 요청 삭제
+                removeRequest(position)
             }
             .addOnFailureListener { e ->
                 Log.e("Firestore", "Error accepting friend", e)
             }
     }
 
+    // 친구 요청 거절 메서드
     private fun rejectFriend(position: Int) {
-        removeRequest(position) // 친구 요청을 삭제
+        // 거절 시 친구 요청 삭제만 하면 됨
+        removeRequest(position)
     }
-
 }
 
 class RequestedFriendsActivity : AppCompatActivity() {
@@ -125,7 +158,8 @@ class RequestedFriendsActivity : AppCompatActivity() {
                             // 모든 친구 요청을 불러온 후 RecyclerView 설정
                             if (names.size == documents.size()) {
                                 binding.requestedFriendsRecyclerView.apply {
-                                    layoutManager = LinearLayoutManager(this@RequestedFriendsActivity)
+                                    layoutManager =
+                                        LinearLayoutManager(this@RequestedFriendsActivity)
                                     adapter = MyAdapter(names, messages, fromUserIds)
                                 }
                             }
@@ -139,5 +173,7 @@ class RequestedFriendsActivity : AppCompatActivity() {
                 Toast.makeText(this, "친구 요청을 불러오지 못했습니다.", Toast.LENGTH_SHORT).show()
                 Log.e("RequestedFriendsActivity", "Error fetching friend requests", exception)
             }
+        if (binding.requestedFriendsRecyclerView.adapter?.itemCount == 0)
+            binding.noFriendsText.visibility = ViewGroup.VISIBLE
     }
 }

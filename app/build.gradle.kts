@@ -51,6 +51,9 @@ dependencies {
     implementation(libs.play.services.maps)
     implementation(libs.play.services.location)
     implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.storage.ktx)
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.androidx.cardview)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -59,4 +62,11 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation ("com.google.firebase:firebase-auth:22.0.0")
+    implementation ("com.google.android.gms:play-services-auth:20.7.0")
+
+    implementation ("com.google.firebase:firebase-auth-ktx") // Firebase Authentication 라이브러리
+    implementation ("com.google.firebase:firebase-firestore-ktx") // Firestore (사용하는 경우)
+
+
 }

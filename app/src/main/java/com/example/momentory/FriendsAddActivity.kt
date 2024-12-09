@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.momentory.databinding.ActivityFriendsAddBinding
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -62,6 +63,49 @@ class FriendsAddActivity : AppCompatActivity() {
     }
 
     private fun sendFriendRequest(senderId: String, receiverId: String, message: String) {
+        val userRef = db.collection("users").document(senderId)
+
+        userRef.get().addOnSuccessListener { document ->
+            if (document.exists()) {
+                // 1. 자신의 ID인지 확인
+                if (receiverId == senderId) {
+                    Toast.makeText(this, "자신을 친구로 추가할 수 없습니다.", Toast.LENGTH_SHORT).show()
+                    return@addOnSuccessListener
+                }
+
+                // 2. 이미 친구 목록에 있는지 확인
+                val friends = document.get("friends") as? List<String> ?: emptyList()
+                if (friends.contains(receiverId)) {
+                    Toast.makeText(this, "이미 친구입니다.", Toast.LENGTH_SHORT).show()
+                    return@addOnSuccessListener
+                }
+
+                // 3. 이미 친구 요청을 보낸 상대인지 확인
+                val friendRequestsSent =
+                    document.get("friendRequestsSent") as? List<String> ?: emptyList()
+                if (friendRequestsSent.contains(receiverId)) {
+                    Toast.makeText(this, "이미 친구 요청을 보냈습니다.", Toast.LENGTH_SHORT).show()
+                    return@addOnSuccessListener
+                }
+
+                // 4. 친구 요청을 이미 받은 상대인지 확인
+                val friendRequestsReceived =
+                    document.get("friendRequestsReceived") as? List<String> ?: emptyList()
+                if (friendRequestsReceived.contains(receiverId)) {
+                    Toast.makeText(this, "이미 친구 요청을 받았습니다.", Toast.LENGTH_SHORT).show()
+                    return@addOnSuccessListener
+                }
+                // 친구 추가 가능
+                addFriendRequest(senderId, receiverId, message)
+            } else {
+                Log.e("Friend", "User document does not exist.")
+            }
+        }.addOnFailureListener { e ->
+            Log.e("Friend", "Error fetching user data", e)
+        }
+    }
+
+    private fun addFriendRequest(senderId: String, receiverId: String, message: String) {
         // 요청 정보 생성
         val requestData = mapOf(
             "fromUserId" to senderId,
