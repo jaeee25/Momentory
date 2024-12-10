@@ -31,6 +31,7 @@ class SecretDiaryFragment : Fragment() {
 
         postAdapter = PostAdapter(postList, PostAdapter.VIEW_TYPE_SECRET) { post, position ->
             val intent = Intent(activity, CommentActivity::class.java).apply {
+                putExtra("postId", post.date)
                 putExtra("postTitle", post.title)
                 putExtra("postContent", post.content)
                 putExtra("postUser", post.user)
@@ -59,6 +60,7 @@ class SecretDiaryFragment : Fragment() {
         firestore.collection("diary")
             .document("secret")
             .collection("entries")
+
             .get()
             .addOnSuccessListener { documents ->
                 postList.clear()
@@ -66,6 +68,8 @@ class SecretDiaryFragment : Fragment() {
                     val post = document.toObject(Post::class.java)
                     postList.add(post)
                 }
+                postList.sortByDescending { it.date }
+
                 postAdapter.notifyDataSetChanged()
             }
             .addOnFailureListener { e ->
