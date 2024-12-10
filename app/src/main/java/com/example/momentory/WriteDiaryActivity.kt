@@ -19,6 +19,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.io.ByteArrayOutputStream
 import java.util.Calendar
+import java.util.UUID
 
 
 class WriteDiaryActivity : AppCompatActivity() {
@@ -125,7 +126,6 @@ class WriteDiaryActivity : AppCompatActivity() {
             binding.title.text.clear()
             binding.shareText.text = "비공개"
             binding.location.text = "위치"
-            binding.weather.text = "날씨"
             binding.content.text.clear()
             finish()
         }
@@ -133,62 +133,43 @@ class WriteDiaryActivity : AppCompatActivity() {
         // 저장 버튼 누르면 작성 중인 내용 저장하고 Home Activity로 이동
         // 비공개인 경우 -> 비밀 일기로 저장됨
         // 공개인 경우 -> 공유 일기로 저장됨
+// 저장 버튼 클릭 이벤트
         binding.writebtn.setOnClickListener {
-            val type: String
+            val type: String = if (binding.shareText.text == "비공개") "secret" else "share"
 
-            if (binding.shareText.text == "비공개") {
-                // 작성한 일기를 비밀 일기에 저장
-                type = "secret"
-            } else {
-                // 작성한 일기를 공유 일기에 저장
-                type = "share"
-            }
-            // 이미지 URL 가져오기
-
-            val documentId = binding.date.text.toString() // 선택한 날짜를 문서 ID로 사용
             val title = binding.title.text.toString()
+            val date = binding.date.text.toString()
             val content = binding.content.text.toString()
             val location = binding.location.text.toString()
-            val weather = "흐림" // 날씨 API와 연동 가능
 
-            if (documentId.isNotEmpty() && title.isNotEmpty() && content.isNotEmpty()) {
-                // 이미지가 선택된 경우
+            if (title.isNotEmpty() && content.isNotEmpty()) {
                 val selectedImageUri = binding.selectedImage.tag as? Uri
                 if (selectedImageUri != null) {
-                    uploadImageToStorage(selectedImageUri, documentId) { imageUrl ->
-                        // 이미지 URL을 포함한 데이터 저장
+                    uploadImageToStorage(selectedImageUri) { imageUrl ->
                         val diaryData = mapOf(
                             "title" to title,
                             "content" to content,
-                            "date" to documentId,
+                            "date" to date,
                             "location" to location,
                             "photoUrl" to imageUrl,
-                            "user" to profileName,
-                            "weather" to weather
+                            "user" to profileName
                         )
-                        saveDiary(type, documentId, diaryData)
+                        saveDiary(type, diaryData)
                     }
                 } else {
-                    // 이미지 없이 데이터 저장
                     val diaryData = mapOf(
                         "title" to title,
                         "content" to content,
-                        "date" to documentId,
+                        "date" to date,
                         "location" to location,
                         "photoUrl" to null,
-                        "user" to profileName,
-                        "weather" to weather
+                        "user" to profileName
                     )
-                    saveDiary(type, documentId, diaryData)
-
-                    finish()
+                    saveDiary(type, diaryData)
                 }
             } else {
                 Toast.makeText(this, "제목과 내용을 입력해주세요", Toast.LENGTH_SHORT).show()
             }
-
-
-
         }
 
 
@@ -215,11 +196,6 @@ class WriteDiaryActivity : AppCompatActivity() {
         val location = intent.getStringExtra("location")
         binding.location.text = location ?: "(2) 위치 선택"
 
-
-
-
-        //
-        // 날씨 (사용자가 설정한 날짜의 날씨 불러오기)
     }
 
     // 이미지 크기를 줄이기 위한 비율 계산 함수
@@ -247,13 +223,12 @@ class WriteDiaryActivity : AppCompatActivity() {
     }
 
     // 파이어베이스에 일기 저장하는 함수
-    private fun saveDiary(type:String, documentId: String, diaryData: Map<String, String?>) {
+    private fun saveDiary(type:String, diaryData: Map<String, String?>) {
         db.collection("diary")
             .document(type) // "share" 하위에 저장
             .collection("entries") // 모든 일기를 관리하는 서브컬렉션
-            .document(documentId) // 날짜 기반으로 문서 생성
-            .set(diaryData) // 데이터를 Firestore에 저장
-            .addOnSuccessListener {
+            .add(diaryData) // 데이터를 Firestore에 저장
+            .addOnSuccessListener { documentReference ->
                 Toast.makeText(this, "일기 저장 성공!", Toast.LENGTH_SHORT).show()
                 finish()
             }
@@ -263,8 +238,9 @@ class WriteDiaryActivity : AppCompatActivity() {
     }
 
     // 이미지 업로드 함수
-    private fun uploadImageToStorage(imageUri: Uri, fileName: String, onSuccess: (String) -> Unit) {
-        val imageRef = storageRef.child("images/$fileName.jpg")
+    private fun uploadImageToStorage(imageUri: Uri, onSuccess: (String) -> Unit) {
+        val uniqueId = UUID.randomUUID().toString() // 고유한 ID 생성
+        val imageRef = storageRef.child("images/$uniqueId.jpg") // 이미지 저장 경로
 
         contentResolver.openInputStream(imageUri)?.use { inputStream ->
             val bitmap = BitmapFactory.decodeStream(inputStream)
@@ -283,7 +259,6 @@ class WriteDiaryActivity : AppCompatActivity() {
                 }
                 .addOnFailureListener { e ->
                     Toast.makeText(this, "이미지 업로드 실패: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
-                    return@addOnFailureListener
                 }
         }
     }
