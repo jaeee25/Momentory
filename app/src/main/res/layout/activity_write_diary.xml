@@ -54,10 +54,10 @@
             android:id="@+id/shareText"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:textSize="16sp"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="비공개"
-            android:textStyle="bold" />
+            android:text="비공개"/>
     </LinearLayout>
 
 <LinearLayout
@@ -66,11 +66,12 @@
     android:layout_weight="1"
     android:orientation="vertical"
     android:background="@drawable/rounded_up_background"
-    android:padding="20dp">
+    android:padding="20dp"
+    android:layout_marginTop="10dp">
 
     <FrameLayout
-        android:layout_width="260dp"
-        android:layout_height="160dp"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
         android:layout_gravity="center"
         android:background="@color/light_pink">
 
@@ -86,10 +87,12 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="center"
-            android:background="@null"
             android:layout_weight="1"
+            android:background="@null"
             app:srcCompat="@drawable/baseline_camera_alt_24"
+            android:visibility="visible"
             app:tint="@color/deep_pink" />
+
     </FrameLayout>
 
     <EditText
@@ -97,15 +100,16 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:hint="제목을 입력하세요"
+        android:textAppearance="@style/subTitle"
         android:layout_gravity="center"
-        android:gravity="center"
-        style="@style/subTitle" />
+        android:gravity="center" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
         android:orientation="horizontal"
         android:gravity="bottom"
+        android:layout_marginTop="10dp"
         >
 
         <ImageButton
@@ -119,10 +123,11 @@
         <TextView
             android:id="@+id/location"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:lines="2"
+            android:textAppearance="@style/inputText"
             android:text="(2) 위치 선택" />
 
     </LinearLayout>
@@ -138,10 +143,11 @@
         <EditText
             android:id="@+id/content"
             android:layout_width="match_parent"
-            android:layout_height="230dp"
+            android:layout_height="240dp"
             android:background="@color/light_pink"
             android:gravity="start|top"
             android:hint="내용을 입력하세요"
+            android:textAppearance="@style/content"
             android:padding="10dp" />
     </LinearLayout>
 
@@ -151,31 +157,31 @@
     android:layout_height="65dp"
     android:orientation="horizontal"
     android:gravity="center"
-    android:layout_marginTop="15dp">
+    android:layout_marginTop="20dp">
 
     <Button
         android:id="@+id/cancelbtn"
         android:background="@drawable/rounded_btn_light"
+        android:textAppearance="@style/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:layout_marginHorizontal="20dp"
         android:layout_weight="1"
         android:text="취소"
-        android:textColor="@color/deep_pink"
-        android:textStyle="bold" />
+        android:textColor="@color/deep_pink" />
+
     <Button
         android:id="@+id/writebtn"
-        android:background="@drawable/rounded_btn_deep"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:text="작성"
-        android:textColor="@color/white"
-        android:layout_weight="1"
         android:layout_marginHorizontal="20dp"
-        android:textStyle="bold"
-        />
+        android:layout_weight="1"
+        android:background="@drawable/rounded_btn_deep"
+        android:text="작성"
+        android:textAppearance="@style/button"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 </LinearLayout>
 
 

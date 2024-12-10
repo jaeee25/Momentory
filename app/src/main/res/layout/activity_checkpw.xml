@@ -70,12 +70,12 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="핸드폰 전화번호 입력"
-                        android:textAppearance="@style/subTitle"/>
+                        android:text="핸드폰 전화번호"
+                        android:textAppearance="@style/subTitle" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:layout_marginTop="10dp">
 
@@ -83,12 +83,13 @@
                             android:id="@+id/phone_cert"
                             android:layout_width="wrap_content"
                             android:layout_height="50dp"
+                            android:layout_marginRight="10dp"
                             android:layout_weight="1"
-                            android:padding="5dp"
-                            android:inputType="phone"
-                            android:textAppearance="@style/inputText"
+                            android:hint="전화번호 입력"
+                            android:textAppearance="@style/subTitle"
                             android:background="@drawable/rounded_input"
-                            android:layout_marginRight="10dp"/>
+                            android:inputType="phone"
+                            android:padding="5dp" />
 
                         <Button
                             android:id="@+id/send_msg"
@@ -96,14 +97,14 @@
                             android:layout_height="50dp"
                             android:textColor="@color/white"
                             android:background="@drawable/rounded_btn_deep"
-                            android:text="인증요청"
-                            android:textStyle="bold" />
+                            android:textAppearance="@style/button"
+                            android:text="요청" />
 
                     </LinearLayout>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="인증 번호 입력"
+                        android:text="인증 번호"
                         android:layout_marginTop="20dp"
                         android:textAppearance="@style/subTitle"/>
                     <LinearLayout
@@ -120,7 +121,8 @@
                             android:layout_weight="1"
                             android:padding="5dp"
                             android:inputType="number"
-                            android:textAppearance="@style/inputText"
+                            android:hint="OTP 입력"
+                            android:textAppearance="@style/subTitle"
                             android:background="@drawable/rounded_input"
                             android:layout_marginRight="10dp"/>
 
@@ -129,8 +131,8 @@
                             android:layout_width="105dp"
                             android:layout_height="50dp"
                             android:text="인증"
-                            android:textStyle="bold"
                             android:textColor="@color/white"
+                            android:textAppearance="@style/button"
                             android:background="@drawable/rounded_btn_deep"/>
 
                     </LinearLayout>
@@ -149,9 +151,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="인증이 완료되었습니다.\n비밀번호를 변경해 주세요."
+                            android:textAppearance="@style/subTitle"
                             android:textAlignment="center"
-                            android:textColor="#3E3E3E"
-                            android:textSize="18sp" />
+                            android:textColor="#3E3E3E" />
 
                     </LinearLayout>
 
@@ -162,7 +164,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="5dp"
                     android:background="?android:attr/listDivider"
-                    android:layout_marginTop="20dp"/>
+                    android:layout_marginTop="30dp"/>
 
                 <LinearLayout
                     android:id="@+id/pw_change_layout"
@@ -170,7 +172,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_gravity="center"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="30dp"
                     android:gravity="center"
                     android:visibility="invisible"
                     >
@@ -189,7 +191,7 @@
                         android:layout_height="50dp"
                         android:layout_weight="1"
                         android:padding="5dp"
-                        android:textAppearance="@style/inputText"
+                        android:textAppearance="@style/subTitle"
                         android:background="@drawable/rounded_input"
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="10dp"/>
@@ -201,10 +203,9 @@
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:text="비밀번호 변경"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
                         android:textColor="@color/white"
                         android:background="@drawable/rounded_btn_deep"
+                        android:textAppearance="@style/button"
                         android:layout_marginTop="15dp"/>
 
 

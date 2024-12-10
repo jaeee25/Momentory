@@ -10,6 +10,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
+import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -40,6 +42,9 @@ class WriteDiaryActivity : AppCompatActivity() {
         // SharedPreferences에서 데이터 가져오기 (사용자 이름)
         val sharedPref = getSharedPreferences("ProfileData", Context.MODE_PRIVATE)
         val profileName = sharedPref.getString("profileName", "송이")
+
+        // 카메라 아이콘 보이도록
+        binding.selectImage.visibility = View.VISIBLE
 
         // < 버튼 누르면 뒤로가기 (Home Activity로 이동)
         binding.toHome.setOnClickListener {
@@ -103,7 +108,8 @@ class WriteDiaryActivity : AppCompatActivity() {
                         binding.selectedImage.setImageBitmap(bitmap) // 선택된 이미지를 표시
 
                         // 이미지가 선택되었으므로 VISIBLE로 전환
-                        binding.selectedImage.visibility = android.view.View.VISIBLE
+                        binding.selectedImage.visibility = View.VISIBLE
+                        binding.selectImage.visibility = View.GONE
                     }
 
                 }
@@ -111,6 +117,7 @@ class WriteDiaryActivity : AppCompatActivity() {
                 Log.e("WriteDiary", "Error loading image", e)
             }
         }
+
 
         // 사진 선택 버튼 클릭 이벤트
         binding.selectImage.setOnClickListener {

@@ -38,7 +38,7 @@ class CheckpwActivity : AppCompatActivity() {
         binding.sendMsg.setOnClickListener {
             val phoneNumber = binding.phoneCert.text.toString().trim()
             if (isValidPhoneNumber(phoneNumber)) {
-                sendOtp(formatPhoneNumberForFirebase(phoneNumber))
+                checkPhoneNumberAndSendOtp(phoneNumber)
             } else {
                 Toast.makeText(this, "유효한 전화번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
             }
@@ -109,6 +109,25 @@ class CheckpwActivity : AppCompatActivity() {
         PhoneAuthProvider.verifyPhoneNumber(options)
     }
 
+    private fun checkPhoneNumberAndSendOtp(phoneNumber: String) {
+        val formattedPhoneNumber = formatPhoneNumberForFirebase(phoneNumber)
+        firestore.collection("users")
+            .whereEqualTo("phoneNumber", phoneNumber) // Firestore에서 전화번호 조회
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                if (querySnapshot.documents.isNotEmpty()) {
+                    // 전화번호가 존재하면 인증 요청
+                    sendOtp(formattedPhoneNumber)
+                } else {
+                    // 전화번호가 존재하지 않음
+                    Toast.makeText(this, "등록되지 않은 전화번호입니다.", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "전화번호 확인 중 오류: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
     private fun verifyOtp(credential: PhoneAuthCredential) {
         firebaseAuth.signInWithCredential(credential)
             .addOnCompleteListener { task ->
@@ -127,16 +146,25 @@ class CheckpwActivity : AppCompatActivity() {
     }
 
     private fun updatePassword(phoneNumber: String, newPassword: String) {
-        val userRef = firestore.collection("user").document(phoneNumber)
-        userRef.update("password", newPassword) // 비밀번호 암호화 필요
-            .addOnSuccessListener {
-                Toast.makeText(this, "비밀번호가 성공적으로 변경되었습니다.", Toast.LENGTH_SHORT).show()
-                finish()
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "비밀번호 변경 실패: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
-            }
+        // FirebaseAuth에서 현재 인증된 사용자 가져오기
+        val currentUser = firebaseAuth.currentUser
+        if (currentUser != null) {
+            val uid = currentUser.uid // UID를 기반으로 데이터베이스에 접근
+            val userRef = firestore.collection("users").document(uid)
+
+            userRef.update("password", newPassword) // 비밀번호 암호화 필요
+                .addOnSuccessListener {
+                    Toast.makeText(this, "비밀번호가 성공적으로 변경되었습니다.", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "비밀번호 변경 실패: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Toast.makeText(this, "사용자 정보를 확인할 수 없습니다. 다시 로그인해주세요.", Toast.LENGTH_SHORT).show()
+        }
     }
+
 
     private fun addPhoneNumberFormatter() {
         binding.phoneCert.addTextChangedListener(object : TextWatcher {
