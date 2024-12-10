@@ -60,11 +60,13 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.6.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-firestore-ktx")
-    implementation ("com.google.firebase:firebase-auth:22.0.0")
+    implementation ("com.google.firebase:firebase-auth:22.1.2")
     implementation ("com.google.android.gms:play-services-auth:20.7.0")
-
     implementation ("com.google.firebase:firebase-auth-ktx") // Firebase Authentication 라이브러리
-    implementation ("com.google.firebase:firebase-firestore-ktx") // Firestore (사용하는 경우)
+
+
+
+
 
 
 }

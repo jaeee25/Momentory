@@ -65,8 +65,17 @@ class ProfileActivity : AppCompatActivity() {
         val beforePassword = binding.profilePassword.text.toString()
 
         binding.profileEditBtn.setOnClickListener {
+
+            val sharedPref = getSharedPreferences("ProfileData", Context.MODE_PRIVATE)
+            val editor = sharedPref.edit()
+
             val newName = binding.profileName.text.toString().trim()
             val newPassword = binding.profilePassword.text.toString()
+
+            // 데이터를 SharedPreferences에 저장
+            editor.putString("profileName", newName)
+            editor.apply() // 변경사항 저장
+
             updateUserProfile(currentUserId, newName)
 
 //            if ((newName!=beforeName) or (newPassword!=beforePassword)){
