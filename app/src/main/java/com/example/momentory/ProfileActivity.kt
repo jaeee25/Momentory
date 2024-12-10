@@ -77,12 +77,6 @@ class ProfileActivity : AppCompatActivity() {
             editor.apply() // 변경사항 저장
 
             updateUserProfile(currentUserId, newName)
-
-//            if ((newName!=beforeName) or (newPassword!=beforePassword)){
-//                updateUserProfile(currentUserId, newName)
-//            } else {
-//                Toast.makeText(this, "이름을 입력해주세요.", Toast.LENGTH_SHORT).show()
-//            }
             finish()
         }
     }

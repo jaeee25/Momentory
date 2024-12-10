@@ -52,11 +52,13 @@ class PostAdapter(
             binding.postUser.text = post.user
 
             binding.postContent.text = post.content
-            binding.likeCount.text = post.likeCount.toString()
+            binding.likeCount.text = post.reactionTotal.toString()
             binding.commentCount.text = post.commentCount.toString()
+
 
         }
     }
+
 
     inner class SecretPostViewHolder(private val binding: ItemSecretPostBinding) :
         RecyclerView.ViewHolder(binding.root) {

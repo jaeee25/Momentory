@@ -1,70 +1,85 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingLeft="14dp"
+    android:paddingTop="12dp"
+    android:paddingRight="14dp"
+    android:paddingBottom="16dp">
 
-    <!-- 타임캡슐 항목 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="12dp">
+        android:layout_marginBottom="12dp"
+        android:orientation="horizontal">
 
-        <!-- 타임캡슐 이미지 -->
         <FrameLayout
-            android:id="@+id/capsuleImageContainer"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@drawable/rounded_lock_background"
-            android:layout_marginEnd="12dp"
-            android:clipToOutline="true">
-
-            <!-- 이미지 -->
-            <ImageView
-                android:id="@+id/capsuleImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:scaleType="centerCrop" />
-        </FrameLayout>
-
-        <!-- 날짜 정보 영역 -->
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <!-- 개봉 날짜 -->
-            <TextView
-                android:id="@+id/capsuleReleaseDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="날짜"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="4dp"
-                android:layout_marginTop="4dp" />
-
-
-        </RelativeLayout>
-        <!-- 등록 날짜 -->
-        <TextView
-            android:id="@+id/capsuleDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:gravity="end"
-            android:text="10월 13일"
-            android:textSize="14sp" />
+            android:layout_marginEnd="12dp">
+
+            <ImageView
+                android:id="@+id/capsuleImage"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/rounded_background"
+                android:backgroundTint="@color/deep_pink"
+                android:clipToOutline="true"
+                android:scaleType="centerCrop"
+                android:src="@color/deep_pink" />
+
+            <ImageView
+                android:id="@+id/capsuleLock"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:clipToOutline="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_lock"
+                android:visibility="visible"/>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/capsuleFriendsList"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal" />
+
+            <TextView
+                android:id="@+id/capsuleReleaseDate"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/moneygraphy_rounded"
+                android:gravity="end"
+                android:text="~2024.11.01"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/capsuleCreateDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|bottom"
+                android:layout_marginBottom="10dp"
+                android:gravity="bottom"
+                android:text="10월 13일"
+                android:textSize="14sp" />
+
+        </LinearLayout>
     </LinearLayout>
 
-    <!-- 구분선 추가 -->
     <View
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:background="@color/light_pink"
-        android:layout_marginTop="12dp" />
-
+        android:layout_marginTop="12dp"
+        android:background="@color/light_pink" />
 </LinearLayout>
