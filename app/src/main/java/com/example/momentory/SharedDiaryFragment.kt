@@ -70,35 +70,34 @@ class SharedDiaryFragment : Fragment() {
             .orderBy("date", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { documents ->
-                postList.clear()
+                postList.clear() // 중복 방지를 위해 리스트 초기화
+                val tempPostList = mutableListOf<Post>() // 임시 리스트 생성
+
                 for (document in documents) {
                     val post = document.toObject(Post::class.java)
-                    post.id = document.id // 문서 ID를 Post 객체에 저장
+                    post.id = document.id // 문서 ID 저장
                     val postRef = document.reference
 
-                    // 댓글 수
+                    // 댓글 수 가져오기
                     postRef.collection("comments").get()
                         .addOnSuccessListener { commentsSnapshot ->
                             post.commentCount = commentsSnapshot.size()
 
-                            // 리액션 합계
+                            // 리액션 합계 가져오기
                             postRef.get()
                                 .addOnSuccessListener { postSnapshot ->
                                     val reactions = postSnapshot.get("reactions") as? Map<String, Long>
                                     post.reactionTotal = reactions?.values?.sum()?.toInt() ?: 0
 
-                                    postList.add(post)
+                                    tempPostList.add(post) // 임시 리스트에 추가
 
-                                    // 데이터가 변경되었음을 알림
-                                    postList.sortByDescending { it.date } // 날짜 필드 기준 내림차순 정렬
-                                    postAdapter.notifyDataSetChanged()
+                                    // 모든 문서의 처리가 완료된 후에 RecyclerView 갱신
+                                    if (tempPostList.size == documents.size()) {
+                                        postList.clear()
+                                        postList.addAll(tempPostList.sortedByDescending { it.date })
+                                        postAdapter.notifyDataSetChanged()
+                                    }
                                 }
-                                .addOnFailureListener { e ->
-                                    Log.e("Firestore", "리액션 합계 가져오기 실패: ${e.message}")
-                                }
-                        }
-                        .addOnFailureListener { e ->
-                            Log.e("Firestore", "댓글 수 가져오기 실패: ${e.message}")
                         }
                 }
             }
