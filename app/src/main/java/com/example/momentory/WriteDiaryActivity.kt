@@ -230,19 +230,36 @@ class WriteDiaryActivity : AppCompatActivity() {
     }
 
     // 파이어베이스에 일기 저장하는 함수
-    private fun saveDiary(type:String, diaryData: Map<String, String?>) {
-        db.collection("diary")
-            .document(type) // "share" 하위에 저장
-            .collection("entries") // 모든 일기를 관리하는 서브컬렉션
-            .add(diaryData) // 데이터를 Firestore에 저장
-            .addOnSuccessListener { documentReference ->
+    private fun saveDiary(type: String, diaryData: Map<String, String?>) {
+        val diaryCollection = db.collection("diary")
+            .document(type)
+            .collection("entries")
+
+        // 명시적으로 문서 ID 생성
+        val newDiaryRef = diaryCollection.document()
+        val diaryWithId = diaryData.toMutableMap()
+        diaryWithId["id"] = newDiaryRef.id // 문서 ID를 데이터에 추가
+
+        // 데이터 저장
+        newDiaryRef.set(diaryWithId)
+            .addOnSuccessListener {
                 Toast.makeText(this, "일기 저장 성공!", Toast.LENGTH_SHORT).show()
+                // 저장한 문서 ID를 다른 액티비티로 전달
+                val intent = Intent(this, CommentActivity::class.java).apply {
+                    putExtra("postId", newDiaryRef.id) // 문서 ID
+                    putExtra("postTitle", diaryWithId["title"]) // 제목
+                    putExtra("postContent", diaryWithId["content"]) // 내용
+                    putExtra("postDate", diaryWithId["date"]) // 날짜
+                    putExtra("postUser", diaryWithId["user"]) // 작성자
+                }
+                startActivity(intent)
                 finish()
             }
             .addOnFailureListener { e ->
                 Toast.makeText(this, "일기 저장 실패: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
+
 
     // 이미지 업로드 함수
     private fun uploadImageToStorage(imageUri: Uri, onSuccess: (String) -> Unit) {

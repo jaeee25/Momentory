@@ -33,12 +33,12 @@ class SharedDiaryFragment : Fragment() {
         postAdapter = PostAdapter(postList, PostAdapter.VIEW_TYPE_SHARED) { post, position ->
             // 게시글 클릭 이벤트 (CommentActivity로 이동)
             val intent = Intent(activity, CommentActivity::class.java).apply {
-                putExtra("postId", post.date)
-                putExtra("postTitle", post.title)
-                putExtra("postContent", post.content)
-                putExtra("postUser", post.user)
-                putExtra("postDate", post.date)
-            }
+            putExtra("postId", post.id) // 여기서 post.id가 Firestore 문서 ID여야 함
+            putExtra("postTitle", post.title)
+            putExtra("postContent", post.content)
+            putExtra("postUser", post.user)
+            putExtra("postDate", post.date)
+        }
             startActivity(intent)
         }
 
@@ -73,6 +73,7 @@ class SharedDiaryFragment : Fragment() {
                 postList.clear()
                 for (document in documents) {
                     val post = document.toObject(Post::class.java)
+                    post.id = document.id // 문서 ID를 Post 객체에 저장
                     val postRef = document.reference
 
                     // 댓글 수
@@ -85,7 +86,6 @@ class SharedDiaryFragment : Fragment() {
                                 .addOnSuccessListener { postSnapshot ->
                                     val reactions = postSnapshot.get("reactions") as? Map<String, Long>
                                     post.reactionTotal = reactions?.values?.sum()?.toInt() ?: 0
-
 
                                     postList.add(post)
 
@@ -106,6 +106,7 @@ class SharedDiaryFragment : Fragment() {
                 Log.e("Firestore", "게시글 가져오기 실패: ${e.message}")
             }
     }
+
 
 
     override fun onResume() {
