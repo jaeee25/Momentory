@@ -4,6 +4,18 @@
     android:background="@android:color/white">
 
     <!-- 친구 추가 버튼 -->
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/friendsProfileList"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal" />
+
+
     <ImageButton
         android:id="@+id/add_friend_button"
         android:layout_width="wrap_content"

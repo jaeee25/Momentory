@@ -19,7 +19,7 @@ class CommentActivity : AppCompatActivity() {
     private lateinit var commentAdapter: CommentAdapter
 
     private var currentUserName: String = "사용자" // 기본값 설정
-    private val currentUserId = "vb6wQZCFD1No8EYwjmQ4" // Firestore에 저장된 사용자 ID
+    private val currentUserId = "mhnv5jQ4HcZAIswp9wb8al0ifM72" // Firestore에 저장된 사용자 ID
 
     // 이모티콘 반응 변수
     private var smileCount = 0
