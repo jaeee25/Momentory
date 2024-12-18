@@ -51,7 +51,7 @@ class CheckpwActivity : AppCompatActivity() {
                 val credential = PhoneAuthProvider.getCredential(verificationId!!, otpCode)
                 verifyOtp(credential)
             } else {
-                Toast.makeText(this, "인증번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "인증 요청을 한 뒤, 인증번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
             }
         }
 
