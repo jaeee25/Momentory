@@ -60,7 +60,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/moneygraphy_rounded"
                 android:gravity="end"
-                android:text="~2024.11.01"
+                android:text="Release Date"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -71,7 +71,8 @@
                 android:layout_gravity="end|bottom"
                 android:layout_marginBottom="10dp"
                 android:gravity="bottom"
-                android:text="10월 13일"
+                android:text="D-day"
+                android:layout_marginEnd="5dp"
                 android:textSize="14sp" />
 
         </LinearLayout>

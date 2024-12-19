@@ -22,6 +22,8 @@ class HomeActivity : AppCompatActivity() {
         val adapter = ViewPagerAdapter(this)
         binding.viewPager.adapter = adapter
 
+        val initialFragmentIndex = intent.getIntExtra("fragmentIndex", 0) // 기본값 0
+        binding.viewPager.setCurrentItem(initialFragmentIndex, false) // 해당 인덱스로 이동
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
 

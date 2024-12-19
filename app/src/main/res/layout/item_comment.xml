@@ -1,21 +1,38 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="8dp">
 
+    <!-- 작성자 닉네임 -->
     <TextView
         android:id="@+id/commentAuthor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="작성자"
         android:textStyle="bold"
-        android:paddingBottom="4dp" />
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:paddingBottom="4dp"
+        android:fontWeight="900"
+        android:shadowColor="#9D9696"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="1.5"/>
 
+    <!-- 댓글 내용 -->
     <TextView
         android:id="@+id/commentContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="댓글 내용" />
+        android:text="댓글 내용"
+        android:textSize="12sp"
+        android:paddingBottom="4dp" />
+
+    <!-- 구분선 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#DDDDDD"
+        android:layout_marginTop="8dp" />
 </LinearLayout>

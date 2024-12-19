@@ -9,10 +9,15 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
+        android:label="Momentory"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Momentory"
         tools:targetApi="31">
+        <activity
+            android:name=".PopupMessageActivity"
+            android:theme="@style/PopupActivityTheme"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".OpenTimeCapsuleActivity"
             android:exported="false"
@@ -21,10 +26,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".HomeActivity" />
         </activity>
-
         <activity
             android:name=".CapsuleMessageActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".OpenTimeCapsuleActivity" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 

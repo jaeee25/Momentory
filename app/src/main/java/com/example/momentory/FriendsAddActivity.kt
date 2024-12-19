@@ -40,8 +40,9 @@ class FriendsAddActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            Log.d("FriendsAddActivity", "전화번호: $phoneNumber, 메시지: $message")
             db.collection("users")
-                .whereEqualTo("phone", phoneNumber)
+                .whereEqualTo("phoneNumber", phoneNumber)
                 .get()
                 .addOnSuccessListener { documents ->
                     if (!documents.isEmpty) {
@@ -62,6 +63,8 @@ class FriendsAddActivity : AppCompatActivity() {
         }
     }
 
+    // 친구 추가를 요청하는 메서드
+    // senderId = currentId
     private fun sendFriendRequest(senderId: String, receiverId: String, message: String) {
         val userRef = db.collection("users").document(senderId)
 
@@ -80,23 +83,34 @@ class FriendsAddActivity : AppCompatActivity() {
                     return@addOnSuccessListener
                 }
 
-                // 3. 이미 친구 요청을 보낸 상대인지 확인
-                val friendRequestsSent =
-                    document.get("friendRequestsSent") as? List<String> ?: emptyList()
-                if (friendRequestsSent.contains(receiverId)) {
-                    Toast.makeText(this, "이미 친구 요청을 보냈습니다.", Toast.LENGTH_SHORT).show()
-                    return@addOnSuccessListener
-                }
-
-                // 4. 친구 요청을 이미 받은 상대인지 확인
-                val friendRequestsReceived =
-                    document.get("friendRequestsReceived") as? List<String> ?: emptyList()
-                if (friendRequestsReceived.contains(receiverId)) {
-                    Toast.makeText(this, "이미 친구 요청을 받았습니다.", Toast.LENGTH_SHORT).show()
-                    return@addOnSuccessListener
-                }
-                // 친구 추가 가능
-                addFriendRequest(senderId, receiverId, message)
+                // 3. 친구 요청을 이미 보냈는지 확인
+                db.collection("users").document(senderId)
+                    .collection("friendRequestsSent").document(receiverId)
+                    .get()
+                    .addOnSuccessListener { requestDocument ->
+                        if (requestDocument.exists()) {
+                            Toast.makeText(this, "이미 친구 요청을 보냈습니다.", Toast.LENGTH_SHORT).show()
+                        } else {
+                            // 4. 친구 요청을 받은 적이 있는지 확인
+                            db.collection("users").document(receiverId)
+                                .collection("friendRequestsReceived").document(senderId)
+                                .get()
+                                .addOnSuccessListener { receivedRequestDoc ->
+                                    if (receivedRequestDoc.exists()) {
+                                        Toast.makeText(this, "이미 친구 요청을 받았습니다.", Toast.LENGTH_SHORT).show()
+                                    } else {
+                                        // 친구 요청을 추가할 수 있습니다.
+                                        addFriendRequest(senderId, receiverId, message)
+                                    }
+                                }
+                                .addOnFailureListener { e ->
+                                    Log.e("Friend", "친구 요청 확인 중 오류 발생", e)
+                                }
+                        }
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("Friend", "친구 요청을 보냈는지 확인 중 오류 발생", e)
+                    }
             } else {
                 Log.e("Friend", "User document does not exist.")
             }
@@ -113,10 +127,11 @@ class FriendsAddActivity : AppCompatActivity() {
             "status" to "pending"
         )
 
-        // 친구 요청 받는 쪽에 friendRequestsReceived에 추가
+        // 1️⃣ 친구 요청 받는 쪽에 friendRequestsReceived에 추가 (문서 ID = senderId)
         db.collection("users").document(receiverId)
             .collection("friendRequestsReceived")
-            .add(requestData)
+            .document(senderId) // 🔥 문서 이름을 senderId로 설정
+            .set(requestData) // 🔥 set()을 사용하여 덮어쓰기 방지
             .addOnSuccessListener {
                 Toast.makeText(this, "친구 요청을 보냈습니다.", Toast.LENGTH_SHORT).show()
             }
@@ -124,14 +139,15 @@ class FriendsAddActivity : AppCompatActivity() {
                 Toast.makeText(this, "친구 요청에 실패했습니다.", Toast.LENGTH_SHORT).show()
             }
 
-        // 친구 요청 보낸 쪽에 friendRequestsSent에 추가
+        // 2️⃣ 친구 요청 보낸 쪽에 friendRequestsSent에 추가 (문서 ID = receiverId)
         val sentRequestData = requestData.toMutableMap().apply {
             put("toUserId", receiverId)
         }
 
         db.collection("users").document(senderId)
             .collection("friendRequestsSent")
-            .add(sentRequestData)
+            .document(receiverId) // 🔥 문서 이름을 receiverId로 설정
+            .set(sentRequestData) // 🔥 set()을 사용하여 덮어쓰기 방지
             .addOnSuccessListener {
                 Log.d("FriendsAddActivity", "친구 요청 보낸 목록에 추가 완료")
             }

@@ -1,120 +1,156 @@
 package com.example.momentory
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.momentory.databinding.ActivityOpenTimeCapsuleBinding
-import com.example.momentory.databinding.ActivityRequestedFriendsBinding
-import com.example.momentory.databinding.ItemCapsuleMessageBinding
 import com.example.momentory.databinding.ItemCapsuleMessageTestBinding
-import com.example.momentory.databinding.ItemTimeCapsuleBinding
-import com.google.android.material.imageview.ShapeableImageView
+import com.google.android.gms.tasks.Tasks
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 
+// 캡슐 네모 보이는곳
 data class UnlockTimeCapsule(
-    val writerName: String,
+    val id: String,
+    var writerName: String,
     val comment: String,
-    val profileImageRes: Int
+    val capsuleImage: String
 )
 
 class CapsuleViewHolder(val binding: ItemCapsuleMessageTestBinding) :
-    RecyclerView.ViewHolder(binding.root)
+    RecyclerView.ViewHolder(binding.root) {
+    fun bind(capsule: UnlockTimeCapsule, onItemClick: (UnlockTimeCapsule) -> Unit) {
+        Glide.with(binding.root.context)
+            .load(capsule.capsuleImage)
+            .placeholder(R.drawable.round_send_24)
+            .error(R.drawable.ic_comment)
+            .centerCrop()
+            .into(binding.capsuleImage)
 
-class OpenUnlockTimeCapsuleAdapter(private val capsuleList: List<UnlockTimeCapsule>) :
-    RecyclerView.Adapter<CapsuleViewHolder>() {
+        binding.capsuleLock.visibility = View.GONE
+        binding.root.setOnClickListener {
+            Log.d("RecyclerView", "Clicked on: ${capsule.writerName}")
+            onItemClick(capsule)
+        }
+    }
+}
+
+class OpenUnlockTimeCapsuleAdapter(
+    private val capsuleList: List<UnlockTimeCapsule>,
+    private val onItemClick: (UnlockTimeCapsule) -> Unit
+) : RecyclerView.Adapter<CapsuleViewHolder>() {
     override fun getItemCount(): Int = capsuleList.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CapsuleViewHolder =
         CapsuleViewHolder(
             ItemCapsuleMessageTestBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
+                LayoutInflater.from(parent.context), parent, false
             )
         )
 
     override fun onBindViewHolder(holder: CapsuleViewHolder, position: Int) {
-//        holder.binding.capsuleWriterName.text = capsuleList[position].writerName
-//        holder.binding.capsuleOpenComment.text = capsuleList[position].comment
-//        holder.binding.capsuleWriterProfile.setImageResource(capsuleList[position].profileImageRes)
-
+        holder.bind(capsuleList[position], onItemClick)
     }
 }
 
-//class OpenLockTimeCapsuleAdapter(private val capsuleList: List<UnlockTimeCapsule>) :
-//    RecyclerView.Adapter<CapsuleViewHolder>() {
-//    override fun getItemCount(): Int = capsuleList.size
-//
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CapsuleViewHolder =
-//        CapsuleViewHolder(
-//            ItemCapsuleMessageBinding.inflate(
-//                LayoutInflater.from(parent.context),
-//                parent,
-//                false
-//            )
-//        )
-//
-//    override fun onBindViewHolder(holder: CapsuleViewHolder, position: Int) {
-//        holder.binding.capsuleWriterName.text = capsuleList[position].writerName
-//        holder.binding.capsuleOpenComment.text = capsuleList[position].comment
-//        holder.binding.capsuleWriterProfile.setImageResource(capsuleList[position].profileImageRes)
-//    }
-//}
-
 class OpenTimeCapsuleActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityOpenTimeCapsuleBinding
+    private val db = FirebaseFirestore.getInstance()
     private lateinit var openTimeCapsuleAdapter: OpenUnlockTimeCapsuleAdapter
     private val capsuleList = mutableListOf<UnlockTimeCapsule>()
-    var db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val binding: ActivityOpenTimeCapsuleBinding by lazy {
-            ActivityOpenTimeCapsuleBinding.inflate(layoutInflater)
-        }
         super.onCreate(savedInstanceState)
+        binding = ActivityOpenTimeCapsuleBinding.inflate(layoutInflater)
+        enableEdgeToEdge()
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        val releaseDateMillis = intent.getLongExtra("releaseDate", -1L)
-        val createDateMillis = intent.getLongExtra("createDate", -1L)
-        val friends = intent.getStringArrayListExtra("friends") ?: emptyList<String>()
+        val capsuleTitle = intent.getStringExtra("timeCapsuleTitle")
+        val friends = intent.getStringArrayListExtra("timeCapsuleFriends")
+        Log.d("OpenTimeCapsuleActivity", "Capsule Title: $capsuleTitle")
+        Log.d("OpenTimeCapsuleActivity", "Friends list: $friends")
+        binding.capsuleMessageTitle.text = capsuleTitle.toString()
 
-//        val releaseDate = if (releaseDateMillis != -1L) Date(releaseDateMillis) else null
-//        val createDate = if (createDateMillis != -1L) Date(createDateMillis) else null
+        val capsuleId = intent.getStringExtra("timeCapsuleId")
+        if (capsuleId != null) {
+            db.collection("timeCapsules").document(capsuleId)
+                .collection("messages") // capsuleId의 하위 컬렉션
+                .get()
+                .addOnSuccessListener { result ->
+                    val writerIdList = mutableListOf<String>()
 
-        // 전달받은 데이터를 UI에 반영하거나 필요한 작업 수행
+                    for (document in result) {
+                        Log.d("Firebase", "${document.id} => ${document.data}")
+                        val writerId = document.getString("writer") ?: "unknown"
+                        val comment = document.getString("message") ?: "메시지가 없습니다."
+                        val imageUri = document.getString("imageUri") ?: ""
 
-        openTimeCapsuleAdapter = OpenUnlockTimeCapsuleAdapter(capsuleList)
-        // 예시 데이터 추가
-        capsuleList.add(UnlockTimeCapsule("권재희", "메시지 테스트", R.drawable.baseline_person_24))
-        capsuleList.add(UnlockTimeCapsule("테스트", "여기에 메시지를 입력하세요", R.drawable.baseline_person_24))
-        capsuleList.add(UnlockTimeCapsule("테스트2", "메시지 테스트", R.drawable.baseline_person_24))
-        capsuleList.add(UnlockTimeCapsule("테스트3", "여기에 메시지를 입력하세요", R.drawable.baseline_person_24))
+                        writerIdList.add(writerId)
+                        val capsule = UnlockTimeCapsule(
+                            id = document.id,
+                            writerName = writerId,
+                            comment = comment,
+                            capsuleImage = imageUri
+                        )
+                        capsuleList.add(capsule)
+                    }
+
+                    val userFetchTasks = writerIdList.map { writerId ->
+                        db.collection("users").document(writerId).get()
+                    }
+
+                    Tasks.whenAllSuccess<DocumentSnapshot>(*userFetchTasks.toTypedArray())
+                        .addOnSuccessListener { userDocuments ->
+                            userDocuments.forEachIndexed { index, documentSnapshot ->
+                                val writerName = documentSnapshot.getString("name") ?: "알 수 없는 작성자"
+                                capsuleList[index].writerName = writerName
+                            }
+
+                            openTimeCapsuleAdapter.notifyDataSetChanged() // 리사이클러뷰 갱신
+                        }
+                        .addOnFailureListener { exception ->
+                            Log.w("Firebase", "Error getting user names.", exception)
+                        }
+                }
+                .addOnFailureListener { exception ->
+                    Log.w("Firebase", "Error getting capsule messages.", exception)
+                }
+        } else {
+            Log.e("OpenTimeCapsuleActivity", "No timeCapsuleId found in Intent")
+        }
+
+        openTimeCapsuleAdapter = OpenUnlockTimeCapsuleAdapter(capsuleList) { selectedItem ->
+            val intent = Intent(this, PopupMessageActivity::class.java).apply {
+                putExtra("writerName", selectedItem.writerName)
+                putExtra("comment", selectedItem.comment)
+                putExtra("capsuleImage", selectedItem.capsuleImage) // 이미지 URI 전달
+            }
+            startActivity(intent)
+        }
 
         binding.viewTimeCapsule.apply {
-//            layoutManager = LinearLayoutManager(this@OpenTimeCapsuleActivity)
             layoutManager = GridLayoutManager(this@OpenTimeCapsuleActivity, 2)
-            adapter = OpenUnlockTimeCapsuleAdapter(capsuleList)
+            adapter = openTimeCapsuleAdapter
         }
 
-        binding.capsuleMessageFriendsList.apply {
-            layoutManager = LinearLayoutManager(this@OpenTimeCapsuleActivity, LinearLayoutManager.HORIZONTAL, false)
-            adapter = FriendsAdapter(friends)
+        binding.wrtieCapsuleMessage.setOnClickListener {
+            val intent = Intent(this, CapsuleMessageActivity::class.java).apply {
+                putExtra("timeCapsuleId", capsuleId)
+                putExtra("timeCapsuleFriends", friends)
+            }
+            startActivity(intent)
         }
-
-        openTimeCapsuleAdapter.notifyDataSetChanged()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -123,5 +159,21 @@ class OpenTimeCapsuleActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
         return true
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_ADD_MESSAGE && resultCode == Activity.RESULT_OK) {
+            val capsuleId = data?.getStringExtra("timeCapsuleId")
+            val capsuleTitle = data?.getStringExtra("timeCapsuleTitle")
+            if (capsuleId != null) {
+                Log.d("OpenTimeCapsuleActivity", "복원된 타임캡슐 ID: $capsuleId")
+                binding.capsuleMessageTitle.text = capsuleTitle ?: "알 수 없는 타임캡슐"
+            }
+        }
+    }
+
+    companion object {
+        const val REQUEST_CODE_ADD_MESSAGE = 1001 // 요청 코드
     }
 }
