@@ -87,8 +87,6 @@ class SignupActivity : AppCompatActivity() {
             if (isOtpVerified) {
                 if (isGoogle) {
                     googleSignup()
-                    val intent = Intent(this, ProfileActivity::class.java)
-                    startActivity(intent)
                     finish()
                 } else { // 일반 회원가입의 경우 비밀번호 설정
                     binding.setPassword.visibility = android.view.View.VISIBLE
