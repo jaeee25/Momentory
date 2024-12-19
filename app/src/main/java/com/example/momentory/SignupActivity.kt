@@ -104,7 +104,12 @@ class SignupActivity : AppCompatActivity() {
                             .set(user)
                             .addOnSuccessListener {
                                 Toast.makeText(this, "회원가입 완료!", Toast.LENGTH_SHORT).show()
-                                finish() // 회원가입 완료 후 로그인 화면으로 이동
+
+                                // 회원가입 성공 -> ProfileActivity로 이동
+                                val intent = Intent(this, ProfileActivity::class.java)
+                                startActivity(intent)
+
+                                // finish() // 회원가입 완료 후 로그인 화면으로 이동
                             }
                             .addOnFailureListener { e ->
                                 Toast.makeText(
@@ -271,7 +276,9 @@ class SignupActivity : AppCompatActivity() {
                             .set(userData)
                             .addOnSuccessListener {
                                 Toast.makeText(this, "Google 회원가입 완료!", Toast.LENGTH_SHORT).show()
-                                finish()
+                                // 회원가입 성공 -> ProfileActivity로 이동
+                                val intent = Intent(this, ProfileActivity::class.java)
+                                startActivity(intent)
                             }
                             .addOnFailureListener { e ->
                                 Toast.makeText(this, "데이터 저장 실패: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
