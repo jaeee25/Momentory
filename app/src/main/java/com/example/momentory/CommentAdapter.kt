@@ -27,3 +27,4 @@ class CommentAdapter(private val commentList: List<Comment>) :
 
     override fun getItemCount(): Int = commentList.size
 }
+

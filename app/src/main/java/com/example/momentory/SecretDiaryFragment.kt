@@ -66,7 +66,7 @@ class SecretDiaryFragment : Fragment() {
                 postList.clear()
                 for (document in documents) {
                     val post = document.toObject(Post::class.java)
-                        post.id = document.id // 문서 ID를 Post 객체에 저장
+                    post.id = document.id // 문서 ID를 Post 객체에 저장
                     postList.add(post)
                 }
                 postList.sortByDescending { it.date }
@@ -89,3 +89,5 @@ class SecretDiaryFragment : Fragment() {
         _binding = null
     }
 }
+
+

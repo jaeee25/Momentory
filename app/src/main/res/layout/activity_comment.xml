@@ -96,7 +96,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_gravity="center"
-                    android:scaleType="fitCenter"                    android:layout_marginBottom="16dp"
+                    android:scaleType="fitCenter"
+                    android:layout_marginBottom="16dp"
                     android:src="@drawable/ic_sample_image"
                     android:contentDescription="게시글 이미지" />
 
