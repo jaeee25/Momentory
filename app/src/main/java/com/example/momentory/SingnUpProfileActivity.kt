@@ -1,8 +1,6 @@
 package com.example.momentory
 
-import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -14,26 +12,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
-import com.example.momentory.databinding.ActivityButtonBinding
 import com.example.momentory.databinding.ActivityProfileBinding
+import com.example.momentory.databinding.ActivitySingnUpProfileBinding
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-class ProfileActivity : AppCompatActivity() {
-    private val db = FirebaseFirestore.getInstance()
-    lateinit var binding: ActivityProfileBinding
 
+class SingnUpProfileActivity : AppCompatActivity() {
+
+    lateinit var binding: ActivitySingnUpProfileBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = ActivityProfileBinding.inflate(layoutInflater)
+        binding = ActivitySingnUpProfileBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return
-        // 갤러리에서 이미지 선택
         val requestGalleryLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
@@ -44,9 +39,8 @@ class ProfileActivity : AppCompatActivity() {
                         .load(it)
                         .override(210, 210)
                         .centerCrop()
-                        .into(binding.profileImage)
+                        .into(binding.signUpProfileImage)
 
-                    // 선택된 이미지를 Firestore에 업로드하도록 요청
                     updateProfileImage(currentUserId, it)
                 } ?: run {
                     Log.d("profile", "Image URI is null")
@@ -56,7 +50,7 @@ class ProfileActivity : AppCompatActivity() {
             }
         }
 
-        binding.profileImage.setOnClickListener {
+        binding.signUpProfileImage.setOnClickListener {
             val intent = Intent(
                 Intent.ACTION_PICK,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI
@@ -65,40 +59,17 @@ class ProfileActivity : AppCompatActivity() {
             requestGalleryLauncher.launch(intent)
         }
 
-        // 사용자 프로필 로드
-        loadUserProfile(currentUserId)
-
-        // 프로필 수정 버튼 클릭
-        binding.profileEditBtn.setOnClickListener {
-            val newName = binding.profileName.text.toString().trim()
-            updateUserProfile(currentUserId, newName)
+        binding.signUpProfileBtn.setOnClickListener {
+            val signName = binding.signupProfileName.text.toString().trim()
+            val signImage = binding.signUpProfileImage.tag
+            if (signName.isNotEmpty() && signImage != null) {
+                val intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("signName", signName)
+                intent.putExtra("signImage", signImage.toString())
+                startActivity(intent)
+            }
             finish()
         }
-    }
-
-    private fun loadUserProfile(userId: String) {
-        db.collection("users").document(userId)
-            .get()
-            .addOnSuccessListener { document ->
-                if (document.exists()) {
-                    val name = document.getString("name") ?: "이름 없음"
-                    val profileImageUrl = document.getString("profileImage") // 프로필 이미지 URL 가져오기
-                    binding.profileName.setText(name)
-                    profileImageUrl?.let {
-                        Glide.with(this)
-                            .load(it)
-                            .override(210, 210)
-                            .centerCrop()
-                            .into(binding.profileImage)
-                    }
-                } else {
-                    Toast.makeText(this, "사용자 정보를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
-                }
-            }
-            .addOnFailureListener { exception ->
-                Toast.makeText(this, "정보 로딩에 실패했습니다.", Toast.LENGTH_SHORT).show()
-                Log.e("ProfileActivity", "Error getting user profile", exception)
-            }
     }
 
     private fun updateUserProfile(userId: String, newName: String, profileImageUrl: String? = null) {
@@ -109,18 +80,6 @@ class ProfileActivity : AppCompatActivity() {
         profileImageUrl?.let {
             updates["profileImage"] = it
         }
-
-        // Firestore에서 사용자 이름 및 이미지 URL 업데이트
-        db.collection("users").document(userId)
-            .update(updates)
-            .addOnSuccessListener {
-                binding.profileName.setText(newName)
-                Toast.makeText(this, "프로필이 업데이트되었습니다.", Toast.LENGTH_SHORT).show()
-            }
-            .addOnFailureListener { exception ->
-                Toast.makeText(this, "프로필 업데이트에 실패했습니다.", Toast.LENGTH_SHORT).show()
-                Log.e("ProfileActivity", "Error updating user profile", exception)
-            }
     }
 
     private fun updateProfileImage(userId: String, imageUri: Uri) {
@@ -135,14 +94,14 @@ class ProfileActivity : AppCompatActivity() {
                     val profileImageUrl = uri.toString()
 
                     // Firestore에 이미지 URL 저장
-                    updateUserProfile(userId, binding.profileName.text.toString(), profileImageUrl)
+                    updateUserProfile(userId, binding.signupProfileName.text.toString(), profileImageUrl)
 
                     // 이미지가 저장된 후, 프로필 이미지 갱신
                     Glide.with(this)
                         .load(profileImageUrl)
                         .override(210, 210)
                         .centerCrop()
-                        .into(binding.profileImage)
+                        .into(binding.signUpProfileImage)
                 }
             }
             .addOnFailureListener { exception ->
