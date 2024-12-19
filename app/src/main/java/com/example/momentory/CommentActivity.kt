@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.momentory.databinding.ActivityCommentBinding
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -20,8 +21,8 @@ class CommentActivity : AppCompatActivity() {
     private val comments = mutableListOf<Comment>()
     private lateinit var commentAdapter: CommentAdapter
 
-    private var currentUserName: String = "사용자" // 기본값 설정
-    private val currentUserId = "mhnv5jQ4HcZAIswp9wb8al0ifM72" // Firestore에 저장된 사용자 ID
+    private var currentUserName: String = "눈송이" // 기본값 설정
+    private val currentUserId = FirebaseAuth.getInstance().currentUser?.uid // Firestore에 저장된 사용자 ID
 
     // 이모티콘 반응 변수
     private var smileCount = 0
@@ -109,14 +110,17 @@ class CommentActivity : AppCompatActivity() {
 
     // Firestore에서 사용자 이름 불러오기
     private fun loadCurrentUserName() {
-        firestore.collection("users").document(currentUserId).get()
-            .addOnSuccessListener { document ->
-                currentUserName = document.getString("name") ?: "사용자"
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "사용자 정보를 불러올 수 없습니다: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
+        currentUserId?.let { userId ->
+            firestore.collection("users").document(userId).get()
+                .addOnSuccessListener { document ->
+                    currentUserName = document.getString("name") ?: "알 수 없는 작성자"
+                }
+                .addOnFailureListener {
+                    currentUserName = "알 수 없는 작성자"
+                }
+        }
     }
+
 
     // 댓글 불러오기
     private fun loadComments() {
@@ -141,7 +145,7 @@ class CommentActivity : AppCompatActivity() {
     // 댓글 추가하기
     private fun addComment(content: String) {
         val comment = Comment(
-            author = currentUserName,
+            author = currentUserName, // 현재 사용자 이름 저장
             content = content,
             timestamp = System.currentTimeMillis()
         )
@@ -151,18 +155,21 @@ class CommentActivity : AppCompatActivity() {
             .collection("entries")
             .document(postId)
 
-        postRef.collection("comments").add(comment).addOnSuccessListener {
-            binding.commentEditText.text.clear()
+        postRef.collection("comments").add(comment)
+            .addOnSuccessListener {
+                binding.commentEditText.text.clear()
 
-            // 댓글 개수 업데이트
-            postRef.collection("comments").get().addOnSuccessListener { snapshot ->
-                val commentCount = snapshot.size()
-                postRef.update("commentCount", commentCount)
+                // 댓글 개수 업데이트
+                postRef.collection("comments").get().addOnSuccessListener { snapshot ->
+                    val commentCount = snapshot.size()
+                    postRef.update("commentCount", commentCount)
+                }
             }
-        }.addOnFailureListener { e ->
-            Toast.makeText(this, "댓글 추가 실패: ${e.message}", Toast.LENGTH_SHORT).show()
-        }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "댓글 추가 실패: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
     }
+
     // 리액션 버튼 설정
     private fun setupReactionButtons() {
         binding.reactionSmile.setOnClickListener { updateReactions("😊") }

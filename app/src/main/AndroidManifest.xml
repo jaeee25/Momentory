@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Momentory"
         tools:targetApi="31">
         <activity
+            android:name=".SingnUpProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".PopupMessageActivity"
             android:theme="@style/PopupActivityTheme"
             android:windowSoftInputMode="adjustResize|stateHidden" />
