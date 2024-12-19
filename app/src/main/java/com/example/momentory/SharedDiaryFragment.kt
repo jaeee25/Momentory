@@ -86,10 +86,14 @@ class SharedDiaryFragment : Fragment() {
     private fun loadUserName() {
         val sharedPref = requireActivity().getSharedPreferences("ProfileData", Context.MODE_PRIVATE)
         val savedName = sharedPref.getString("profileName", null)
+        Log.d("FirestoreDiaryName", "저장된 이름: $savedName")
 
-        if (savedName != null) {
+        val toolbarTitle = requireActivity().findViewById<TextView>(R.id.toolbar_title) // 직접 참조
+
+        if (!savedName.isNullOrBlank()) {
             // SharedPreferences에 저장된 이름 사용
-            requireActivity().findViewById<TextView>(R.id.toolbar_title).text = "${savedName} 일기장"
+            Log.d("FirestoreDiaryName", "저장된 이름 사용: $savedName")
+            toolbarTitle.text = "${savedName} 일기장"
         } else {
             // Firestore에서 사용자 이름 가져오기
             val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return
@@ -98,19 +102,34 @@ class SharedDiaryFragment : Fragment() {
                 .addOnSuccessListener { document ->
                     if (document.exists()) {
                         val userName = document.getString("name") ?: "눈송이"
-                        requireActivity().findViewById<TextView>(R.id.toolbar_title).text = "${userName} 일기장"
+                        Log.d("FirestoreDiaryName", "Firestore에서 이름 가져옴: $userName")
+
+                        // UI 업데이트
+                        toolbarTitle.text = "${userName} 일기장"
 
                         // SharedPreferences에 저장
                         val editor = sharedPref.edit()
                         editor.putString("profileName", userName)
                         editor.apply()
+                    } else {
+                        Log.d("FirestoreDiaryName", "Firestore에 사용자 정보 없음. 기본값 설정")
+                        val defaultName = "눈송이"
+                        toolbarTitle.text = "${defaultName} 일기장"
+
+
+                        val editor = sharedPref.edit()
+                        editor.putString("profileName", defaultName)
+                        editor.apply()
                     }
                 }
                 .addOnFailureListener { e ->
                     Log.e("Firestore", "사용자 이름 가져오기 실패", e)
+                    toolbarTitle.text = "눈송이 일기장"
                 }
         }
     }
+
+
 
     private fun fetchPostsFromFirestore() {
         firestore.collection("diary")
