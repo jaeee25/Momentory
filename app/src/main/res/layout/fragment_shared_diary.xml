@@ -28,8 +28,8 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/add_friend_button"
         android:layout_above="@id/write_diary_button"
+        android:layout_below="@id/add_friend_button"
 
         android:padding="16dp" />
 
@@ -38,15 +38,15 @@
         android:id="@+id/write_diary_button"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:src="@drawable/ic_pencil"
-        android:scaleType="fitCenter"
-        android:contentDescription="일기 작성 버튼"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:layout_margin="8dp"
         android:background="@drawable/new_rounded_background"
-        android:clipToOutline="true"
         android:clickable="true"
-        android:focusable="true" />
+        android:clipToOutline="true"
+        android:contentDescription="일기 작성 버튼"
+        android:focusable="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_pencil" />
 
 </RelativeLayout>

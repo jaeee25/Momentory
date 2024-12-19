@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.momentory.databinding.ActivityFriendsAddBinding
 import com.example.momentory.databinding.ActivityRequestedFriendsBinding
 import com.example.momentory.databinding.FriendsRequestListBinding
@@ -41,18 +42,38 @@ class MyAdapter(
                 false
             )
         )
-
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.binding.requestedFriendName.text = names[position]
         holder.binding.requestedFriendMessage.text = messages[position]
-        holder.binding.requestedFriendProfileImage.setImageResource(R.drawable.character)
+
+        // Firestore에서 profileImage URL 가져오기
+        val userId = fromUserIds[position]
+        db.collection("users").document(userId)
+            .get()
+            .addOnSuccessListener { document ->
+                val profileImageUrl = document.getString("profileImage")
+                if (!profileImageUrl.isNullOrEmpty()) {
+                    // Glide를 사용하여 이미지를 불러와 설정
+                    Glide.with(holder.itemView.context)
+                        .load(profileImageUrl)
+                        .placeholder(R.drawable.character) // 기본 이미지
+                        .error(R.drawable.character) // 오류 발생 시 기본 이미지
+                        .into(holder.binding.requestedFriendProfileImage)
+                } else {
+                    // profileImage 필드가 없거나 URL이 비어 있는 경우 기본 이미지 설정
+                    holder.binding.requestedFriendProfileImage.setImageResource(R.drawable.character)
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e("RequestedFriendsActivity", "Error loading profile image for userId: $userId", e)
+                holder.binding.requestedFriendProfileImage.setImageResource(R.drawable.character) // 실패 시 기본 이미지 설정
+            }
 
         holder.binding.friendAcceptBtn.setOnClickListener {
             acceptFriend(position)
             removeRequest(position)
         }
         holder.binding.friendRejectBtn.setOnClickListener {
-            rejectFriend(position)
             removeRequest(position)
         }
     }
@@ -65,7 +86,7 @@ class MyAdapter(
         // 현재 사용자의 friendRequestsReceived에서 요청 삭제
         db.collection("users").document(currentUserId)
             .collection("friendRequestsReceived")
-            .document(fromUserIds[position])  // requestId를 사용해야 할 수 있음
+            .document(senderId)  // senderId를 문서 ID로 사용
             .delete()
             .addOnSuccessListener {
                 Log.d("Firestore", "Request removed from friendRequestsReceived")
@@ -73,7 +94,7 @@ class MyAdapter(
                 // senderId의 friendRequestsSent에서 해당 요청 삭제
                 db.collection("users").document(senderId)
                     .collection("friendRequestsSent")
-                    .document(fromUserIds[position])  // requestId를 사용해야 할 수 있음
+                    .document(currentUserId)  // currentUserId를 문서 ID로 사용
                     .delete()
                     .addOnSuccessListener {
                         Log.d("Firestore", "Request removed from friendRequestsSent")
@@ -95,7 +116,6 @@ class MyAdapter(
             }
     }
 
-    // 친구 요청 수락 메서드
     private fun acceptFriend(position: Int) {
         val senderId = fromUserIds[position] // senderId를 사용
         Log.d("senderID", senderId)
@@ -111,12 +131,15 @@ class MyAdapter(
             .addOnFailureListener { e ->
                 Log.e("Firestore", "Error accepting friend", e)
             }
-    }
 
-    // 친구 요청 거절 메서드
-    private fun rejectFriend(position: Int) {
-        // 거절 시 친구 요청 삭제만 하면 됨
-        removeRequest(position)
+        db.collection("users").document(senderId)
+            .update("friends", FieldValue.arrayUnion(currentUserId))
+            .addOnSuccessListener {
+                Log.d("Firestore", "Friend added to friends list")
+            }
+            .addOnFailureListener { e ->
+                Log.e("Firestore", "Error accepting friend", e)
+            }
     }
 }
 
@@ -134,7 +157,7 @@ class RequestedFriendsActivity : AppCompatActivity() {
         val currentUserId = "4U2aXV9OYK5NobTnUEIX"
         db.collection("users").document(currentUserId)
             .collection("friendRequestsReceived")
-            .whereEqualTo("status", "pending") // 'pending' 상태인 요청만 가져옴
+            .whereEqualTo("status", "pending")
             .get()
             .addOnSuccessListener { documents ->
                 val names = mutableListOf<String>()

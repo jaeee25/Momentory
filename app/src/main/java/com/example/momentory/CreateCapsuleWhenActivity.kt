@@ -22,6 +22,7 @@ class CreateCapsuleWhenActivity : AppCompatActivity() {
     val binding: ActivityCreateCapsuleWhenBinding by lazy {
         ActivityCreateCapsuleWhenBinding.inflate(layoutInflater)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -46,15 +47,15 @@ class CreateCapsuleWhenActivity : AppCompatActivity() {
                 set(year, month, dayOfMonth)
             }.time
 
-            if(selectedDate.before(Date())) {
+            if (selectedDate.before(Date())) {
                 Toast.makeText(this, "미래의 날짜를 선택해주세요.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             createTimeCapsule(selectedFriends, selectedDate)
 //            Log.d("CreateCapsuleWhenActivity", "year: $year, month: $month, dayOfMonth: $dayOfMonth")
-            Log.d("CreateCapsuleWhenActivity","$selectedDate")
-            Log.d("CreateCapsuleWhenActivity","$selectedFriends")
+            Log.d("CreateCapsuleWhenActivity", Date().toString())
+            Log.d("CreateCapsuleWhenActivity", "$selectedDate")
         }
     }
 

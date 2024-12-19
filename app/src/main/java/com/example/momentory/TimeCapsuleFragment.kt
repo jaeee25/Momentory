@@ -53,12 +53,15 @@ class TimeCapsuleFragment : Fragment() {
     }
 
     private fun mapDocumentToTimeCapsuleItem(document: QueryDocumentSnapshot): TimeCapsuleItem {
+        val documentId = document.id
         val unlockDate = document.getDate("unlockDate") ?: Date()
         val createDate = document.getDate("createdAt") ?: Date()
         val imageRes = null // 기본 이미지
+        // TODO: 첫번째 이미지 URL을 가져와서 이미지뷰에 표시
         val friends = document.get("friends") as? List<String> ?: emptyList()
 
         return TimeCapsuleItem(
+            capsuleId = documentId,
             releaseDate = unlockDate,
             createDate = createDate,
             imageRes = imageRes,
@@ -70,11 +73,13 @@ class TimeCapsuleFragment : Fragment() {
         binding.timeCapsuleRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = TimeCapsuleAdapter(timeCapsuleList) { selectedItem ->
-                // 클릭된 TimeCapsuleItem을 기반으로 OpenTimeCapsuleActivity 실행
                 val intent = Intent(requireContext(), OpenTimeCapsuleActivity::class.java).apply {
-                    putExtra("releaseDate", selectedItem.releaseDate.time) // Date를 밀리초로 전달
-                    putExtra("createDate", selectedItem.createDate.time)
-                    putExtra("friends", ArrayList(selectedItem.friends)) // List를 ArrayList로 변환
+                    putExtra("timeCapsuleId", selectedItem.capsuleId)
+                    putExtra("timeCapsuleTitle",DateUtils.formatDateWithYear(selectedItem.releaseDate))
+                    putStringArrayListExtra("timeCapsuleFriends", ArrayList(selectedItem.friends))
+//                    Log.d("TimeCapsuleFragment", "timeCapsuleId: ${selectedItem.capsuleId}")
+//                    Log.d("TimeCapsuleFragment", "timeCapsuleTitle: ${selectedItem.releaseDate}")
+//                    Log.d("TimeCapsuleFragment", "timeCapsuleFriends: ${selectedItem.friends}")
                 }
                 startActivity(intent)
             }

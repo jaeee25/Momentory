@@ -32,14 +32,17 @@
     </com.google.android.material.appbar.AppBarLayout>
 
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@drawable/rounded_up_background"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="35dp">
+        android:paddingTop="30dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="20dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/requestedFriendsRecyclerView"
@@ -49,12 +52,12 @@
         <TextView
             android:id="@+id/noFriendsText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="아직 받은 친구 요청이 없어요."
             android:layout_gravity="center"
             android:gravity="center"
             android:textSize="20dp"
             android:layout_marginBottom="50dp"
             android:visibility="visible"/>
-    </LinearLayout>
+    </FrameLayout>
 </LinearLayout>

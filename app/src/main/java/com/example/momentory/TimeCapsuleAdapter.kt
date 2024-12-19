@@ -1,29 +1,25 @@
 package com.example.momentory
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.momentory.databinding.ItemTimeCapsuleBinding
 import com.example.momentory.databinding.ItemTimecapsuleFriendsBinding
+import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Calendar
 import java.util.Date
-
-
 data class TimeCapsuleItem(
+    val capsuleId: String,
     val releaseDate: Date,
     val createDate: Date,
     val imageRes: Int?,
     val friends: List<String>
-)
-
-data class Time(
-    val year: Int,
-    val month: Int,
-    val day: Int
 )
 
 class TimeCapsuleAdapter(
@@ -33,13 +29,13 @@ class TimeCapsuleAdapter(
 
     inner class TimeCapsuleViewHolder(private val binding: ItemTimeCapsuleBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bind(item: TimeCapsuleItem) {
-            val releaseTime: Time = timeFormat(item.releaseDate)
-            val createTime: Time = timeFormat(item.createDate)
-            binding.capsuleReleaseDate.text =
-                "~${releaseTime.year}년 ${releaseTime.month}월 ${releaseTime.day}일"
-            binding.capsuleCreateDate.text =
-                "${createTime.month}월 ${createTime.day}일"
+            // DateUtils를 사용하여 날짜 포맷팅
+            binding.capsuleReleaseDate.text = "~${DateUtils.formatDateWithYear(item.releaseDate)}"
+//            binding.capsuleCreateDate.text = DateUtils.formatDateWithoutYear(item.createDate)
+            val dDayText = calculateDDay(item.releaseDate)
+            binding.capsuleCreateDate.text = dDayText // D-day 텍스트 설정
 
             setupFriendsList(item.friends)
 
@@ -67,21 +63,18 @@ class TimeCapsuleAdapter(
             binding.capsuleFriendsList.adapter = innerAdapter
         }
 
-        fun timeFormat(date: Date): Time {
-//            Tue Oct 15 00:00:00 GMT 2024
-            val calendar = Calendar.getInstance()
-            calendar.time = date
+        private fun calculateDDay(releaseDate: Date): String {
+            val currentDate = Date() // 오늘 날짜
+            val diffInMillis = releaseDate.time - currentDate.time
+            val dDay = (diffInMillis / (1000 * 60 * 60 * 24)).toInt() // 남은 일수
 
-            // 요소 추출
-            val year = calendar.get(Calendar.YEAR)
-            val month = calendar.get(Calendar.MONTH) + 1 // 0부터 시작하므로 +1 필요
-            val day = calendar.get(Calendar.DAY_OF_MONTH)
-            return Time(
-                year = year,
-                month = month,
-                day = day
-            )
+            return when {
+                dDay > 0 -> "D-$dDay"       // D-3, D-2, D-1
+                dDay == 0 -> "D-day"        // D-day (오늘이 해제일)
+                else -> "D+${-dDay}"        // D+1, D+2 (이미 지난 날짜)
+            }
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimeCapsuleViewHolder {
@@ -91,11 +84,9 @@ class TimeCapsuleAdapter(
         return TimeCapsuleViewHolder(binding)
     }
 
-
     override fun onBindViewHolder(holder: TimeCapsuleViewHolder, position: Int) {
         holder.bind(items[position])
     }
-
 
     override fun getItemCount(): Int = items.size
 }
@@ -105,10 +96,32 @@ class FriendsAdapter(private val friends: List<String>) :
 
     inner class FriendsViewHolder(private val binding: ItemTimecapsuleFriendsBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        private val db = FirebaseFirestore.getInstance()
 
-        fun bind(friend: String) {
-//            friend : 친구 ID List, -> 스토리지 연동하여 프로필 이미지 가져오기
-            binding.friendProfileImage.setImageResource(R.drawable.character)
+        fun bind(friendId: String) {
+            // Firestore에서 친구의 프로필 이미지 URL을 가져오기
+            db.collection("users")
+                .document(friendId)
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        val profileImageUrl = document.getString("profileImage")
+                        if (profileImageUrl != null) {
+                            Glide.with(binding.root.context)
+                                .load(profileImageUrl)
+                                .centerCrop()
+                                .placeholder(R.drawable.baseline_person_24) // 로딩 중 표시할 이미지
+                                .into(binding.friendProfileImage)
+                        } else {
+                            // 프로필 이미지가 없다면 기본 이미지 사용
+                            binding.friendProfileImage.setImageResource(R.drawable.baseline_person_24)
+                        }
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.e("FriendsAdapter", "Error getting document: ", exception)
+                    binding.friendProfileImage.setImageResource(R.drawable.baseline_person_24)
+                }
         }
     }
 
@@ -123,4 +136,3 @@ class FriendsAdapter(private val friends: List<String>) :
 
     override fun getItemCount(): Int = friends.size
 }
-
