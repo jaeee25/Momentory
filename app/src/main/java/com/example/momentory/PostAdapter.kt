@@ -3,6 +3,7 @@ package com.example.momentory
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.momentory.databinding.ItemSharedPostBinding
 import com.example.momentory.databinding.ItemSecretPostBinding
 
@@ -50,15 +51,18 @@ class PostAdapter(
             binding.postTitle.text = post.title
             binding.postDate.text = post.date
             binding.postUser.text = post.user
-
             binding.postContent.text = post.content
             binding.likeCount.text = post.reactionTotal.toString()
             binding.commentCount.text = post.commentCount.toString()
 
-
+            // 이미지 처리
+            Glide.with(binding.root.context)
+                .load(post.photoUrl) // 이미지 URL
+                .placeholder(R.drawable.ic_sample_image) // 로딩 중 보여줄 이미지
+                .error(R.drawable.ic_error_image) // 실패 시 보여줄 이미지
+                .into(binding.postPhoto) // ImageView에 이미지 설정
         }
     }
-
 
     inner class SecretPostViewHolder(private val binding: ItemSecretPostBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -67,8 +71,13 @@ class PostAdapter(
             binding.postDate.text = post.date
             binding.postContent.text = post.content
 
-
-
+            // 이미지 처리
+            Glide.with(binding.root.context)
+                .load(post.photoUrl) // 이미지 URL
+                .placeholder(R.drawable.ic_sample_image) // 로딩 중 보여줄 이미지
+                .error(R.drawable.ic_error_image) // 실패 시 보여줄 이미지
+                .into(binding.postPhoto) // ImageView에 이미지 설정
         }
     }
+
 }
