@@ -31,12 +31,13 @@ class SecretDiaryFragment : Fragment() {
 
         postAdapter = PostAdapter(postList, PostAdapter.VIEW_TYPE_SECRET) { post, position ->
             val intent = Intent(activity, CommentActivity::class.java).apply {
-                putExtra("postId", post.date)
+                putExtra("postId", post.id)
                 putExtra("postTitle", post.title)
                 putExtra("postContent", post.content)
                 putExtra("postUser", post.user)
                 putExtra("postDate", post.date)
                 putExtra("photoUrl", post.photoUrl)
+                putExtra("type", "secret")
             }
             startActivity(intent)
         }
@@ -60,12 +61,12 @@ class SecretDiaryFragment : Fragment() {
         firestore.collection("diary")
             .document("secret")
             .collection("entries")
-
             .get()
             .addOnSuccessListener { documents ->
                 postList.clear()
                 for (document in documents) {
                     val post = document.toObject(Post::class.java)
+                        post.id = document.id // 문서 ID를 Post 객체에 저장
                     postList.add(post)
                 }
                 postList.sortByDescending { it.date }

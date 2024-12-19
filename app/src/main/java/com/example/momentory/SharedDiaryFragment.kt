@@ -43,6 +43,7 @@ class SharedDiaryFragment : Fragment() {
                 putExtra("postContent", post.content)
                 putExtra("postUser", post.user)
                 putExtra("postDate", post.date)
+                putExtra("postImageUrl", post.imageUrl)
             }
             startActivity(intent)
         }

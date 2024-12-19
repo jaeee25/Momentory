@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.momentory.databinding.ActivityCommentBinding
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -15,6 +16,7 @@ class CommentActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCommentBinding
     private val firestore = FirebaseFirestore.getInstance()
     private lateinit var postId: String
+    private lateinit var type: String // 공유인지 비공개인지 구분
     private val comments = mutableListOf<Comment>()
     private lateinit var commentAdapter: CommentAdapter
 
@@ -35,8 +37,9 @@ class CommentActivity : AppCompatActivity() {
         // Firestore에서 사용자 이름 가져오기
         loadCurrentUserName()
 
-        // 전달받은 게시글 ID
+        // 전달받은 게시글 ID와 타입 (공개/비공개)
         postId = intent.getStringExtra("postId") ?: "default_post_id"
+        type = intent.getStringExtra("type") ?: "share"
 
         // UI에 게시글 데이터 표시 & 최신화
         loadPostData()
@@ -69,7 +72,7 @@ class CommentActivity : AppCompatActivity() {
      */
     private fun loadPostData() {
         val postRef = firestore.collection("diary")
-            .document("share")
+            .document(type) // 공유인지 비공개인지 동적으로 설정
             .collection("entries")
             .document(postId)
 
@@ -80,12 +83,20 @@ class CommentActivity : AppCompatActivity() {
                     val postContent = document.getString("content") ?: "내용 없음"
                     val postDate = document.getString("date") ?: "날짜 없음"
                     val postUser = document.getString("user") ?: "작성자 없음"
+                    val postPhotoUrl = document.getString("photoUrl") ?: ""
 
                     // UI에 최신 데이터 반영
                     binding.postTitle.text = postTitle
                     binding.postContent.text = postContent
                     binding.postDate.text = postDate
                     binding.postUser.text = postUser
+
+                    Glide.with(this)
+                        .load(postPhotoUrl)
+                        .placeholder(R.drawable.ic_sample_image)
+                        .error(R.drawable.ic_error_image)
+                        .into(binding.postPhoto)
+
                 } else {
                     Toast.makeText(this, "게시글을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
                     finish()
@@ -95,7 +106,6 @@ class CommentActivity : AppCompatActivity() {
                 Toast.makeText(this, "게시글 불러오기 실패: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
-
 
     // Firestore에서 사용자 이름 불러오기
     private fun loadCurrentUserName() {
@@ -153,7 +163,6 @@ class CommentActivity : AppCompatActivity() {
             Toast.makeText(this, "댓글 추가 실패: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
-
     // 리액션 버튼 설정
     private fun setupReactionButtons() {
         binding.reactionSmile.setOnClickListener { updateReactions("😊") }

@@ -11,11 +11,10 @@ class CommentAdapter(private val commentList: List<Comment>) :
     inner class CommentViewHolder(private val binding: ItemCommentBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(comment: Comment) {
-            binding.commentAuthor.text = comment.author
+            binding.commentAuthor.text = comment.author.ifEmpty { "알 수 없는 작성자" }
             binding.commentContent.text = comment.content
         }
     }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
         val binding =
             ItemCommentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
