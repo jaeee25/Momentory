@@ -77,10 +77,6 @@ class SharedDiaryFragment : Fragment() {
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-        loadUserName() // 프래그먼트로 돌아올 때 이름 업데이트
-    }
 
 
     private fun loadUserName() {
@@ -89,45 +85,45 @@ class SharedDiaryFragment : Fragment() {
         Log.d("FirestoreDiaryName", "저장된 이름: $savedName")
 
         val toolbarTitle = requireActivity().findViewById<TextView>(R.id.toolbar_title) // 직접 참조
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        firestore.collection("users").document(currentUserId)
+            .get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val userName = document.getString("name") ?: "눈송이"
+                    Log.d("FirestoreDiaryName", "Firestore에서 이름 가져옴: $userName")
 
-        if (!savedName.isNullOrBlank()) {
-            // SharedPreferences에 저장된 이름 사용
-            Log.d("FirestoreDiaryName", "저장된 이름 사용: $savedName")
-            toolbarTitle.text = "${savedName} 일기장"
-        } else {
-            // Firestore에서 사용자 이름 가져오기
-            val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return
-            firestore.collection("users").document(currentUserId)
-                .get()
-                .addOnSuccessListener { document ->
-                    if (document.exists()) {
-                        val userName = document.getString("name") ?: "눈송이"
-                        Log.d("FirestoreDiaryName", "Firestore에서 이름 가져옴: $userName")
+                    // UI 업데이트
+                    toolbarTitle.text = "${userName} 일기장"
 
-                        // UI 업데이트
-                        toolbarTitle.text = "${userName} 일기장"
-
-                        // SharedPreferences에 저장
-                        val editor = sharedPref.edit()
-                        editor.putString("profileName", userName)
-                        editor.apply()
-                    } else {
-                        Log.d("FirestoreDiaryName", "Firestore에 사용자 정보 없음. 기본값 설정")
-                        val defaultName = "눈송이"
-                        toolbarTitle.text = "${defaultName} 일기장"
+                    // SharedPreferences에 저장
+                    val editor = sharedPref.edit()
+                    editor.putString("profileName", userName)
+                    editor.apply()
+                } else {
+                    Log.d("FirestoreDiaryName", "Firestore에 사용자 정보 없음. 기본값 설정")
+                    val defaultName = "눈송이"
+                    toolbarTitle.text = "${defaultName} 일기장"
 
 
-                        val editor = sharedPref.edit()
-                        editor.putString("profileName", defaultName)
-                        editor.apply()
-                    }
+                    val editor = sharedPref.edit()
+                    editor.putString("profileName", defaultName)
+                    editor.apply()
                 }
-                .addOnFailureListener { e ->
-                    Log.e("Firestore", "사용자 이름 가져오기 실패", e)
-                    toolbarTitle.text = "눈송이 일기장"
-                }
-        }
+            }
+            .addOnFailureListener { e ->
+                Log.e("Firestore", "사용자 이름 가져오기 실패", e)
+                toolbarTitle.text = "눈송이 일기장"
+
+            }
     }
+
+
+    override fun onResume() {
+        super.onResume()
+        loadUserName() // 프래그먼트가 다시 보일 때 강제 갱신
+    }
+
 
 
 
