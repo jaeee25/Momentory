@@ -70,7 +70,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="핸드폰 전화번호"
+                        android:text="핸드폰 번호"
                         android:textAppearance="@style/subTitle" />
 
                     <LinearLayout
@@ -159,60 +159,60 @@
 
                 </LinearLayout>
 
-                <View
-                    android:id="@+id/divider"
-                    android:layout_width="match_parent"
-                    android:layout_height="5dp"
-                    android:background="?android:attr/listDivider"
-                    android:layout_marginTop="30dp"/>
+                    <View
+                        android:id="@+id/divider"
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:background="?android:attr/listDivider"
+                        android:layout_marginTop="30dp"/>
 
-                <LinearLayout
-                    android:id="@+id/pw_change_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="30dp"
-                    android:gravity="center"
-                    android:visibility="invisible"
-                    >
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/pw_change_layout"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="새로운 비밀번호 입력"
-                        android:layout_marginTop="20dp"
-                        android:textAppearance="@style/subTitle"/>
-
-                    <EditText
-                        android:id="@+id/pw_new"
-                        android:layout_width="300dp"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
-                        android:padding="5dp"
-                        android:textAppearance="@style/subTitle"
-                        android:background="@drawable/rounded_input"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="10dp"/>
+                        android:orientation="vertical"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="30dp"
+                        android:gravity="center"
+                        android:visibility="invisible"
+                        >
 
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="새로운 비밀번호 입력"
+                            android:layout_marginTop="20dp"
+                            android:textAppearance="@style/subTitle"/>
 
-                    <Button
-                        android:id="@+id/change_pw"
-                        android:layout_width="200dp"
-                        android:layout_height="wrap_content"
-                        android:text="비밀번호 변경"
-                        android:textColor="@color/white"
-                        android:background="@drawable/rounded_btn_deep"
-                        android:textAppearance="@style/button"
-                        android:layout_marginTop="15dp"/>
-
+                        <EditText
+                            android:id="@+id/pw_new"
+                            android:layout_width="300dp"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:padding="5dp"
+                            android:textAppearance="@style/subTitle"
+                            android:background="@drawable/rounded_input"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="10dp"/>
 
 
 
+                        <Button
+                            android:id="@+id/change_pw"
+                            android:layout_width="200dp"
+                            android:layout_height="wrap_content"
+                            android:text="비밀번호 변경"
+                            android:textColor="@color/white"
+                            android:background="@drawable/rounded_btn_deep"
+                            android:textAppearance="@style/button"
+                            android:layout_marginTop="15dp"/>
 
-                </LinearLayout>
+
+
+
+
+                    </LinearLayout>
 
             </LinearLayout>
 

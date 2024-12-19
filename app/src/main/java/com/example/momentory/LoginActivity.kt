@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.method.PasswordTransformationMethod
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -72,6 +73,11 @@ class LoginActivity : AppCompatActivity() {
         binding.googleLi.setOnClickListener {
             signInWithGoogle()
         }
+
+        // 구글로 회원가입 google_su
+        binding.googleSu.setOnClickListener {
+            signInWithGoogle()
+        }
     }
 
     private fun togglePasswordVisibility() {
@@ -131,6 +137,8 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
+    // 구글 관련
+
     // Google 로그인 처리
     private fun signInWithGoogle() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -152,7 +160,7 @@ class LoginActivity : AppCompatActivity() {
                 val account = task.getResult(ApiException::class.java)
                 firebaseAuthWithGoogle(account)
             } catch (e: ApiException) {
-                Toast.makeText(this, "Google 로그인 실패", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Google 로그인 실패: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -174,18 +182,38 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
-
     private fun checkOrAddGoogleUser(user: FirebaseUser?) {
         if (user != null) {
+            // Firestore에서 사용자 확인
             db.collection("users").document(user.uid)
                 .get()
                 .addOnSuccessListener { document ->
                     if (document.exists()) {
+                        // 이미 Firestore에 등록된 사용자일 경우
                         Toast.makeText(this, "로그인 성공!", Toast.LENGTH_SHORT).show()
                         startActivity(Intent(this, HomeActivity::class.java))
                         finish()
                     } else {
-                        Toast.makeText(this, "회원가입 후 로그인해주세요.", Toast.LENGTH_SHORT).show()
+                        // 새 사용자라면 회원가입 처리
+                        val newUser = hashMapOf(
+                            "email" to user.email,
+                            "name" to user.displayName,
+                            "signupMethod" to "google"
+                        )
+
+                        // Firestore에 사용자 정보 추가
+                        db.collection("users").document(user.uid)
+                            .set(newUser)
+                            .addOnSuccessListener {
+                                Log.d("uiddd", "Login Current user ID: $user.uid")
+                                Toast.makeText(this, "회원가입 완료!", Toast.LENGTH_SHORT).show()
+
+                                // 전화번호 인증하러 SignupActivity로 이동
+                                startActivity(Intent(this, SignupActivity::class.java))
+                            }
+                            .addOnFailureListener { e ->
+                                Toast.makeText(this, "회원가입 실패: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+                            }
                     }
                 }
                 .addOnFailureListener {
@@ -193,4 +221,5 @@ class LoginActivity : AppCompatActivity() {
                 }
         }
     }
+
 }
