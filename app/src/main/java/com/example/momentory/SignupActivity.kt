@@ -92,9 +92,7 @@ class SignupActivity : AppCompatActivity() {
                     val user = hashMapOf(
                         "phoneNumber" to phoneNumber,
                         "password" to password,
-                        "email" to "",
-                        "signupMethod" to "normal",
-                        "name" to ""
+                        "signupMethod" to "normal"
                     )
 
                     // Firebase Auth에서 UID 가져오기
@@ -261,8 +259,6 @@ class SignupActivity : AppCompatActivity() {
                     val user = firebaseAuth.currentUser
                     if (user != null) {
                         val userData = mapOf(
-                            "phoneNumber" to "", // 공백
-                            "password" to "", // 공백
                             "email" to user.email.orEmpty(),
                             "signupMethod" to "google",
                             "name" to user.displayName.orEmpty()

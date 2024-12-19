@@ -9,6 +9,7 @@ data class Post(
     val photoUrl: String = "",
     val location: String = "",
     val weather: String = "",
+    var imageUrl: String = "",
     var likeCount: Int = 0,
     var commentCount: Int = 0,
     var reactions: MutableMap<String, Int> = mutableMapOf(
