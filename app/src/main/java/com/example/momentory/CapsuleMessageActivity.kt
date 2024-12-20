@@ -34,14 +34,6 @@ class CapsuleMessageActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         binding.capsuleToolbar.setNavigationOnClickListener {
-            val resultIntent = Intent().apply {
-                putExtra("timeCapsuleId", intent.getStringExtra("timeCapsuleId")) // ID 다시 전달
-                putExtra(
-                    "timeCapsuleTitle",
-                    intent.getStringExtra("timeCapsuleTitle")
-                ) // Title 다시 전달
-            }
-            setResult(Activity.RESULT_OK, resultIntent)
             finish()
         }
 
@@ -89,21 +81,12 @@ class CapsuleMessageActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        val resultIntent = Intent().apply {
-            putExtra("timeCapsuleId", intent.getStringExtra("timeCapsuleId")) // ID 다시 전달
-            putExtra("timeCapsuleTitle", intent.getStringExtra("timeCapsuleTitle")) // Title 다시 전달
-        }
-        setResult(Activity.RESULT_OK, resultIntent)
-        super.onBackPressed()
-    }
-
     private fun saveTimeCapsuleMessage(capsuleId: String) {
         val message = binding.messageEditText.text.toString()
         val imageUri = binding.selectedImage.tag as? Uri // 이미지의 로컬 URI 가져오기
 
         if (message.isBlank() && imageUri == null) {
-            Toast.makeText(this, "메시지나 이미지를 추가해주세요.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "메시지와 이미지를 추가해주세요.", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -113,13 +96,6 @@ class CapsuleMessageActivity : AppCompatActivity() {
             }
         }
         finish()
-//        if (imageUri != null) {
-//            uploadImageToStorage(imageUri) { imageUrl ->
-//                saveMessageToFirestore(capsuleId, message, imageUrl)
-//            }
-//        } else {
-//            saveMessageToFirestore(capsuleId, message, null)
-//        }
     }
 
     private fun uploadImageToStorage(imageUri: Uri, onSuccess: (String) -> Unit) {

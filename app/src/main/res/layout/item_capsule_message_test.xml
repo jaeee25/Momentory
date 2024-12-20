@@ -33,7 +33,7 @@
             android:layout_gravity="center"
             android:clipToOutline="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_lock"
+            android:src="@drawable/baseline_lock"
             android:visibility="visible"/>
     </androidx.cardview.widget.CardView>
 </LinearLayout>

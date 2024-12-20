@@ -14,6 +14,7 @@ import com.example.momentory.databinding.ItemTimecapsuleFriendsBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Calendar
 import java.util.Date
+
 data class TimeCapsuleItem(
     val capsuleId: String,
     val releaseDate: Date,
@@ -43,9 +44,6 @@ class TimeCapsuleAdapter(
                 binding.capsuleLock.visibility = View.VISIBLE
             } else {
                 binding.capsuleLock.visibility = View.GONE
-                if (item.imageRes != null) {
-                    binding.capsuleImage.setImageResource(item.imageRes)
-                }
             }
 
             // 아이템 클릭 이벤트 설정

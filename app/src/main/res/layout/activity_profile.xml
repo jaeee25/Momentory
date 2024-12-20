@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="@color/deep_pink"
     android:orientation="vertical"
-    tools:context=".ButtonActivity">
+    tools:context=".ProfileActivity">
+
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,20 +16,20 @@
         android:gravity="center">
 
         <androidx.appcompat.widget.Toolbar
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
             app:navigationIcon="@drawable/baseline_arrow_back_ios_24">
 
             <TextView
+                style="@style/customToolbarTitleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="프로필 수정"
-                style="@style/customToolbarTitleText"/>
+                android:text="내 프로필" />
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -42,40 +43,20 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="35dp"
             android:layout_marginLeft="35dp"
-            android:layout_marginRight="35dp"
             android:layout_marginTop="15dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginBottom="35dp"
             android:gravity="center"
             android:orientation="vertical">
 
-            <FrameLayout
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/profile_image"
                 android:layout_width="210dp"
                 android:layout_height="210dp"
-                android:layout_marginBottom="30dp">
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/profileImage"
-                    android:layout_width="210dp"
-                    android:layout_height="210dp"
-                    app:shapeAppearanceOverlay="@style/roundedImageView"
-                    android:src="@drawable/baseline_person_24"
-                    android:layout_marginBottom="30dp"/>
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:alpha="0.15"
-                    android:layout_width="210dp"
-                    android:layout_height="210dp"
-                    app:shapeAppearanceOverlay="@style/roundedImageView"
-                    android:background="@color/black"
-                    android:layout_marginBottom="30dp"/>
-
-                <ImageView
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/baseline_camera_alt_24" />
-            </FrameLayout>
+                android:layout_marginBottom="30dp"
+                android:src="@drawable/baseline_person_24"
+                app:shapeAppearanceOverlay="@style/roundedImageView" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -85,73 +66,48 @@
                 android:text="이름"
                 android:textSize="20dp" />
 
-            <FrameLayout
+            <EditText
+                android:id="@+id/profile_name"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:layout_marginBottom="15dp">
-
-                <EditText
-                    android:fontFamily="@font/moneygraphy_rounded"
-                    android:text=""
-                    android:id="@+id/profile_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_marginBottom="20dp"
-                    android:background="@drawable/rounded_edittext"
-                    android:inputType="text"
-                    android:maxLength="13"
-                    android:paddingLeft="15dp"
-                    android:textSize="20dp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="10dp"
-                    android:src="@drawable/baseline_edit_24" />
-            </FrameLayout>
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/rounded_edittext"
+                android:fontFamily="@font/moneygraphy_rounded"
+                android:inputType="text"
+                android:maxLength="13"
+                android:paddingLeft="15dp"
+                android:text=""
+                android:textSize="20dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:text="비밀번호"
+                android:layout_marginBottom="10dp"
+                android:text="전화번호"
                 android:textSize="20dp" />
 
-            <FrameLayout
+            <EditText
+                android:id="@+id/profile_phone"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:layout_marginBottom="15dp">
-                <EditText
-                    android:fontFamily="@font/moneygraphy_rounded"
-                    android:text=""
-                    android:id="@+id/profile_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:background="@drawable/rounded_edittext"
-                    android:inputType="textPassword"
-                    android:paddingLeft="15dp"
-                    android:textSize="20dp"
-                    android:layout_marginBottom="10dp"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="10dp"
-                    android:src="@drawable/baseline_edit_24" />
-            </FrameLayout>
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/rounded_edittext"
+                android:fontFamily="@font/moneygraphy_rounded"
+                android:inputType="text"
+                android:maxLength="13"
+                android:paddingLeft="15dp"
+                android:text=""
+                android:textSize="20dp" />
 
             <Button
-                android:id="@+id/profileEditBtn"
+                android:id="@+id/profile_edit_btn"
                 android:layout_width="207dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/deep_pink"
-                android:text="완료하기"
-                android:textSize="23dp"
                 android:fontFamily="@font/font_default"
+                android:text="프로필 수정"
+                android:textSize="23dp"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>

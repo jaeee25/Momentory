@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.momentory.databinding.FragmentTimeCapsuleBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QueryDocumentSnapshot
+import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 class TimeCapsuleFragment : Fragment() {
 
@@ -56,8 +58,7 @@ class TimeCapsuleFragment : Fragment() {
         val documentId = document.id
         val unlockDate = document.getDate("unlockDate") ?: Date()
         val createDate = document.getDate("createdAt") ?: Date()
-        val imageRes = null // 기본 이미지
-        // TODO: 첫번째 이미지 URL을 가져와서 이미지뷰에 표시
+        val imageRes = R.drawable.baseline_lock_open_white_24
         val friends = document.get("friends") as? List<String> ?: emptyList()
 
         return TimeCapsuleItem(
@@ -77,9 +78,6 @@ class TimeCapsuleFragment : Fragment() {
                     putExtra("timeCapsuleId", selectedItem.capsuleId)
                     putExtra("timeCapsuleTitle",DateUtils.formatDateWithYear(selectedItem.releaseDate))
                     putStringArrayListExtra("timeCapsuleFriends", ArrayList(selectedItem.friends))
-//                    Log.d("TimeCapsuleFragment", "timeCapsuleId: ${selectedItem.capsuleId}")
-//                    Log.d("TimeCapsuleFragment", "timeCapsuleTitle: ${selectedItem.releaseDate}")
-//                    Log.d("TimeCapsuleFragment", "timeCapsuleFriends: ${selectedItem.friends}")
                 }
                 startActivity(intent)
             }
