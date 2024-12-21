@@ -43,8 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/friends_and_add_button_container"
-        android:layout_marginBottom="10dp"
-        android:padding="16dp" />
+        android:layout_marginBottom="10dp"/>
 
 
     <ImageButton
