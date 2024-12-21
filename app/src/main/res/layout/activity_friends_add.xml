@@ -85,7 +85,7 @@
 
             <Button
                 android:fontFamily="@font/font_default"
-                android:id="@+id/friendsAddBtn"
+                android:id="@+id/friends_add_btn"
                 android:layout_width="207dp"
                 android:layout_height="55dp"
                 android:backgroundTint="@color/deep_pink"

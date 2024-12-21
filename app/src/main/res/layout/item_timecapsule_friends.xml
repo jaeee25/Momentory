@@ -5,7 +5,7 @@
     android:orientation="horizontal">
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/friendProfileImage"
+        android:id="@+id/friend_profile_image"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@color/white"

@@ -47,12 +47,12 @@
         android:paddingBottom="20dp">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/requestedFriendsRecyclerView"
+            android:id="@+id/requested_friends_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
         <TextView
-            android:id="@+id/noFriendsText"
+            android:id="@+id/no_friends_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="아직 받은 친구 요청이 없어요."

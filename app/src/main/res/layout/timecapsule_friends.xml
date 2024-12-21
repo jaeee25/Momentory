@@ -20,7 +20,7 @@
             android:orientation="horizontal">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/createCapsuleProfileImage"
+                android:id="@+id/create_capsule_profile_image"
                 android:layout_width="55dp"
                 android:layout_height="55dp"
                 android:layout_marginEnd="8dp"
@@ -29,12 +29,12 @@
                 app:shapeAppearanceOverlay="@style/roundedImageView" />
 
             <TextView
-                android:id="@+id/createCapsuleName"
+                android:id="@+id/create_capsule_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="3dp"
-                android:text="권재희"
+                android:text="성이름"
                 android:textSize="24dp"
                 android:textStyle="bold" />
 

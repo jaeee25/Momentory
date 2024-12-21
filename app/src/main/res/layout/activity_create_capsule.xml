@@ -16,7 +16,7 @@
         android:gravity="center">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/capsuleToolbar"
+            android:id="@+id/capsule_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/baseline_arrow_back_ios_24" />
@@ -39,7 +39,7 @@
             android:orientation="vertical">
 
             <TextView
-                style="@style/createCapsule"
+                style="@style/create_capsule"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -61,7 +61,7 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:id="@+id/capsuleFriendName"
+                        android:id="@+id/capsule_friend_name"
                         android:layout_width="0dp"
                         android:layout_height="45dp"
                         android:layout_marginEnd="10dp"
@@ -70,7 +70,7 @@
                         android:hint="이름을 입력해주세요" />
 
                     <ImageView
-                        android:id="@+id/searchFriend"
+                        android:id="@+id/search_friend"
                         android:layout_width="30dp"
                         android:layout_height="45dp"
                         android:src="@drawable/baseline_search_24" />
@@ -84,7 +84,7 @@
                     android:scrollbars="none">
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/timeCapsuleRecyclerView"
+                        android:id="@+id/time_capsule_recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
                 </ScrollView>
@@ -92,7 +92,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/createCapsuleNextBtn"
+            android:id="@+id/create_capsule_next_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
