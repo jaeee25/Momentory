@@ -46,7 +46,7 @@ class ProfileActivity : AppCompatActivity() {
             .addOnSuccessListener { document ->
                 if (document.exists()) {
                     val name = document.getString("name") ?: "이름 없음"
-                    val email = document.getString("email") ?: "전화번호 없음"
+                    val email = document.getString("email") ?: "이메일 없음"
                     val profileImageUrl = document.getString("profileImage") // 프로필 이미지 URL 가져오기
                     binding.profileName.setText(name)
                     binding.profileEmail.setText(email)

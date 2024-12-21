@@ -27,14 +27,13 @@ data class TimeCapsuleItem(
 
 class TimeCapsuleAdapter(
     private val items: List<TimeCapsuleItem>,
-    private val onItemClick: (TimeCapsuleItem) -> Unit // 클릭 리스너 추가
+    private val onItemClick: (TimeCapsuleItem) -> Unit
 ) : RecyclerView.Adapter<TimeCapsuleAdapter.TimeCapsuleViewHolder>() {
 
     inner class TimeCapsuleViewHolder(private val binding: ItemTimeCapsuleBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: TimeCapsuleItem) {
-            // DateUtils를 사용하여 날짜 포맷팅
             binding.capsuleReleaseDate.text = "~${DateUtils.formatDateWithYear(item.releaseDate)}"
             val dDayText = calculateDDay(item.releaseDate)
             binding.capsuleCreateDate.text = dDayText // D-day 텍스트 설정
@@ -47,14 +46,12 @@ class TimeCapsuleAdapter(
                 binding.capsuleLock.visibility = View.GONE
             }
 
-            // 아이템 클릭 이벤트 설정
             binding.root.setOnClickListener {
-                onItemClick(item) // 클릭된 아이템 전달
+                onItemClick(item)
             }
         }
 
         private fun setupFriendsList(friends: List<String>) {
-            // 친구 리스트를 RecyclerView에 표시
             val innerAdapter = FriendsAdapter(friends)
             binding.capsuleFriendsList.layoutManager = LinearLayoutManager(
                 itemView.context, LinearLayoutManager.HORIZONTAL, false
@@ -71,8 +68,8 @@ class TimeCapsuleAdapter(
             val dDay = releaseDate - todayDate
             return when {
                 dDay > 0 -> "D-$dDay"       // D-3, D-2, D-1
-                dDay == 0 -> "D-day"        // D-day (오늘이 해제일)
-                else -> "D+${-dDay}"        // D+1, D+2 (이미 지난 날짜)
+                dDay == 0 -> "D-day"        // D-day
+                else -> "D+${-dDay}"        // D+1, D+2
             }
         }
 
@@ -100,7 +97,6 @@ class FriendsAdapter(private val friends: List<String>) :
         private val db = FirebaseFirestore.getInstance()
 
         fun bind(friendId: String) {
-            // Firestore에서 친구의 프로필 이미지 URL을 가져오기
             db.collection("users")
                 .document(friendId)
                 .get()
@@ -114,7 +110,6 @@ class FriendsAdapter(private val friends: List<String>) :
                                 .placeholder(R.drawable.baseline_person_24) // 로딩 중 표시할 이미지
                                 .into(binding.friendProfileImage)
                         } else {
-                            // 프로필 이미지가 없다면 기본 이미지 사용
                             binding.friendProfileImage.setImageResource(R.drawable.baseline_person_24)
                         }
                     }

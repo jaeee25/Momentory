@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.get
 import com.example.momentory.databinding.ActivityCreateCapsuleWhenBinding
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Date
@@ -61,8 +62,7 @@ class CreateCapsuleWhenActivity : AppCompatActivity() {
 
 
     private fun createTimeCapsule(selectedFriends: List<String>, selectedDate: Date) {
-//        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return
-        val currentUserId = "vb6wQZCFD1No8EYwjmQ4" // 임시 ID
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         val friends = selectedFriends.toMutableList()
         friends.add(currentUserId)
 
