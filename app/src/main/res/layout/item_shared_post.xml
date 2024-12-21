@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-        <!-- Post 이미지 -->
         <ImageView
             android:id="@+id/postPhoto"
             android:layout_width="100dp"
@@ -37,7 +36,7 @@
                 android:layout_marginBottom="4dp"
                 android:orientation="horizontal">
 
-                <!-- 제목 -->
+
                 <TextView
                     android:id="@+id/post_title"
                     android:layout_width="0dp"
@@ -47,7 +46,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <!-- 작성자 -->
+
                 <TextView
                     android:id="@+id/post_user"
                     android:layout_width="wrap_content"
@@ -58,7 +57,6 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <!-- 날짜 -->
             <TextView
                 android:id="@+id/post_date"
                 android:layout_width="wrap_content"
@@ -68,7 +66,6 @@
                 android:textColor="#757575"
                 android:textSize="12sp" />
 
-            <!-- 내용 -->
             <TextView
                 android:id="@+id/post_content"
                 android:layout_width="match_parent"
@@ -89,14 +86,12 @@
                 android:orientation="horizontal"
                 android:gravity="bottom|end">
 
-                <!-- 좋아요 아이콘 -->
                 <ImageView
                     android:id="@+id/like_icon"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:src="@drawable/ic_heart" />
 
-                <!-- 좋아요 수 -->
                 <TextView
                     android:id="@+id/like_count"
                     android:layout_width="wrap_content"
@@ -105,7 +100,7 @@
                     android:text="1"
                     android:textSize="14sp" />
 
-                <!-- 댓글 아이콘 -->
+
                 <ImageView
                     android:id="@+id/comment_icon"
                     android:layout_width="16dp"
@@ -113,7 +108,7 @@
                     android:layout_marginStart="16dp"
                     android:src="@drawable/ic_comment" />
 
-                <!-- 댓글 수 -->
+
                 <TextView
                     android:id="@+id/comment_count"
                     android:layout_width="wrap_content"
@@ -125,7 +120,7 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <!-- 분리선 -->
+
     <View
         android:layout_width="match_parent"
         android:layout_height="3dp"

@@ -55,12 +55,12 @@ class PostAdapter(
             binding.likeCount.text = post.reactionTotal.toString()
             binding.commentCount.text = post.commentCount.toString()
 
-            // 이미지 처리
+
             Glide.with(binding.root.context)
-                .load(post.photoUrl) // 이미지 URL
-                .placeholder(R.drawable.ic_sample_image) // 로딩 중 보여줄 이미지
-                .error(R.drawable.ic_error_image) // 실패 시 보여줄 이미지
-                .into(binding.postPhoto) // ImageView에 이미지 설정
+                .load(post.photoUrl)
+                .placeholder(R.drawable.ic_sample_image)
+                .error(R.drawable.ic_error_image)
+                .into(binding.postPhoto)
         }
     }
 
@@ -71,12 +71,12 @@ class PostAdapter(
             binding.postDate.text = post.date
             binding.postContent.text = post.content
 
-            // 이미지 처리
+
             Glide.with(binding.root.context)
-                .load(post.photoUrl) // 이미지 URL
-                .placeholder(R.drawable.ic_sample_image) // 로딩 중 보여줄 이미지
-                .error(R.drawable.ic_error_image) // 실패 시 보여줄 이미지
-                .into(binding.postPhoto) // ImageView에 이미지 설정
+                .load(post.photoUrl)
+                .placeholder(R.drawable.ic_sample_image)
+                .error(R.drawable.ic_error_image)
+                .into(binding.postPhoto)
         }
     }
 

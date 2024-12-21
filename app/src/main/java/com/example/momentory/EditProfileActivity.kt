@@ -32,7 +32,6 @@ class EditProfileActivity : AppCompatActivity() {
         val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         loadUserProfile(currentUserId)
 
-        // 갤러리에서 이미지 선택
         val requestGalleryLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
@@ -45,7 +44,6 @@ class EditProfileActivity : AppCompatActivity() {
                         .centerCrop()
                         .into(binding.profileNewImage)
 
-                    // 선택된 이미지를 Firestore에 업로드하도록 요청
                     updateProfileImage(currentUserId, it)
                 } ?: run {
                     Log.d("profile", "Image URI is null")
@@ -100,12 +98,10 @@ class EditProfileActivity : AppCompatActivity() {
         val updates = mutableMapOf<String, Any>()
         updates["name"] = newName
 
-        // 이미지 URL이 있으면 업데이트에 추가
         profileImageUrl?.let {
             updates["profileImage"] = it
         }
 
-        // Firestore에서 사용자 이름 및 이미지 URL 업데이트
         db.collection("users").document(userId)
             .update(updates)
             .addOnSuccessListener {
@@ -122,17 +118,13 @@ class EditProfileActivity : AppCompatActivity() {
         val storageRef = FirebaseStorage.getInstance().reference
         val profileImageRef = storageRef.child("profile_images/${userId}.jpg")
 
-        // 이미지 업로드
         profileImageRef.putFile(imageUri)
             .addOnSuccessListener {
-                // 업로드 성공 후, 다운로드 URL을 가져와서 Firestore에 저장
                 profileImageRef.downloadUrl.addOnSuccessListener { uri ->
                     val profileImageUrl = uri.toString()
 
-                    // Firestore에 이미지 URL 저장
                     updateUserProfile(userId, binding.profileNewName.text.toString(), profileImageUrl)
 
-                    // 이미지가 저장된 후, 프로필 이미지 갱신
                     Glide.with(this)
                         .load(profileImageUrl)
                         .override(210, 210)

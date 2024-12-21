@@ -16,7 +16,7 @@ class SecretDiaryFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var firestore: FirebaseFirestore
-    private val postList = mutableListOf<Post>() // Firestore에서 가져올 데이터를 저장할 리스트
+    private val postList = mutableListOf<Post>()
     private lateinit var postAdapter: PostAdapter
 
     override fun onCreateView(
@@ -44,10 +44,9 @@ class SecretDiaryFragment : Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = postAdapter
 
-        // Firestore에서 데이터 가져오기
         fetchPostsFromFirestore()
 
-        // 연필 모양 버튼 클릭하면 WriteDiaryActivity로 이동
+
         binding.writeSecretButton.setOnClickListener {
             val intent = Intent(activity, WriteDiaryActivity::class.java)
             startActivity(intent)
@@ -66,7 +65,7 @@ class SecretDiaryFragment : Fragment() {
                 postList.clear()
                 for (document in documents) {
                     val post = document.toObject(Post::class.java)
-                    post.id = document.id // 문서 ID를 Post 객체에 저장
+                    post.id = document.id
                     postList.add(post)
                 }
                 postList.sortByDescending { it.date }

@@ -17,14 +17,14 @@ class CommentActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCommentBinding
     private val firestore = FirebaseFirestore.getInstance()
     private lateinit var postId: String
-    private lateinit var type: String // 공유인지 비공개인지 구분
+    private lateinit var type: String
     private val comments = mutableListOf<Comment>()
     private lateinit var commentAdapter: CommentAdapter
 
-    private var currentUserName: String = "눈송이" // 기본값 설정
-    private val currentUserId = FirebaseAuth.getInstance().currentUser?.uid // Firestore에 저장된 사용자 ID
+    private var currentUserName: String = "눈송이"
+    private val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
 
-    // 이모티콘 반응 변수
+
     private var smileCount = 0
     private var heartCount = 0
     private var thumbsUpCount = 0
@@ -35,45 +35,42 @@ class CommentActivity : AppCompatActivity() {
         binding = ActivityCommentBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Firestore에서 사용자 이름 가져오기
+
         loadCurrentUserName()
 
-        // 전달받은 게시글 ID와 타입 (공개/비공개)
+
         postId = intent.getStringExtra("postId") ?: "default_post_id"
         type = intent.getStringExtra("type") ?: "share"
 
-        // UI에 게시글 데이터 표시 & 최신화
+
         loadPostData()
 
-        // 댓글 리사이클러뷰 설정
+
         commentAdapter = CommentAdapter(comments)
         binding.commentRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.commentRecyclerView.adapter = commentAdapter
 
-        // 댓글 및 리액션 데이터 불러오기
+
         loadComments()
         loadReactions()
 
-        // 댓글 추가 이벤트
         binding.sendCommentButton.setOnClickListener {
             val newComment = binding.commentEditText.text.toString()
             if (newComment.isNotEmpty()) addComment(newComment)
             else Toast.makeText(this, "댓글을 입력하세요", Toast.LENGTH_SHORT).show()
         }
 
-        // 리액션 버튼 설정
+
         setupReactionButtons()
 
-        // 뒤로가기 버튼
+
         binding.toHome.setOnClickListener { finish() }
     }
 
-    /**
-     * Firestore에서 게시글 데이터를 가져와 UI에 반영
-     */
+
     private fun loadPostData() {
         val postRef = firestore.collection("diary")
-            .document(type) // 공유인지 비공개인지 동적으로 설정
+            .document(type)
             .collection("entries")
             .document(postId)
 
@@ -86,7 +83,7 @@ class CommentActivity : AppCompatActivity() {
                     val postUser = document.getString("user") ?: "작성자 없음"
                     val postPhotoUrl = document.getString("photoUrl") ?: ""
 
-                    // UI에 최신 데이터 반영
+
                     binding.postTitle.text = postTitle
                     binding.postContent.text = postContent
                     binding.postDate.text = postDate
@@ -108,7 +105,7 @@ class CommentActivity : AppCompatActivity() {
             }
     }
 
-    // Firestore에서 사용자 이름 불러오기
+
     private fun loadCurrentUserName() {
         currentUserId?.let { userId ->
             firestore.collection("users").document(userId).get()
@@ -122,7 +119,7 @@ class CommentActivity : AppCompatActivity() {
     }
 
 
-    // 댓글 불러오기
+
     private fun loadComments() {
         firestore.collection("diary").document("share")
             .collection("entries").document(postId)
@@ -142,10 +139,10 @@ class CommentActivity : AppCompatActivity() {
             }
     }
 
-    // 댓글 추가하기
+
     private fun addComment(content: String) {
         val comment = Comment(
-            author = currentUserName, // 현재 사용자 이름 저장
+            author = currentUserName,
             content = content,
             timestamp = System.currentTimeMillis()
         )
@@ -159,7 +156,7 @@ class CommentActivity : AppCompatActivity() {
             .addOnSuccessListener {
                 binding.commentEditText.text.clear()
 
-                // 댓글 개수 업데이트
+
                 postRef.collection("comments").get().addOnSuccessListener { snapshot ->
                     val commentCount = snapshot.size()
                     postRef.update("commentCount", commentCount)
@@ -170,7 +167,7 @@ class CommentActivity : AppCompatActivity() {
             }
     }
 
-    // 리액션 버튼 설정
+
     private fun setupReactionButtons() {
         binding.reactionSmile.setOnClickListener { updateReactions("😊") }
         binding.reactionHeart.setOnClickListener { updateReactions("😍") }
@@ -178,7 +175,7 @@ class CommentActivity : AppCompatActivity() {
         binding.reactionFire.setOnClickListener { updateReactions("🔥") }
     }
 
-    // 리액션 업데이트
+
     private fun updateReactions(reactionType: String) {
         val postRef = firestore.collection("diary")
             .document("share")
@@ -196,7 +193,7 @@ class CommentActivity : AppCompatActivity() {
             }
     }
 
-    // 리액션 불러오기
+
     private fun loadReactions() {
         firestore.collection("diary")
             .document("share")
@@ -225,14 +222,14 @@ class CommentActivity : AppCompatActivity() {
     }
 
 
-    // 리액션 UI 업데이트
+
     private fun updateReactionUI() {
         val reactionText = "😊 $smileCount 😍 $heartCount 👍 $thumbsUpCount 🔥 $fireCount"
         binding.reactions.text = reactionText
     }
 }
 
-// 댓글 데이터 클래스
+
 data class Comment(
     val author: String = "",
     val content: String = "",

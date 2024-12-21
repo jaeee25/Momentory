@@ -46,21 +46,18 @@ class MyAdapter(
         holder.binding.requestedFriendName.text = names[position]
         holder.binding.requestedFriendMessage.text = messages[position]
 
-        // Firestore에서 profileImage URL 가져오기
         val userId = fromUserIds[position]
         db.collection("users").document(userId)
             .get()
             .addOnSuccessListener { document ->
                 val profileImageUrl = document.getString("profileImage")
                 if (!profileImageUrl.isNullOrEmpty()) {
-                    // Glide를 사용하여 이미지를 불러와 설정
                     Glide.with(holder.itemView.context)
                         .load(profileImageUrl)
-                        .placeholder(R.drawable.baseline_person_24) // 기본 이미지
-                        .error(R.drawable.baseline_person_24) // 오류 발생 시 기본 이미지
+                        .placeholder(R.drawable.baseline_person_24)
+                        .error(R.drawable.baseline_person_24)
                         .into(holder.binding.requestedFriendProfileImage)
                 } else {
-                    // profileImage 필드가 없거나 URL이 비어 있는 경우 기본 이미지 설정
                     holder.binding.requestedFriendProfileImage.setImageResource(R.drawable.baseline_person_24)
                 }
             }
@@ -83,7 +80,6 @@ class MyAdapter(
         Log.d("senderID", senderId)
         Log.d("RequestedFriendsActivity", "sender ID : $senderId")
 
-        // 현재 사용자의 friendRequestsReceived에서 요청 삭제
         if (currentUserId != null) {
             db.collection("users").document(currentUserId)
                 .collection("friendRequestsReceived")
@@ -92,20 +88,17 @@ class MyAdapter(
                 .addOnSuccessListener {
                     Log.d("Firestore", "Request removed from friendRequestsReceived")
 
-                    // senderId의 friendRequestsSent에서 해당 요청 삭제
                     db.collection("users").document(senderId)
                         .collection("friendRequestsSent")
-                        .document(currentUserId)  // currentUserId를 문서 ID로 사용
+                        .document(currentUserId)
                         .delete()
                         .addOnSuccessListener {
                             Log.d("Firestore", "Request removed from friendRequestsSent")
 
-                            // 데이터에서 해당 요청 제거
                             fromUserIds.removeAt(position)
                             messages.removeAt(position)
                             names.removeAt(position)
 
-                            // 어댑터에 데이터 변경을 알리고 리사이클러뷰 갱신
                             notifyItemRemoved(position)
                         }
                         .addOnFailureListener { e ->
@@ -122,13 +115,11 @@ class MyAdapter(
         val senderId = fromUserIds[position] // senderId를 사용
         Log.d("senderID", senderId)
 
-        // 친구 리스트에 추가
         if (currentUserId != null) {
             db.collection("users").document(currentUserId)
                 .update("friends", FieldValue.arrayUnion(senderId))
                 .addOnSuccessListener {
                     Log.d("Firestore", "Friend added to friends list")
-                    // 수락 후 친구 요청 삭제
                     removeRequest(position)
                 }
                 .addOnFailureListener { e ->
@@ -177,12 +168,10 @@ class RequestedFriendsActivity : AppCompatActivity() {
                         .addOnSuccessListener { userDocument ->
                             val userName = userDocument.getString("name") ?: "이름 없음"
 
-                            // 가져온 사용자 이름을 names 리스트에 추가
                             fromUserIds.add(fromUserId)
                             names.add(userName)
                             messages.add(message)
 
-                            // 모든 친구 요청을 불러온 후 RecyclerView 설정
                             if (names.size == documents.size()) {
                                 binding.requestedFriendsRecyclerView.apply {
                                     layoutManager =

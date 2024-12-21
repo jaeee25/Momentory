@@ -24,13 +24,14 @@ import com.example.momentory.databinding.ActivityCreateCapsuleBinding
 import com.example.momentory.databinding.ActivityProfileBinding
 import com.example.momentory.databinding.TimecapsuleFriendsBinding
 import com.google.android.gms.tasks.Tasks
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 
 data class Friend(
     val id: String,
     val name: String,
-    val profileImage: String, // 프로필 이미지 URL 또는 resource
+    val profileImage: String,
     var isChecked: Boolean = false
 )
 
@@ -85,7 +86,7 @@ class FriendAdapter(
 class CreateCapsuleActivity : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private lateinit var binding: ActivityCreateCapsuleBinding
-    private val selectedFriends = mutableListOf<Friend>() // 선택된 친구들 저장 (클래스 멤버로 정의)
+    private val selectedFriends = mutableListOf<Friend>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,11 +95,9 @@ class CreateCapsuleActivity : AppCompatActivity() {
         setSupportActionBar(binding.capsuleToolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        // 초기화
-        val currentUserId = "vb6wQZCFD1No8EYwjmQ4"
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         val friendsList = mutableListOf<Friend>()
 
-        // 친구 목록을 Firestore에서 불러오기
         db.collection("users").document(currentUserId)
             .get()
             .addOnSuccessListener { document ->
@@ -106,12 +105,10 @@ class CreateCapsuleActivity : AppCompatActivity() {
                     val friends = document.get("friends") as? List<String> ?: emptyList()
                     Log.d("CreateCapsuleActivity", "friends: $friends")
 
-                    // 각 친구들의 정보를 가져오는 비동기 작업
                     val friendFetchTasks = friends.map { friendId ->
                         db.collection("users").document(friendId).get()
                     }
 
-                    // 모든 친구 데이터를 한 번에 가져오기
                     Tasks.whenAllSuccess<DocumentSnapshot>(*friendFetchTasks.toTypedArray())
                         .addOnSuccessListener { friendDocuments ->
                             friendDocuments.forEachIndexed { index, friendDoc ->
@@ -119,7 +116,6 @@ class CreateCapsuleActivity : AppCompatActivity() {
                                 val profileImage = friendDoc.getString("profileImage") ?: "default_image"
                                 val friendID = friends[index]
 
-                                // Friend 객체 생성
                                 val friend = Friend(
                                     id = friendID,
                                     name = friendName,
@@ -127,11 +123,8 @@ class CreateCapsuleActivity : AppCompatActivity() {
                                     isChecked = false
                                 )
 
-                                // 친구 리스트에 추가
                                 friendsList.add(friend)
                             }
-
-                            // 모든 친구 데이터를 불러온 후 RecyclerView 및 Adapter 설정
                             setupRecyclerView(friendsList)
 
                         }
@@ -144,7 +137,6 @@ class CreateCapsuleActivity : AppCompatActivity() {
                 Toast.makeText(this, "친구 목록을 불러오는 데 실패했습니다.", Toast.LENGTH_SHORT).show()
             }
 
-        // 친구 검색
         binding.searchFriend.setOnClickListener {
             val query = binding.capsuleFriendName.text.toString()
             val filteredFriends = if (query.isEmpty()) {
@@ -153,13 +145,11 @@ class CreateCapsuleActivity : AppCompatActivity() {
                 friendsList.filter { it.name.contains(query) }.toMutableList()
             }
 
-            // RecyclerView 갱신
             (binding.timeCapsuleRecyclerView.adapter as FriendAdapter).updateData(
                 filteredFriends
             )
         }
 
-        // 다음 단계로 이동
         binding.createCapsuleNextBtn.setOnClickListener {
             Log.d("CreateCapsuleActivity", "selectedFriends: $selectedFriends")
             val selectedFriendsList = selectedFriends.map { it.id } // 친구 ID만 사용

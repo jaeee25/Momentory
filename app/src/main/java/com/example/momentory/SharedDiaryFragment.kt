@@ -32,10 +32,10 @@ class SharedDiaryFragment : Fragment() {
     ): View {
         _binding = FragmentSharedDiaryBinding.inflate(inflater, container, false)
 
-        // Firestore 초기화
+
         firestore = FirebaseFirestore.getInstance()
 
-        // RecyclerView 설정
+
         postAdapter = PostAdapter(postList, PostAdapter.VIEW_TYPE_SHARED) { post, position ->
             val intent = Intent(activity, CommentActivity::class.java).apply {
                 putExtra("postId", post.id)
@@ -50,17 +50,17 @@ class SharedDiaryFragment : Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = postAdapter
 
-        // 친구 프로필 RecyclerView 설정
+
         friendsAdapter = FriendsProfileAdapter(emptyList())
         binding.friendsProfileList.layoutManager = LinearLayoutManager(
             requireContext(), LinearLayoutManager.HORIZONTAL, false
         )
         binding.friendsProfileList.adapter = friendsAdapter
 
-        // Firestore에서 데이터 가져오기
+
         fetchPostsFromFirestore()
         fetchFriendsUids()
-        loadUserName() // 사용자 이름 가져오기
+        loadUserName()
 
         // 친구 추가 버튼 클릭 이벤트
         binding.addFriendButton.setOnClickListener {
@@ -84,7 +84,7 @@ class SharedDiaryFragment : Fragment() {
         val savedName = sharedPref.getString("profileName", null)
         Log.d("FirestoreDiaryName", "저장된 이름: $savedName")
 
-        val toolbarTitle = requireActivity().findViewById<TextView>(R.id.toolbar_title) // 직접 참조
+        val toolbarTitle = requireActivity().findViewById<TextView>(R.id.toolbar_title)
         val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         firestore.collection("users").document(currentUserId)
             .get()
@@ -93,10 +93,10 @@ class SharedDiaryFragment : Fragment() {
                     val userName = document.getString("name") ?: "눈송이"
                     Log.d("FirestoreDiaryName", "Firestore에서 이름 가져옴: $userName")
 
-                    // UI 업데이트
+
                     toolbarTitle.text = "${userName} 일기장"
 
-                    // SharedPreferences에 저장
+
                     val editor = sharedPref.edit()
                     editor.putString("profileName", userName)
                     editor.apply()
@@ -143,7 +143,7 @@ class SharedDiaryFragment : Fragment() {
                     post.id = document.id
                     val postRef = document.reference
 
-                    // 댓글 수 가져오기
+
                     postRef.collection("comments").get()
                         .addOnSuccessListener { commentsSnapshot ->
                             post.commentCount = commentsSnapshot.size()
@@ -181,7 +181,7 @@ class SharedDiaryFragment : Fragment() {
                 friendsUidList.clear()
                 friendsUidList.addAll(friends)
 
-                fetchFriendsProfiles(friendsUidList) // 친구 프로필 정보 가져오기
+                fetchFriendsProfiles(friendsUidList)
             }
             .addOnFailureListener { e ->
                 Log.e("Firestore", "친구 목록 가져오기 실패", e)

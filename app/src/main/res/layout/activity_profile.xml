@@ -85,11 +85,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginBottom="10dp"
-                android:text="전화번호"
+                android:text="이메일"
                 android:textSize="20dp" />
 
             <EditText
-                android:id="@+id/profile_phone"
+                android:id="@+id/profile_email"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginBottom="20dp"

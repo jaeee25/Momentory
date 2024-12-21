@@ -84,7 +84,7 @@ class CapsuleMessageActivity : AppCompatActivity() {
 
     private fun saveTimeCapsuleMessage(capsuleId: String) {
         val message = binding.messageEditText.text.toString()
-        val imageUri = binding.selectedImage.tag as? Uri // 이미지의 로컬 URI 가져오기
+        val imageUri = binding.selectedImage.tag as? Uri
 
         if (message.isBlank() && imageUri == null) {
             Toast.makeText(this, "메시지와 이미지를 추가해주세요.", Toast.LENGTH_SHORT).show()
@@ -119,10 +119,10 @@ class CapsuleMessageActivity : AppCompatActivity() {
         val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
         val timeCapsuleData = hashMapOf(
             "createdAt" to FieldValue.serverTimestamp(),
-            "writer" to currentUserId, // 현재 사용자 ID (FirebaseAuth로 교체 가능)
+            "writer" to currentUserId,
             "status" to "pending",
             "message" to message,
-            "imageUri" to (imageUrl ?: "") // 이미지 URL 추가
+            "imageUri" to (imageUrl ?: "")
         )
 
         db.collection("timeCapsules").document(capsuleId)
