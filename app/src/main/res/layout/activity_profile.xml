@@ -96,7 +96,6 @@
                 android:background="@drawable/rounded_edittext"
                 android:fontFamily="@font/moneygraphy_rounded"
                 android:inputType="text"
-                android:maxLength="13"
                 android:paddingLeft="15dp"
                 android:text=""
                 android:textSize="20dp" />
