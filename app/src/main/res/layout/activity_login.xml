@@ -71,6 +71,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="10dp"
+                    android:inputType="textEmailAddress"
                     android:textAppearance="@style/subTitle"
                     android:background="@drawable/rounded_input"
                     android:paddingLeft="15dp"
@@ -95,7 +96,7 @@
                         android:background="@drawable/rounded_input"
                         android:paddingLeft="15dp"
                         android:paddingEnd="40dp"
-                        android:maxLines="1"
+                        android:inputType="textPassword"
                         android:textAppearance="@style/subTitle"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
