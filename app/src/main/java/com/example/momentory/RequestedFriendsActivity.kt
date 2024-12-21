@@ -159,7 +159,7 @@ class RequestedFriendsActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        val currentUserId = "4U2aXV9OYK5NobTnUEIX"
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         db.collection("users").document(currentUserId)
             .collection("friendRequestsReceived")
             .whereEqualTo("status", "pending")
