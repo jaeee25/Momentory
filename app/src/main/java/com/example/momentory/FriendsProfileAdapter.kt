@@ -13,12 +13,11 @@ data class FriendProfile(
     val profileImageUrl: String // 프로필 이미지 URL
 )
 
-// FriendsProfileAdapter: 친구 프로필 RecyclerView 어댑터
 class FriendsProfileAdapter(
-    private var friendsUidList: List<String> // 친구 UID 리스트
+    private var friendsUidList: List<String>
 ) : RecyclerView.Adapter<FriendsProfileAdapter.FriendsViewHolder>() {
 
-    private val friendsList = mutableListOf<FriendProfile>() // 친구 프로필 정보 리스트
+    private val friendsList = mutableListOf<FriendProfile>()
     private val firestore = FirebaseFirestore.getInstance()
 
     init {
@@ -31,10 +30,8 @@ class FriendsProfileAdapter(
         fun bind(friend: FriendProfile) {
             val imageUrl = friend.profileImageUrl
             if (imageUrl.isBlank()) {
-                // 기본 이미지 설정
                 binding.friendProfileImage.setImageResource(R.drawable.baseline_person_24)
             } else {
-                // Glide를 사용해 이미지 로드
                 Glide.with(binding.root.context)
                     .load(imageUrl)
                     .placeholder(R.drawable.baseline_person_24)
@@ -73,9 +70,6 @@ class FriendsProfileAdapter(
         }
     }
 
-
-
-    // 친구 리스트 업데이트 함수 추가
     fun updateFriendsList(newFriendsList: List<FriendProfile>) {
         friendsList.clear()
         friendsList.addAll(newFriendsList)

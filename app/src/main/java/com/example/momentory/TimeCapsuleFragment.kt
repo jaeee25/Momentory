@@ -91,7 +91,6 @@ class TimeCapsuleFragment : Fragment() {
     }
 
     private fun setupCreateCapsuleButton() {
-        // 연필 모양 버튼 클릭 이벤트 처리
         binding.createCapsuleButton.setOnClickListener {
             val intent = Intent(requireContext(), CreateCapsuleActivity::class.java)
             startActivity(intent)
