@@ -42,8 +42,8 @@ class CapsuleViewHolder(val binding: ItemCapsuleMessageTestBinding) :
         } else {
             Glide.with(binding.root.context)
                 .load(capsule.capsuleImage)
-                .placeholder(R.drawable.round_send_24)
-                .error(R.drawable.ic_comment)
+                .placeholder(R.drawable.baseline_stream_24)
+                .error(R.drawable.baseline_stream_24)
                 .centerCrop()
                 .into(binding.capsuleImage)
         }
