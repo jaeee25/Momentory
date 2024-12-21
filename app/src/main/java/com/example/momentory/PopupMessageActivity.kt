@@ -18,11 +18,10 @@ class PopupMessageActivity : AppCompatActivity() {
         binding = ActivityPopupMessageBinding.inflate(layoutInflater)
         setContentView(binding.root)
         enableEdgeToEdge()
-
-
+        setTitle("")
         val writerName = intent.getStringExtra("writerName") ?: "이름 없음"
         val comment = intent.getStringExtra("comment") ?: "메시지가 없습니다."
-        val image = intent.getStringExtra("capsuleImage") ?: "https://via.placeholder.com/230"
+        val image = intent.getStringExtra("capsuleImage") ?: R.drawable.baseline_photo_24
 
         binding.capsuleWriterName.text = writerName
         binding.capsuleOpenComment.text = comment
@@ -30,7 +29,7 @@ class PopupMessageActivity : AppCompatActivity() {
         Glide.with(this)
             .load(image)
             .placeholder(R.drawable.baseline_photo_24)
-            .error(R.drawable.round_send_24)
+            .error(R.drawable.baseline_stream_24)
             .into(binding.capsuleOpenImage)
 
         binding.capsuleMessageClose.setOnClickListener {

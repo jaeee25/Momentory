@@ -11,7 +11,7 @@
         android:gravity="center"
         android:text="타임캡슐이 없어요."
         android:textSize="20dp"
-        android:visibility="visible"/>
+        android:visibility="invisible"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/time_capsule_recycler_view"
