@@ -83,7 +83,7 @@ class SignupActivity : AppCompatActivity() {
         }
 
         binding.googleSignUp.setOnClickListener {
-            // 구글로 회원가입 한 경우 homeActivity로 이동
+            // 구글로 회원가입 한 경우 loginActivity로 이동
             if (isOtpVerified) {
                 if (isGoogle) {
                     googleSignup()
