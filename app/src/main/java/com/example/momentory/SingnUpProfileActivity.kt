@@ -68,8 +68,6 @@ class SingnUpProfileActivity : AppCompatActivity() {
             }
             else {
                 updateUserProfile(currentUserId, signName)
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
                 finish()
             }
         }

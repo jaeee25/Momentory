@@ -83,7 +83,7 @@ class SignupActivity : AppCompatActivity() {
         }
 
         binding.googleSignUp.setOnClickListener {
-            // 구글로 회원가입 한 경우 homeActivity로 이동
+            // 구글로 회원가입 한 경우 loginActivity로 이동
             if (isOtpVerified) {
                 if (isGoogle) {
                     googleSignup()
@@ -253,7 +253,7 @@ class SignupActivity : AppCompatActivity() {
                         Toast.makeText(this, "회원가입 완료!", Toast.LENGTH_SHORT).show()
 
                         // 회원가입 성공 -> ProfileActivity로 이동
-                        val intent = Intent(this, ProfileActivity::class.java)
+                        val intent = Intent(this, SingnUpProfileActivity::class.java)
                         startActivity(intent)
                         finish()
                     }
