@@ -12,8 +12,10 @@ import com.bumptech.glide.Glide
 import com.example.momentory.databinding.ItemTimeCapsuleBinding
 import com.example.momentory.databinding.ItemTimecapsuleFriendsBinding
 import com.google.firebase.firestore.FirebaseFirestore
+import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
+import java.util.Locale
 
 data class TimeCapsuleItem(
     val capsuleId: String,
@@ -62,10 +64,12 @@ class TimeCapsuleAdapter(
         }
 
         private fun calculateDDay(releaseDate: Date): String {
-            val currentDate = Date() // 오늘 날짜
-            val diffInMillis = releaseDate.time - currentDate.time
-            val dDay = (diffInMillis / (1000 * 60 * 60 * 24)).toInt() // 남은 일수
+            val dateFormat = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
 
+            val todayDate = dateFormat.format(Date()).toInt()
+            val releaseDate = dateFormat.format(releaseDate).toInt()
+
+            val dDay = releaseDate - todayDate
             return when {
                 dDay > 0 -> "D-$dDay"       // D-3, D-2, D-1
                 dDay == 0 -> "D-day"        // D-day (오늘이 해제일)
