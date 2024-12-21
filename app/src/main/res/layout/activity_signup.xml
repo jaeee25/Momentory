@@ -70,73 +70,77 @@
                 >
 
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="핸드폰 번호 인증"
-                    android:textAppearance="@style/subTitle" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="이메일"
+                        android:textAppearance="@style/subTitle"
+                        android:layout_marginVertical="10dp" />
 
                     <EditText
-                        android:id="@+id/phone_su"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/emailSU"
+                        android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_marginRight="10dp"
                         android:layout_weight="1"
                         android:background="@drawable/rounded_input"
-                        android:hint="전화번호 입력"
-                        android:inputType="phone"
-                        android:paddingLeft="15dp"
-                        android:maxLines="1"
+                        android:hint="이메일 입력"
+                        android:padding="5dp"
                         android:textAppearance="@style/subTitle" />
-
-                    <Button
-                        android:id="@+id/sendotp"
-                        android:layout_width="105dp"
-                        android:layout_height="50dp"
-                        android:background="@drawable/rounded_btn_deep"
-                        android:text="요청"
-                        android:textAppearance="@style/button"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
-
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:orientation="horizontal">
+                    android:orientation="vertical"
+                    android:layout_marginTop = "30dp">
 
-                    <EditText
-                        android:id="@+id/otp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/rounded_input"
-                        android:hint="OTP 입력"
-                        android:inputType="phone"
-                        android:paddingLeft="15dp"
-                        android:maxLines="1"
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="비밀번호"
                         android:textAppearance="@style/subTitle" />
 
-                    <Button
-                        android:id="@+id/otp_cert"
-                        android:layout_width="105dp"
-                        android:layout_height="50dp"
-                        android:background="@drawable/rounded_btn_deep"
-                        android:text="인증"
-                        android:textAppearance="@style/button"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
 
+                    <EditText
+                        android:id="@+id/pwdSU"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="@drawable/rounded_input"
+                        android:padding="5dp"
+                        android:paddingEnd="40dp"
+                        android:maxLines="1"
+                        android:hint="비밀번호 입력"
+                        android:textAppearance="@style/subTitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageButton
+                        android:id="@+id/seepwSU"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginRight="12dp"
+                        android:adjustViewBounds="true"
+                        android:background="@null"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/baseline_lock_outline_24"
+                        app:layout_constraintEnd_toEndOf="@+id/pwdSU"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
+
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -150,83 +154,12 @@
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rounded_btn_deep"
-                        android:text="인증 완료"
+                        android:text="완료"
                         android:textAppearance="@style/button"
                         android:textColor="@color/white"
                         android:textSize="20sp" />
 
                 </LinearLayout>
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/setPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:orientation="vertical"
-                android:visibility="invisible"
-
-                >
-
-                <View
-                    android:id="@+id/divider"
-                    android:layout_width="match_parent"
-                    android:layout_height="5dp"
-                    android:background="?android:attr/listDivider"
-                    android:layout_marginBottom="30dp"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="비밀번호 설정"
-                    android:textAppearance="@style/subTitle" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-
-                    <EditText
-                        android:id="@+id/pw_su"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="@drawable/rounded_input"
-                        android:hint="비밀번호 입력"
-                        android:paddingLeft="15dp"
-                        android:maxLines="1"
-                        android:paddingEnd="40dp"
-                        android:textAppearance="@style/subTitle"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageButton
-                        android:id="@+id/seepw_su"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginEnd="4dp"
-                        android:adjustViewBounds="true"
-                        android:background="@null"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/baseline_lock_outline_24"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                <Button
-                    android:id="@+id/signup"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/rounded_btn_deep"
-                    android:text="Sign Up"
-                    android:textAppearance="@style/button"
-                    android:textColor="@color/white"
-                    android:textSize="20sp" />
 
             </LinearLayout>
 

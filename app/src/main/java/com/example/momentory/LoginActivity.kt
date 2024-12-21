@@ -2,8 +2,6 @@ package com.example.momentory
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.widget.Toast
@@ -33,8 +31,6 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        addPhoneNumberFormatter()
-
         // 비밀번호 입력 칸에 있는 자물쇠 아이콘 누르면 아이콘 변경 및 비밀번호 숨김 / 표시
         binding.seepwLi.setOnClickListener {
             togglePasswordVisibility()
@@ -47,14 +43,15 @@ class LoginActivity : AppCompatActivity() {
 
         // Log In 버튼 클릭 이벤트
         binding.login.setOnClickListener {
-            val phoneNumber = binding.phoneLi.text.toString().trim()
-            val password = binding.pwLi.text.toString().trim()
+            val email  = binding.phoneLi.text.toString().trim()
+            val password  = binding.pwLi.text.toString().trim()
 
-            if (phoneNumber.isNotEmpty() && password.isNotEmpty()) {
-                loginUser(phoneNumber, password)
-            } else {
-                Toast.makeText(this, "전화번호와 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "이메일과 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
+
+            loginWithEmail(email, password)
         }
 
         // Forget Password 클릭 이벤트
@@ -91,50 +88,23 @@ class LoginActivity : AppCompatActivity() {
         binding.pwLi.setSelection(binding.pwLi.text.length)
     }
 
-    // 사용자 로그인 처리
-    private fun loginUser(phoneNumber: String, password: String) {
-        db.collection("users")
-            .whereEqualTo("phoneNumber", phoneNumber)
-            .get()
-            .addOnSuccessListener { querySnapshot ->
-                if (!querySnapshot.isEmpty) {
-                    val document = querySnapshot.documents[0]
-                    val storedPassword = document.getString("password")
+    private fun loginWithEmail(email: String, password: String) {
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // 로그인 성공
+                    Toast.makeText(this, "로그인 성공!", Toast.LENGTH_SHORT).show()
 
-                    if (storedPassword == password) {
-                        Toast.makeText(this, "로그인 성공!", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this, HomeActivity::class.java))
-                        finish()
-                    } else {
-                        Toast.makeText(this, "비밀번호가 올바르지 않습니다.", Toast.LENGTH_SHORT).show()
-                    }
+                    // 로그인 성공 -> 다음 화면으로 이동
+                    val intent = Intent(this, HomeActivity::class.java) // MainActivity로 이동
+                    startActivity(intent)
+                    finish() // LoginActivity 종료
                 } else {
-                    Toast.makeText(this, "등록된 전화번호가 없습니다.", Toast.LENGTH_SHORT).show()
+                    // 로그인 실패
+                    val exceptionMessage = task.exception?.localizedMessage ?: "로그인에 실패했습니다."
+                    Toast.makeText(this, exceptionMessage, Toast.LENGTH_SHORT).show()
                 }
             }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "로그인 실패: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
-            }
-    }
-
-    private fun addPhoneNumberFormatter() {
-        binding.phoneLi.addTextChangedListener(object : TextWatcher {
-            private var isEditing = false
-
-            override fun afterTextChanged(s: Editable?) {
-                if (isEditing) return
-                isEditing = true
-
-                val formatted = s.toString().replace("-", "")
-                    .replace(Regex("(\\d{3})(\\d{4})(\\d{4})"), "$1-$2-$3")
-                s?.replace(0, s.length, formatted)
-
-                isEditing = false
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
     }
 
     // 구글 관련
