@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.momentory.databinding.FragmentSecretDiaryBinding
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class SecretDiaryFragment : Fragment() {
@@ -56,10 +57,12 @@ class SecretDiaryFragment : Fragment() {
     }
 
     private fun fetchPostsFromFirestore() {
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         // Firestore 경로: diary/secret/entries
         firestore.collection("diary")
             .document("secret")
             .collection("entries")
+            .whereEqualTo("userId", currentUserId)
             .get()
             .addOnSuccessListener { documents ->
                 postList.clear()
