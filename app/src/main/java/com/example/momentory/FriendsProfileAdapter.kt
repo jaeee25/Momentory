@@ -1,5 +1,6 @@
 package com.example.momentory
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -28,21 +29,45 @@ class FriendsProfileAdapter(
     inner class FriendsViewHolder(private val binding: ItemFriendProfileBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        private val db = FirebaseFirestore.getInstance()
+
         fun bind(friend: FriendProfile) {
-            val imageUrl = friend.profileImageUrl
-            if (imageUrl.isBlank()) {
-                // 기본 이미지 설정
-                binding.friendProfileImage.setImageResource(R.drawable.baseline_person_24)
-            } else {
-                // Glide를 사용해 이미지 로드
+            // 프로필 이미지 URL이 있을 경우 Glide로 로드
+            if (friend.profileImageUrl.isNotBlank()) {
                 Glide.with(binding.root.context)
-                    .load(imageUrl)
+                    .load(friend.profileImageUrl)
+                    .centerCrop()
                     .placeholder(R.drawable.baseline_person_24)
                     .error(R.drawable.baseline_person_24)
                     .into(binding.friendProfileImage)
+            } else {
+                // Firestore에서 친구의 프로필 이미지 URL을 동적으로 가져오기
+                db.collection("users")
+                    .document(friend.id)
+                    .get()
+                    .addOnSuccessListener { document ->
+                        val profileImageUrl = document.getString("profileImage")
+                        if (!profileImageUrl.isNullOrEmpty()) {
+                            Glide.with(binding.root.context)
+                                .load(profileImageUrl)
+                                .centerCrop()
+                                .placeholder(R.drawable.baseline_person_24)
+                                .error(R.drawable.baseline_person_24)
+                                .into(binding.friendProfileImage)
+                        } else {
+                            // Firestore에 이미지가 없을 경우 기본 이미지 표시
+                            binding.friendProfileImage.setImageResource(R.drawable.baseline_person_24)
+                        }
+                    }
+                    .addOnFailureListener { exception ->
+                        // Firestore 읽기 실패 시 기본 이미지 표시
+                        Log.e("FriendsProfileAdapter", "Error fetching profile for UID ${friend.id}", exception)
+                        binding.friendProfileImage.setImageResource(R.drawable.baseline_person_24)
+                    }
             }
         }
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendsViewHolder {
         val binding = ItemFriendProfileBinding.inflate(
