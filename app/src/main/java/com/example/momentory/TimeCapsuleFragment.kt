@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.momentory.databinding.FragmentTimeCapsuleBinding
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import java.text.SimpleDateFormat
@@ -36,7 +37,7 @@ class TimeCapsuleFragment : Fragment() {
     }
 
     private fun fetchTimeCapsules() {
-        val currentUserId = "vb6wQZCFD1No8EYwjmQ4" // 현재 사용자 ID (FirebaseAuth로 교체 가능)
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return
 
         db.collection("timeCapsules")
             .whereArrayContains("friends", currentUserId) // friends 배열에 currentUserId가 포함된 문서만 조회

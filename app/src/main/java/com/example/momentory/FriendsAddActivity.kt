@@ -27,8 +27,7 @@ class FriendsAddActivity : AppCompatActivity() {
 
         binding.friendsAddPhone.addTextChangedListener(PhoneNumberFormattingTextWatcher())
         binding.friendsAddBtn.setOnClickListener {
-            val rawPhoneNumber = binding.friendsAddPhone.text.toString().trim()
-            val phoneNumber = rawPhoneNumber.replace(Regex("[^0-9]"), "")
+            val phoneNumber = binding.friendsAddPhone.text.toString().trim()
             val message = binding.friendsMessage.text.toString().trim()
 
             if (phoneNumber.isEmpty()) {
@@ -48,9 +47,11 @@ class FriendsAddActivity : AppCompatActivity() {
                     if (!documents.isEmpty) {
                         for (document in documents) {
                             val receiverId = document.id
-                            // val senderId = FirebaseAuth.getInstance().currentUser?.uid
-                            val senderId = "vb6wQZCFD1No8EYwjmQ4" // 임시 UID
-                            sendFriendRequest(senderId, receiverId, message)
+                            val senderId = FirebaseAuth.getInstance().currentUser?.uid
+                            if (senderId != null) {
+                                sendFriendRequest(senderId, receiverId, message)
+                            }
+                            Log.d("FriendsAddActivity", "$senderId")
                         }
                         finish()
                     } else {
@@ -63,8 +64,6 @@ class FriendsAddActivity : AppCompatActivity() {
         }
     }
 
-    // 친구 추가를 요청하는 메서드
-    // senderId = currentId
     private fun sendFriendRequest(senderId: String, receiverId: String, message: String) {
         val userRef = db.collection("users").document(senderId)
 

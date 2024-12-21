@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide
 import com.example.momentory.databinding.ActivityOpenTimeCapsuleBinding
 import com.example.momentory.databinding.ItemCapsuleMessageTestBinding
 import com.google.android.gms.tasks.Tasks
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
@@ -87,7 +88,7 @@ class OpenTimeCapsuleActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        val currentUserId = "vb6wQZCFD1No8EYwjmQ4" // 현재 사용자 ID (FirebaseAuth로 교체 가능)
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         val capsuleTitle = intent.getStringExtra("timeCapsuleTitle") //2024년 12월 21일
         val friends = intent.getStringArrayListExtra("timeCapsuleFriends")
         val dateFormat: SimpleDateFormat = SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault())

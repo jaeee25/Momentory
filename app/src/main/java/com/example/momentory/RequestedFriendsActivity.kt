@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide
 import com.example.momentory.databinding.ActivityFriendsAddBinding
 import com.example.momentory.databinding.ActivityRequestedFriendsBinding
 import com.example.momentory.databinding.FriendsRequestListBinding
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -31,7 +32,7 @@ class MyAdapter(
     private val fromUserIds: MutableList<String>
 ) : RecyclerView.Adapter<MyViewHolder>() {
     var db: FirebaseFirestore = FirebaseFirestore.getInstance()
-    private val currentUserId = "4U2aXV9OYK5NobTnUEIX"
+    val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
     override fun getItemCount(): Int = names.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder =
@@ -84,36 +85,38 @@ class MyAdapter(
         Log.d("RequestedFriendsActivity", "sender ID : $senderId")
 
         // 현재 사용자의 friendRequestsReceived에서 요청 삭제
-        db.collection("users").document(currentUserId)
-            .collection("friendRequestsReceived")
-            .document(senderId)  // senderId를 문서 ID로 사용
-            .delete()
-            .addOnSuccessListener {
-                Log.d("Firestore", "Request removed from friendRequestsReceived")
+        if (currentUserId != null) {
+            db.collection("users").document(currentUserId)
+                .collection("friendRequestsReceived")
+                .document(senderId)  // senderId를 문서 ID로 사용
+                .delete()
+                .addOnSuccessListener {
+                    Log.d("Firestore", "Request removed from friendRequestsReceived")
 
-                // senderId의 friendRequestsSent에서 해당 요청 삭제
-                db.collection("users").document(senderId)
-                    .collection("friendRequestsSent")
-                    .document(currentUserId)  // currentUserId를 문서 ID로 사용
-                    .delete()
-                    .addOnSuccessListener {
-                        Log.d("Firestore", "Request removed from friendRequestsSent")
+                    // senderId의 friendRequestsSent에서 해당 요청 삭제
+                    db.collection("users").document(senderId)
+                        .collection("friendRequestsSent")
+                        .document(currentUserId)  // currentUserId를 문서 ID로 사용
+                        .delete()
+                        .addOnSuccessListener {
+                            Log.d("Firestore", "Request removed from friendRequestsSent")
 
-                        // 데이터에서 해당 요청 제거
-                        fromUserIds.removeAt(position)
-                        messages.removeAt(position)
-                        names.removeAt(position)
+                            // 데이터에서 해당 요청 제거
+                            fromUserIds.removeAt(position)
+                            messages.removeAt(position)
+                            names.removeAt(position)
 
-                        // 어댑터에 데이터 변경을 알리고 리사이클러뷰 갱신
-                        notifyItemRemoved(position)
-                    }
-                    .addOnFailureListener { e ->
-                        Log.e("Firestore", "Error removing request from friendRequestsSent", e)
-                    }
-            }
-            .addOnFailureListener { e ->
-                Log.e("Firestore", "Error removing request from friendRequestsReceived", e)
-            }
+                            // 어댑터에 데이터 변경을 알리고 리사이클러뷰 갱신
+                            notifyItemRemoved(position)
+                        }
+                        .addOnFailureListener { e ->
+                            Log.e("Firestore", "Error removing request from friendRequestsSent", e)
+                        }
+                }
+                .addOnFailureListener { e ->
+                    Log.e("Firestore", "Error removing request from friendRequestsReceived", e)
+                }
+        }
     }
 
     private fun acceptFriend(position: Int) {
@@ -121,16 +124,18 @@ class MyAdapter(
         Log.d("senderID", senderId)
 
         // 친구 리스트에 추가
-        db.collection("users").document(currentUserId)
-            .update("friends", FieldValue.arrayUnion(senderId))
-            .addOnSuccessListener {
-                Log.d("Firestore", "Friend added to friends list")
-                // 수락 후 친구 요청 삭제
-                removeRequest(position)
-            }
-            .addOnFailureListener { e ->
-                Log.e("Firestore", "Error accepting friend", e)
-            }
+        if (currentUserId != null) {
+            db.collection("users").document(currentUserId)
+                .update("friends", FieldValue.arrayUnion(senderId))
+                .addOnSuccessListener {
+                    Log.d("Firestore", "Friend added to friends list")
+                    // 수락 후 친구 요청 삭제
+                    removeRequest(position)
+                }
+                .addOnFailureListener { e ->
+                    Log.e("Firestore", "Error accepting friend", e)
+                }
+        }
 
         db.collection("users").document(senderId)
             .update("friends", FieldValue.arrayUnion(currentUserId))
