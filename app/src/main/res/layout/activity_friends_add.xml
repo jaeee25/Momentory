@@ -51,17 +51,19 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginBottom="10dp"
-                android:text="친구의 전화번호"
+                android:inputType="textEmailAddress"
+                android:text="친구의 이메일"
                 android:textSize="20dp" />
 
             <EditText
-                android:id="@+id/friends_add_phone"
+                android:id="@+id/friends_add_email"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginBottom="45dp"
                 android:background="@drawable/rounded_edittext"
                 android:inputType="phone"
                 android:paddingLeft="15dp"
+                android:maxLines="1"
                 android:textSize="20dp"
                 android:maxLength="13"/>
 

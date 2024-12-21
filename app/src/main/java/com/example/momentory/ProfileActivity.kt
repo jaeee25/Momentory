@@ -46,10 +46,10 @@ class ProfileActivity : AppCompatActivity() {
             .addOnSuccessListener { document ->
                 if (document.exists()) {
                     val name = document.getString("name") ?: "이름 없음"
-                    val phone = document.getString("phoneNumber") ?: "전화번호 없음"
+                    val email = document.getString("email") ?: "전화번호 없음"
                     val profileImageUrl = document.getString("profileImage") // 프로필 이미지 URL 가져오기
                     binding.profileName.setText(name)
-                    binding.profilePhone.setText(phone)
+                    binding.profileEmail.setText(email)
                     profileImageUrl?.let {
                         Glide.with(this)
                             .load(it)
@@ -57,7 +57,6 @@ class ProfileActivity : AppCompatActivity() {
                             .centerCrop()
                             .into(binding.profileImage)
                     }
-                    Log.d("ProfileActivity", "Profile Name : $name, Phone : $phone")
                 } else {
                     Toast.makeText(this, "사용자 정보를 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
                 }

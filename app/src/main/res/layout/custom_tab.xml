@@ -1,16 +1,13 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tab_text"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:gravity="center">
-
-    <TextView
-        android:id="@+id/tab_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        android:fontFamily="@font/font_default"
-        android:textStyle="bold"
-        android:gravity="center" />
-</LinearLayout>
+    android:layout_gravity="center"
+    android:fontFamily="@font/font_default"
+    android:text="하이"
+    android:gravity="center"
+    android:textColor="@android:color/black"
+    android:textSize="16sp"
+    android:textStyle="bold"
+    android:paddingEnd="10dp"/>

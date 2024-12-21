@@ -38,7 +38,6 @@ class TimeCapsuleFragment : Fragment() {
 
     private fun fetchTimeCapsules() {
         val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return
-
         db.collection("timeCapsules")
             .whereArrayContains("friends", currentUserId) // friends 배열에 currentUserId가 포함된 문서만 조회
             .get()
@@ -48,7 +47,13 @@ class TimeCapsuleFragment : Fragment() {
                     val timeCapsuleItem = mapDocumentToTimeCapsuleItem(document)
                     timeCapsuleList.add(timeCapsuleItem)
                 }
-                setupRecyclerView() // 데이터를 가져온 후 RecyclerView 설정
+                setupRecyclerView()
+
+                binding.noTimecapsules.visibility = if (timeCapsuleList.isEmpty()) {
+                    View.VISIBLE
+                } else {
+                    View.GONE
+                }
             }
             .addOnFailureListener { exception ->
                 Log.e("TimeCapsuleFragment", "Error getting documents: ", exception)
@@ -77,14 +82,13 @@ class TimeCapsuleFragment : Fragment() {
             adapter = TimeCapsuleAdapter(timeCapsuleList) { selectedItem ->
                 val intent = Intent(requireContext(), OpenTimeCapsuleActivity::class.java).apply {
                     putExtra("timeCapsuleId", selectedItem.capsuleId)
-                    putExtra("timeCapsuleTitle",DateUtils.formatDateWithYear(selectedItem.releaseDate))
+                    putExtra("timeCapsuleTitle", DateUtils.formatDateWithYear(selectedItem.releaseDate))
                     putStringArrayListExtra("timeCapsuleFriends", ArrayList(selectedItem.friends))
                 }
                 startActivity(intent)
             }
         }
     }
-
 
     private fun setupCreateCapsuleButton() {
         // 연필 모양 버튼 클릭 이벤트 처리

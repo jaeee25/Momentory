@@ -73,7 +73,8 @@
                     android:layout_marginTop="10dp"
                     android:textAppearance="@style/subTitle"
                     android:background="@drawable/rounded_input"
-                    android:padding="5dp"/>
+                    android:paddingLeft="15dp"
+                    android:maxLines="1"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -92,7 +93,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:background="@drawable/rounded_input"
-                        android:padding="5dp"
+                        android:paddingLeft="15dp"
+                        android:maxLines="1"
                         android:paddingEnd="40dp"
                         android:maxLines="1"
                         android:textAppearance="@style/subTitle"
