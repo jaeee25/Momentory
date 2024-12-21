@@ -85,10 +85,10 @@
                             android:layout_height="50dp"
                             android:layout_marginRight="10dp"
                             android:layout_weight="1"
-                            android:hint="이메일 입력"
-                            android:textAppearance="@style/subTitle"
                             android:background="@drawable/rounded_input"
-                            android:padding="5dp" />
+                            android:hint="이메일 입력"
+                            android:padding="5dp"
+                            android:textAppearance="@style/subTitle" />
 
                         <Button
                             android:id="@+id/send_msg"
