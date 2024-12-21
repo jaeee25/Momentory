@@ -109,7 +109,7 @@ class WriteDiaryActivity : AppCompatActivity() {
 
                         // 이미지가 선택되었으므로 VISIBLE로 전환
                         binding.selectedImage.visibility = View.VISIBLE
-                        binding.selectImage.visibility = View.GONE
+                        binding.selectImage.visibility = View.INVISIBLE
                     }
 
                 }

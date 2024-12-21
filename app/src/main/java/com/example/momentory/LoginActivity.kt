@@ -70,11 +70,6 @@ class LoginActivity : AppCompatActivity() {
         binding.googleLi.setOnClickListener {
             signInWithGoogle()
         }
-
-        // 구글로 회원가입 google_su
-        binding.googleSu.setOnClickListener {
-            signInWithGoogle()
-        }
     }
 
     private fun togglePasswordVisibility() {
@@ -177,9 +172,6 @@ class LoginActivity : AppCompatActivity() {
                             .addOnSuccessListener {
                                 Log.d("uiddd", "Login Current user ID: $user.uid")
                                 Toast.makeText(this, "회원가입 완료!", Toast.LENGTH_SHORT).show()
-
-                                // 전화번호 인증하러 SignupActivity로 이동
-                                startActivity(Intent(this, SignupActivity::class.java))
                             }
                             .addOnFailureListener { e ->
                                 Toast.makeText(this, "회원가입 실패: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
