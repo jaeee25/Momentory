@@ -10,7 +10,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="116dp">
+        android:layout_height="wrap_content"
+        android:padding="16dp">
 
         <!-- Post 이미지 -->
         <ImageView
@@ -25,7 +26,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:layout_marginStart="12dp"
             android:layout_toEndOf="@id/postPhoto"
             android:orientation="vertical">
@@ -76,49 +77,51 @@
                 android:maxLines="2"
                 android:text="내용"
                 android:textSize="14sp" />
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="4dp"
-            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal"
+                android:gravity="bottom|end">
 
-            <!-- 좋아요 아이콘 -->
-            <ImageView
-                android:id="@+id/like_icon"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/ic_heart" />
+                <!-- 좋아요 아이콘 -->
+                <ImageView
+                    android:id="@+id/like_icon"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_heart" />
 
-            <!-- 좋아요 수 -->
-            <TextView
-                android:id="@+id/like_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:text="1"
-                android:textSize="14sp" />
+                <!-- 좋아요 수 -->
+                <TextView
+                    android:id="@+id/like_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="1"
+                    android:textSize="14sp" />
 
-            <!-- 댓글 아이콘 -->
-            <ImageView
-                android:id="@+id/comment_icon"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_marginStart="16dp"
-                android:src="@drawable/ic_comment" />
+                <!-- 댓글 아이콘 -->
+                <ImageView
+                    android:id="@+id/comment_icon"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginStart="16dp"
+                    android:src="@drawable/ic_comment" />
 
-            <!-- 댓글 수 -->
-            <TextView
-                android:id="@+id/comment_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:text="0"
-                android:textSize="14sp" />
+                <!-- 댓글 수 -->
+                <TextView
+                    android:id="@+id/comment_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="0"
+                    android:textSize="14sp" />
+            </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
 
