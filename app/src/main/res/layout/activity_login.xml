@@ -63,14 +63,13 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="핸드폰 번호"
+                    android:text="이메일"
                     android:textAppearance="@style/subTitle"/>
 
                 <EditText
                     android:id="@+id/phone_li"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:inputType="phone"
                     android:layout_marginTop="10dp"
                     android:textAppearance="@style/subTitle"
                     android:background="@drawable/rounded_input"
@@ -95,6 +94,7 @@
                         android:background="@drawable/rounded_input"
                         android:padding="5dp"
                         android:paddingEnd="40dp"
+                        android:maxLines="1"
                         android:textAppearance="@style/subTitle"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
