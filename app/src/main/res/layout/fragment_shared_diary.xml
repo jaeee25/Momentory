@@ -34,13 +34,11 @@
         android:focusable="true"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_add" />
-
-
+"
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/write_diary_button"
         android:layout_below="@id/add_friend_button"
 
         android:padding="16dp" />

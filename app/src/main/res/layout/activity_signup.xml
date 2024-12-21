@@ -91,7 +91,8 @@
                         android:background="@drawable/rounded_input"
                         android:hint="전화번호 입력"
                         android:inputType="phone"
-                        android:padding="5dp"
+                        android:paddingLeft="15dp"
+                        android:maxLines="1"
                         android:textAppearance="@style/subTitle" />
 
                     <Button
@@ -121,7 +122,8 @@
                         android:background="@drawable/rounded_input"
                         android:hint="OTP 입력"
                         android:inputType="phone"
-                        android:padding="5dp"
+                        android:paddingLeft="15dp"
+                        android:maxLines="1"
                         android:textAppearance="@style/subTitle" />
 
                     <Button
@@ -192,7 +194,8 @@
                         android:layout_height="50dp"
                         android:background="@drawable/rounded_input"
                         android:hint="비밀번호 입력"
-                        android:padding="5dp"
+                        android:paddingLeft="15dp"
+                        android:maxLines="1"
                         android:paddingEnd="40dp"
                         android:textAppearance="@style/subTitle"
                         app:layout_constraintEnd_toEndOf="parent"

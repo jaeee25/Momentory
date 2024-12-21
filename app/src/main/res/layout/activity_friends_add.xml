@@ -62,6 +62,7 @@
                 android:background="@drawable/rounded_edittext"
                 android:inputType="phone"
                 android:paddingLeft="15dp"
+                android:maxLines="1"
                 android:textSize="20dp"
                 android:maxLength="13"/>
 
