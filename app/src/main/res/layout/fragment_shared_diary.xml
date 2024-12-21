@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/add_friend_button"
-
+        android:layout_marginBottom="10dp"
         android:padding="16dp" />
 
     <!-- 일기 작성 버튼 -->
