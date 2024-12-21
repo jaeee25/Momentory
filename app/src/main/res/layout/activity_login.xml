@@ -67,6 +67,7 @@
                     android:textAppearance="@style/subTitle"/>
 
                 <EditText
+                    android:textColor="@color/black"
                     android:fontFamily="@font/font_default"
                     android:id="@+id/phone_li"
                     android:layout_width="match_parent"
@@ -91,6 +92,7 @@
                     android:layout_marginTop="10dp">
 
                     <EditText
+                        android:textColor="@color/black"
                         android:fontFamily="@font/font_default"
                         android:id="@+id/pw_li"
                         android:layout_width="match_parent"

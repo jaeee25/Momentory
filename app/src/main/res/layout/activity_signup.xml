@@ -81,6 +81,7 @@
                         android:textAppearance="@style/subTitle" />
 
                     <EditText
+                        android:textColor="@color/black"
                         android:id="@+id/emailSU"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
@@ -112,6 +113,7 @@
                         android:layout_marginTop="10dp">
 
                         <EditText
+                            android:textColor="@color/black"
                             android:id="@+id/pwdSU"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
