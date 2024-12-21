@@ -32,7 +32,7 @@ class FriendsProfileAdapter(
             val imageUrl = friend.profileImageUrl
             if (imageUrl.isBlank()) {
                 // 기본 이미지 설정
-                binding.friendProfileImage.setImageResource(R.drawable.character)
+                binding.friendProfileImage.setImageResource(R.drawable.baseline_person_24)
             } else {
                 // Glide를 사용해 이미지 로드
                 Glide.with(binding.root.context)
@@ -72,8 +72,6 @@ class FriendsProfileAdapter(
                 }
         }
     }
-
-
 
 
 
