@@ -94,7 +94,6 @@
                         android:layout_height="50dp"
                         android:background="@drawable/rounded_input"
                         android:paddingLeft="15dp"
-                        android:maxLines="1"
                         android:paddingEnd="40dp"
                         android:maxLines="1"
                         android:textAppearance="@style/subTitle"
