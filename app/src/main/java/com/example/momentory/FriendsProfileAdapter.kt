@@ -29,11 +29,18 @@ class FriendsProfileAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(friend: FriendProfile) {
-            Glide.with(binding.root.context)
-                .load(friend.profileImageUrl)
-                .placeholder(R.drawable.baseline_person_24)
-                .error(R.drawable.baseline_person_24)
-                .into(binding.friendProfileImage)
+            val imageUrl = friend.profileImageUrl
+            if (imageUrl.isBlank()) {
+                // 기본 이미지 설정
+                binding.friendProfileImage.setImageResource(R.drawable.character)
+            } else {
+                // Glide를 사용해 이미지 로드
+                Glide.with(binding.root.context)
+                    .load(imageUrl)
+                    .placeholder(R.drawable.baseline_person_24)
+                    .error(R.drawable.baseline_person_24)
+                    .into(binding.friendProfileImage)
+            }
         }
     }
 
@@ -56,7 +63,7 @@ class FriendsProfileAdapter(
             firestore.collection("users").document(uid)
                 .get()
                 .addOnSuccessListener { document ->
-                    val profileImageUrl = document.getString("profileImageUrl") ?: ""
+                    val profileImageUrl = document.getString("profileImage") ?: ""
                     friendsList.add(FriendProfile(uid, profileImageUrl))
                     notifyDataSetChanged()
                 }
@@ -65,6 +72,10 @@ class FriendsProfileAdapter(
                 }
         }
     }
+
+
+
+
 
     // 친구 리스트 업데이트 함수 추가
     fun updateFriendsList(newFriendsList: List<FriendProfile>) {
