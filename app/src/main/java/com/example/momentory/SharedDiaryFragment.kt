@@ -121,7 +121,8 @@ class SharedDiaryFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        loadUserName() // 프래그먼트가 다시 보일 때 강제 갱신
+        loadUserName()
+        fetchPostsFromFirestore()
     }
 
 
