@@ -29,6 +29,8 @@ class TimeCapsuleFragment : Fragment() {
     ): View {
         _binding = FragmentTimeCapsuleBinding.inflate(inflater, container, false)
 
+        if(timeCapsuleList.size!=0)
+            binding.noTimecapsules.visibility = ViewGroup.GONE
         setupRecyclerView() // RecyclerView 설정
         setupCreateCapsuleButton() // 연필 버튼 클릭 이벤트 설정
         fetchTimeCapsules()

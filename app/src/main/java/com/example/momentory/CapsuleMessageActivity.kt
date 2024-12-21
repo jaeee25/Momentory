@@ -17,6 +17,7 @@ import com.example.momentory.databinding.ActivityCapsuleMessageBinding
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 
 // 타임캡슐 메시지 넣기
@@ -115,9 +116,10 @@ class CapsuleMessageActivity : AppCompatActivity() {
     }
 
     private fun saveMessageToFirestore(capsuleId: String, message: String, imageUrl: String?) {
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
         val timeCapsuleData = hashMapOf(
             "createdAt" to FieldValue.serverTimestamp(),
-            "writer" to "vb6wQZCFD1No8EYwjmQ4", // 현재 사용자 ID (FirebaseAuth로 교체 가능)
+            "writer" to currentUserId, // 현재 사용자 ID (FirebaseAuth로 교체 가능)
             "status" to "pending",
             "message" to message,
             "imageUri" to (imageUrl ?: "") // 이미지 URL 추가

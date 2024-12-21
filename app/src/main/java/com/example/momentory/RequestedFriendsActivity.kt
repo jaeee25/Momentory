@@ -57,17 +57,17 @@ class MyAdapter(
                     // Glide를 사용하여 이미지를 불러와 설정
                     Glide.with(holder.itemView.context)
                         .load(profileImageUrl)
-                        .placeholder(R.drawable.character) // 기본 이미지
-                        .error(R.drawable.character) // 오류 발생 시 기본 이미지
+                        .placeholder(R.drawable.baseline_person_24) // 기본 이미지
+                        .error(R.drawable.baseline_person_24) // 오류 발생 시 기본 이미지
                         .into(holder.binding.requestedFriendProfileImage)
                 } else {
                     // profileImage 필드가 없거나 URL이 비어 있는 경우 기본 이미지 설정
-                    holder.binding.requestedFriendProfileImage.setImageResource(R.drawable.character)
+                    holder.binding.requestedFriendProfileImage.setImageResource(R.drawable.baseline_person_24)
                 }
             }
             .addOnFailureListener { e ->
                 Log.e("RequestedFriendsActivity", "Error loading profile image for userId: $userId", e)
-                holder.binding.requestedFriendProfileImage.setImageResource(R.drawable.character) // 실패 시 기본 이미지 설정
+                holder.binding.requestedFriendProfileImage.setImageResource(R.drawable.baseline_person_24) // 실패 시 기본 이미지 설정
             }
 
         holder.binding.friendAcceptBtn.setOnClickListener {

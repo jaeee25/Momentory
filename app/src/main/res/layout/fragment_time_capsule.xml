@@ -4,6 +4,14 @@
     android:layout_height="match_parent"
     android:background="@android:color/white" >
 
+    <TextView
+        android:id="@+id/no_timecapsules"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="타임캡슐이 없어요."
+        android:textSize="20dp"
+        android:visibility="visible"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/time_capsule_recycler_view"
@@ -11,7 +19,8 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:paddingBottom="16dp"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        android:layout_marginBottom="10dp"/>
 
     <ImageView
         android:id="@+id/create_capsule_button"
