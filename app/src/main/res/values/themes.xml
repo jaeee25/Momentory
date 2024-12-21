@@ -3,7 +3,7 @@
     <style name="Base.Theme.Momentory" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-        <item name="android:forceDarkAllowed">false</item>
+
         <item name="colorPrimary">@color/deep_pink</item>
         <item name="colorPrimaryVariant">@color/deep_pink</item>
         <item name="colorAccent">@color/deep_pink</item>
