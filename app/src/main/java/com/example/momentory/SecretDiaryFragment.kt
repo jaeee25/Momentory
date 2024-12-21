@@ -1,5 +1,6 @@
 package com.example.momentory
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -57,15 +58,22 @@ class SecretDiaryFragment : Fragment() {
     }
 
     private fun fetchPostsFromFirestore() {
-        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val sharedPref = requireActivity().getSharedPreferences("ProfileData", Context.MODE_PRIVATE)
+        val profileName = sharedPref.getString("profileName", null)
+
+        if (profileName == null) {
+            Log.e("SecretDiaryFragment", "Profile name not found in SharedPreferences.")
+            return
+        }
         // Firestore 경로: diary/secret/entries
         firestore.collection("diary")
             .document("secret")
             .collection("entries")
-            .whereEqualTo("userId", currentUserId)
+            .whereEqualTo("user", profileName)
             .get()
             .addOnSuccessListener { documents ->
                 postList.clear()
+                Log.d("SecretDiaryFragment", "Fetched documents count: ${documents.size()}")
                 for (document in documents) {
                     val post = document.toObject(Post::class.java)
                     post.id = document.id
