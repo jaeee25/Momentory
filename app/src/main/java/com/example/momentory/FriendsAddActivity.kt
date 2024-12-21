@@ -1,7 +1,6 @@
 package com.example.momentory
 
 import android.os.Bundle
-import android.telephony.PhoneNumberFormattingTextWatcher
 import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
@@ -25,13 +24,12 @@ class FriendsAddActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        binding.friendsAddPhone.addTextChangedListener(PhoneNumberFormattingTextWatcher())
         binding.friendsAddBtn.setOnClickListener {
-            val phoneNumber = binding.friendsAddPhone.text.toString().trim()
+            val email = binding.friendsAddEmail.text.toString().trim()
             val message = binding.friendsMessage.text.toString().trim()
 
-            if (phoneNumber.isEmpty()) {
-                Toast.makeText(this, "전화번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
+            if (email.isEmpty()) {
+                Toast.makeText(this, "이메일을 입력해주세요.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             if (message.isEmpty()) {
@@ -39,9 +37,8 @@ class FriendsAddActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            Log.d("FriendsAddActivity", "전화번호: $phoneNumber, 메시지: $message")
             db.collection("users")
-                .whereEqualTo("phoneNumber", phoneNumber)
+                .whereEqualTo("email", email)
                 .get()
                 .addOnSuccessListener { documents ->
                     if (!documents.isEmpty) {
@@ -129,8 +126,8 @@ class FriendsAddActivity : AppCompatActivity() {
         // 1️⃣ 친구 요청 받는 쪽에 friendRequestsReceived에 추가 (문서 ID = senderId)
         db.collection("users").document(receiverId)
             .collection("friendRequestsReceived")
-            .document(senderId) // 🔥 문서 이름을 senderId로 설정
-            .set(requestData) // 🔥 set()을 사용하여 덮어쓰기 방지
+            .document(senderId)
+            .set(requestData)
             .addOnSuccessListener {
                 Toast.makeText(this, "친구 요청을 보냈습니다.", Toast.LENGTH_SHORT).show()
             }
@@ -145,8 +142,8 @@ class FriendsAddActivity : AppCompatActivity() {
 
         db.collection("users").document(senderId)
             .collection("friendRequestsSent")
-            .document(receiverId) // 🔥 문서 이름을 receiverId로 설정
-            .set(sentRequestData) // 🔥 set()을 사용하여 덮어쓰기 방지
+            .document(receiverId)
+            .set(sentRequestData)
             .addOnSuccessListener {
                 Log.d("FriendsAddActivity", "친구 요청 보낸 목록에 추가 완료")
             }

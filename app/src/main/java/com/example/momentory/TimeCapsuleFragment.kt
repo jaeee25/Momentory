@@ -37,8 +37,7 @@ class TimeCapsuleFragment : Fragment() {
     }
 
     private fun fetchTimeCapsules() {
-        // val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return
-        val currentUserId = "vb6wQZCFD1No8EYwjmQ4"
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         db.collection("timeCapsules")
             .whereArrayContains("friends", currentUserId) // friends 배열에 currentUserId가 포함된 문서만 조회
             .get()
