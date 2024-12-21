@@ -253,7 +253,7 @@ class SignupActivity : AppCompatActivity() {
                         Toast.makeText(this, "회원가입 완료!", Toast.LENGTH_SHORT).show()
 
                         // 회원가입 성공 -> ProfileActivity로 이동
-                        val intent = Intent(this, ProfileActivity::class.java)
+                        val intent = Intent(this, SingnUpProfileActivity::class.java)
                         startActivity(intent)
                         finish()
                     }
