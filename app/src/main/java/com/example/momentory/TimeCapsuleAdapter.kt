@@ -36,7 +36,6 @@ class TimeCapsuleAdapter(
         fun bind(item: TimeCapsuleItem) {
             // DateUtils를 사용하여 날짜 포맷팅
             binding.capsuleReleaseDate.text = "~${DateUtils.formatDateWithYear(item.releaseDate)}"
-//            binding.capsuleCreateDate.text = DateUtils.formatDateWithoutYear(item.createDate)
             val dDayText = calculateDDay(item.releaseDate)
             binding.capsuleCreateDate.text = dDayText // D-day 텍스트 설정
 
@@ -128,7 +127,11 @@ class FriendsAdapter(private val friends: List<String>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendsViewHolder {
-        val binding = ItemTimecapsuleFriendsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemTimecapsuleFriendsBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return FriendsViewHolder(binding)
     }
 

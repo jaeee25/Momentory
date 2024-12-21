@@ -269,10 +269,5 @@ class SignupActivity : AppCompatActivity() {
             Toast.makeText(this, "비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
         }
     }
-
-
-
-
-
 }
 
